@@ -11,7 +11,7 @@
   },
   "scripts": {
     "postinstall": "npm install ./api"
-  }
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
