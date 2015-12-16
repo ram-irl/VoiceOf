@@ -1,11 +1,7 @@
 {
-  "name": "voiceof-api",
+  "name": "voiceof",
   "version": "0.1.0",
-  "description": "VoiceOf Server",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
+  "description": "VoiceOf",
   "engines": {
     "node": "5.1.0"
   },
@@ -20,14 +16,6 @@
   },
   "homepage": "https://github.com/calicom/voiceof#readme",
   "dependencies": {
-    "debug": "^2.2.0",
-    "mongodb": "^2.0.52",
-    "passport": "^0.3.2",
-    "redis": "^2.4.2",
-    "restify": "^4.0.3",
-    "socket.io": "^1.3.7"
-  },
-  "devDependencies": {
-    "mocha": "^2.3.4"
+    "./api": "*"
   }
 }
