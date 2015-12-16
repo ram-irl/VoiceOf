@@ -26,7 +26,7 @@ Promise.all([
     database
       .connect()
   , router( server )
-      .then( startServer(process.env.VOICEOF_HTTP_PORT) ) // start Server
+      .then( startServer(process.env.PORT || 3030) ) // start Server
       .catch( error => debug('Error installing routes', error) )
 ]).then(app => debug('App started'))
   .catch( error => debug('Error starting app', error) )
