@@ -1,0 +1,8 @@
+{
+  "name": "VoiceOf REST API",
+  "description": "The VoiceOf REST API server",
+  "repository": "https://github.com/calicom/voiceof/",
+  "logo": "",
+  "keywords": ["node", "restify", "mongodb"],
+  "image": "heroku/nodejs"
+}
