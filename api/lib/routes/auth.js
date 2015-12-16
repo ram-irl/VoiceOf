@@ -1,4 +1,4 @@
-var debug = require('debug')('routes:posts');
+var debug = require('debug')('routes:auth');
 
 /**
  * Define routes, on a given router.
