@@ -17,7 +17,7 @@ var server = new Server({
   name: 'VoiceOf',
 });
 
-var database = new Database('mongodb://localhost:27017/voiceof');
+var database = new Database(process.env.MONGOLAB_URI);
 
 /**
  * Install routes on app.
@@ -26,7 +26,7 @@ Promise.all([
     database
       .connect()
   , router( server )
-      .then( startServer(3030) ) // start Server
+      .then( startServer(process.env.VOICEOF_HTTP_PORT) ) // start Server
       .catch( error => debug('Error installing routes', error) )
 ]).then(app => debug('App started'))
   .catch( error => debug('Error starting app', error) )
