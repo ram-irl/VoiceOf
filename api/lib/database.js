@@ -5,8 +5,6 @@ var mongodb = require('mongodb')
   
 var database = module.exports = function (uri) {
   // Connection URL
-  var url = 'mongodb://localhost:27017/myproject';
-  
   var database = {'uri': uri};
   
   database.connect = function (uri) {

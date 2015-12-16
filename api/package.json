@@ -2,10 +2,13 @@
   "name": "voiceof",
   "version": "0.1.0",
   "description": "VoiceOf Server",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
+  },
+  "engines": {
+    "node": "5.1.0"
   },
   "repository": {
     "type": "git",
