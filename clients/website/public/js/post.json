@@ -1,0 +1,57 @@
+{
+    "posts": {
+        "post-id-1": {
+            "content": "Blankets needed at Urapakkam",
+            "address": "some address",
+            "postedBy": "user-id-1",
+            "postedOn": 1450100030,
+            "ownedBy": "user-id-4",
+            "volunteers": {
+                "user-id-22": true,
+                "user-id-23": true
+            },
+            "followers": {
+                "user-id-22": true,
+                "user-id-25": true
+            },
+            "endorsers": {
+                "user-id-22": true,
+                "user-id-25": true
+            },
+            "comments": {
+                "comments-id-1": {
+                    "content": "Where can we meet",
+                    "postedOn": 1450100030,
+                    "postedBy": "user-id-2"
+                },
+                "comments-id-2": {
+                    "content": "https://s3.amazon.com/asdsadsadasd.png",
+                    "postedOn": 1450100030,
+                    "postedBy": "user-id-2"
+                },
+                "comments-id-3": {
+                    "content": "\"{\"text\":\"Here is the relief works going on\",\"photos\":[\"https://s3.amazon.com/asdsadsadasd.png\",\"https://s3.amazon.com/asdsadsad1.png\"]}\"",
+                    "postedOn": 1450100030,
+                    "postedBy": "user-id-2"
+                }
+            },
+            "status": {
+                "0": {
+                    "status": "started",
+                    "updatedOn": 1450100030,
+                    "updatedBy": "user-id-1"
+                },
+                "1": {
+                    "status": "completed",
+                    "updatedOn": 1450100030,
+                    "updatedBy": "user-id-2"
+                },
+                "2": {
+                    "status": "completed",
+                    "updatedOn": 1450100030,
+                    "updatedBy": "user-id-3"
+                }
+            }
+        }
+    }
+}
