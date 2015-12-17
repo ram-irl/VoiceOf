@@ -5,7 +5,9 @@ var Server = require('./lib/server')
   , startServer = Server.start
   , debug = require('debug')('app')
   , router = require('./lib/router')
+  , routes = require('./lib/routes')
   , Database = require('./lib/database')
+  , App = require('./lib/app')
   ;
 
 /**
@@ -25,8 +27,10 @@ var database = new Database(process.env.MONGOLAB_URI);
 Promise.all([
     database
       .connect()
-  , router( server )
-      .then( startServer(process.env.PORT || 3030) ) // start Server
-      .catch( error => debug('Error installing routes', error) )
+  , //router( server )
+    App.create(server, database)
+      .then( routes.install )
+      .then( app => startServer(process.env.PORT || 3030)(app.server) ) // start Server
+      .catch( err => debug('Error starting the server', err) )
 ]).then(app => debug('App started'))
-  .catch( error => debug('Error starting app', error) )
+  .catch( err => debug('Error starting app', err) )

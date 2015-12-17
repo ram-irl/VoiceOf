@@ -2,8 +2,10 @@ var restify = require('restify')
   , debug = require('debug')('server')
   ;
   
-var server = module.exports = function createServer(opts) {
-  return restify.createServer(opts);
+var Server = module.exports = function createServer(opts) {
+  var server = restify.createServer(opts);
+  server.errors = restify.errors;
+  return server;
 }
 
 /**
@@ -11,7 +13,7 @@ var server = module.exports = function createServer(opts) {
  *
  * @return Function A callable that starts the given server.
  */
-server.start = function startServer(port) {
+Server.start = function startServer(port) {
 
   /**
    * Function that starts the given server.
@@ -39,6 +41,7 @@ server.start = function startServer(port) {
       function onError(e) {
         // Remove any listeners.
         cleanup();
+        console.log(e);
         // Reject the promise with given Error `e` object.
         reject(e);
       }
