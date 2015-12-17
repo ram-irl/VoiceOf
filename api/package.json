@@ -21,6 +21,7 @@
   "homepage": "https://github.com/calicom/voiceof#readme",
   "dependencies": {
     "debug": "^2.2.0",
+    "fb": "^0.7.3",
     "jwt-simple": "^0.4.0",
     "md5": "^2.0.0",
     "mongodb": "^2.0.52",
