@@ -129,10 +129,10 @@ function _authorize(req, database) {
 }
 
 function createAuthorizer(app) {
+
   return function (req, res, next) {
     _authorize(req, app.database)
       .then(function (token) {
-        console.log('REQUEST BODY:', req.body);
         return token;
       })
       .then(function (token) {
@@ -145,6 +145,8 @@ function createAuthorizer(app) {
         next(err); 
       });
   };
+  
+  
 }
 
 /**
@@ -160,12 +162,19 @@ module.exports = function (app) {
     res.send([]);
   });*/
   
-  app.server.post('/auth/facebook', authorizer, function (req, res, next) {
-    console.log(req);
+  var models = app.models;
+  
+  app.server.put('/auth/facebook', authorizer, function (req, res, next) {
     var token = req.token;
     if (token.type === 'app') {
       // do something with body;
-      res.send(200);
+      models
+        .users.create.fromFacebook(req.body)
+        .then(user => {
+          res.setHeader('Location', '/users/' + user._id);
+          res.send( user.isNew ? 201 : 200 );
+        })
+        .catch( e => res.send(new errors.InternalServerError(e, {'message': e.message})) )
     } else {
       next(new errors.UnauthorizedError({'message': 'Invalid Authorization parameter [code 3]'}));
     }
