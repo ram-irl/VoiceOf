@@ -1,8 +1,26 @@
 var mongo = require('mongodb')
   , ObjectId = mongo.ObjectId
-  , debug = require('debug')('models:users');
+  , debug = require('debug')('models:users')
+  , FB = require('fb')
   ;
   
+
+function getFacebookUser(token) {
+  return new Promise( (resolve, reject) => {
+    FB.api('me', {
+        fields:         'id,name,picture,birthday,email,location,name_format',
+        limit:          250,
+        access_token:   token
+    }, function (result) {
+      if(!result || result.error) {
+        reject(result.error || new Error('No result'));
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
 const ERR_USER_NOT_FOUND = 101;
 
 module.exports = function(db){
@@ -78,8 +96,24 @@ module.exports = function(db){
                 
                 user.auth = {'facebook': facebookAuth};
                 
-                //TODO: fetch facebook user data.
-                createUser(user)
+                getFacebookUser(authResponse.accessToken)
+                  .then(fbUser => {
+                    debug('Received facebook user data:', fbUser);
+                    if (fbUser.name)
+                      user.name = fbUser.name;
+                    
+                    if (fbUser.birthday)
+                      user.birthday = new Date(fbUser.birthday);
+                    
+                    if (fbUser.email)
+                      user.email = fbUser.email;
+                    
+                    if (fbUser.picture && fbUser.picture.data)
+                      user.picture = fbUser.picture.data.url;
+                    
+                    return user;
+                  })
+                  .then(createUser)
                   .then(result => getUser(result.insertedId))
                   .then(user => { user.isNew = true; resolve(user); })
                   .catch(reject);
