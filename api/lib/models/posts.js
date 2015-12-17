@@ -1,6 +1,7 @@
-var mongo = require('mongodb'),
-	ObjectId = mongo.ObjectId,
-	_ = require("underscore")._;
+var mongo = require('mongodb')
+	, ObjectId = mongo.ObjectId
+	, _ = require("underscore")._
+	;
 
 module.exports = function(db){
 	var collection = db.collection("posts");
@@ -22,6 +23,7 @@ module.exports = function(db){
 	model.get = function(postId){
 		return collection.findOne({_id: ObjectId(postId)});
 	};
+
 	model.post = function(postObj){
 		var post = Object.assign({}, postObj);
 		if(!post.content || !post.author || !post.position){
@@ -35,10 +37,25 @@ module.exports = function(db){
 		})
 		.then(post => collection.insertOne(post));
 	};
-	model.search = function(location, radius){
-		var post = Object.assign({}, postObj);
 
-	}
+	model.search = function(location, radius){
+		if(!_.isNumber(location.lng) || !_.isNumber(location.lat) || !_.isNumber(radius)){
+			return Promise.reject(new Error("Invalid Fields"));
+		}
+		return db.collection.aggregate([{
+			$geoNear: {
+				near: {
+					type: "Point",
+					coordinates: [parseFloat(location.lng), parseFloat(location.lat)]
+				},
+				distanceField: "distance",
+				maxDistance: radius,
+				spherical: true,
+			}
+		},{
+			$sort: { distance: -1 }
+		}]);
+	};
 
 	return model;
 }
