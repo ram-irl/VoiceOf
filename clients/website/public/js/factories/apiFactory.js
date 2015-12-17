@@ -27,12 +27,14 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
             });
         };
         service.getAllpost = function (callback) {
-            this.httpRequest("POST", "/users", null, function (err, data) {
-                if (err)
-                    callback(err, null);
-                else
-                    callback(null, data);
-            });
+//            this.httpRequest("POST", "/users", null, function (err, data) {
+//                if (err)
+//                    callback(err, null);
+//                else
+//                    callback(null, data);
+//            });
+
+//Get datas from JSON file
 //            $http.get('js/post.json').success(function (data) {
 //                callback(null, data);
 //            });

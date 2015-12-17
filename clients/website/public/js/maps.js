@@ -76,54 +76,54 @@ function submitUserPost() {
             return;
         }
 
-            /////////////
-            
-            $.ajax({
-            method: "GET",
-            url: "https://maps.googleapis.com/maps/api/geocode/json?address="+ $("#addressMsg").val() +"&key=AIzaSyBTznaZuJw6VKOEACAZENeAabe1MGswaEM",
-            })
-            .done(function( msg ) {
-                //console.log(msg.results[0].geometry.location.lat + "|" + msg.results[0].geometry.location.lng);
-                //console.log(msg.results.length);
-            
-            if(msg.results.length == 0)
-            {
-                alert("Can't find the address")
-                return;
-            }
-            
-            messageTable.insert({
-                message: $("#txtMsg").val(),
-                sentOn: new Date(),
-                lat: msg.results[0].geometry.location.lat,
-                lng: msg.results[0].geometry.location.lng,
-                address: $("#addressMsg").val(),
-                name: getCookie("nickname")   
-            }).done(function (result) {
-            
-            //ram: send socket updates here...        
-            //ram: disabled it ..
-            //location.reload();
-            
-                alert("Your shout tweeted!");
-                $("#addressMsg").val("");
-                $("#txtMsg").val("");
+        /////////////
 
-                currentLocation = {lat: msg.results[0].geometry.location.lat, lng: msg.results[0].geometry.location.lng};
-                map.setCenter(currentLocation);                
-                
-                }, function (err) {
+        $.ajax({
+            method: "GET",
+            url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + $("#addressMsg").val() + "&key=AIzaSyBTznaZuJw6VKOEACAZENeAabe1MGswaEM",
+        })
+                .done(function (msg) {
+                    //console.log(msg.results[0].geometry.location.lat + "|" + msg.results[0].geometry.location.lng);
+                    //console.log(msg.results.length);
+
+                    if (msg.results.length == 0)
+                    {
+                        alert("Can't find the address")
+                        return;
+                    }
+
+                    messageTable.insert({
+                        message: $("#txtMsg").val(),
+                        sentOn: new Date(),
+                        lat: msg.results[0].geometry.location.lat,
+                        lng: msg.results[0].geometry.location.lng,
+                        address: $("#addressMsg").val(),
+                        name: getCookie("nickname")
+                    }).done(function (result) {
+
+                        //ram: send socket updates here...        
+                        //ram: disabled it ..
+                        //location.reload();
+
+                        alert("Your shout tweeted!");
+                        $("#addressMsg").val("");
+                        $("#txtMsg").val("");
+
+                        currentLocation = {lat: msg.results[0].geometry.location.lat, lng: msg.results[0].geometry.location.lng};
+                        map.setCenter(currentLocation);
+
+                    }, function (err) {
                         console.log(err);
-                });             
-            });                
-            
-            
-            /////////////
+                    });
+                });
+
+
+        /////////////
     }
-    else 
+    else
     {
         alert("Please Enter Message");
-    }       
+    }
 
     ga('send', 'event', 'Post', 'click', 'Post Message');
 }
@@ -186,7 +186,7 @@ function initMap() {
             return;//disabled 
         }
     }
-    
+
     var defaultZoom = 11;
     if (isMobile)
         defaultZoom = 10;
@@ -196,23 +196,23 @@ function initMap() {
         zoom: defaultZoom,
         disableDefaultUI: true
     });
-    
+
     userMarkerImage = {url: "img/markers/user_marker_icon.png",
         scaledSize: new google.maps.Size(32, 32)
     };
     clientMarkerImage = {url: "img/markers/client_marker_pin.png",
         scaledSize: new google.maps.Size(32, 32)
     };
- 
-       
-    marker = new google.maps.Marker(); 
+
+
+    marker = new google.maps.Marker();
     infowindow = new google.maps.InfoWindow();
-    
+
     // Event that closes the Info Window with a click on the map
     google.maps.event.addListener(map, 'click', function () {
         infowindow.close();
     });
-    
+
     infobox = new InfoBox({
         content: "",
         disableAutoPan: false,
@@ -223,7 +223,7 @@ function initMap() {
         closeBoxURL: "../img/close-icon.png",
         infoBoxClearance: new google.maps.Size(1, 1)
     });
-    
+
     //Center Changed: {"lat":12.905130058903858,"lng":80.20777717680016}
     map.addListener('center_changed', function () {
 
@@ -236,9 +236,9 @@ function initMap() {
                     lat: obj.lat,
                     lng: obj.lng
                 };
-                
+
                 callRefreshAPi(mylocationValues);
-                
+
             } catch (e) {
                 console.log(e);
             }
@@ -257,29 +257,29 @@ function initGPS() {
         return;
     }
 
-    if (navigator.geolocation) {        
+    if (navigator.geolocation) {
         //ram: to verify
         if (currentLocation === null) {
             currentLocation = {lat: 13.052723550149544, lng: 80.189208984375};//chennai location
             map.setCenter(currentLocation);
         }
-        
+
         //ram: ram changed it .. watch out for this. 
         //navigator.geolocation.watchPosition(function (position) {
-        navigator.geolocation.getCurrentPosition(function(position){
+        navigator.geolocation.getCurrentPosition(function (position) {
 
             //ram:need to check the validity of === 
             if (position === null)
             {
                 console.log("position is null in 234 .. please note..");
-                return;    
+                return;
             }
-            
+
             //ram: clearwatch should be used.. instead of just returning
             if (currentLocation != null) {
-             console.log("current location not null in 240"); 
+                console.log("current location not null in 240");
             }
-            
+
             currentLocation = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
@@ -307,15 +307,15 @@ function initGPS() {
                 }
             });
         }, function (error) {
-                    if (error.code === error.PERMISSION_DENIED)
-                        {
-                            alert("GPS access denied. Please enable the GPS and give access to Chillana.");
-                        }
-                        else
-                        {
-                         alert("error in access your location");   
-                        }
-                });
+            if (error.code === error.PERMISSION_DENIED)
+            {
+                alert("GPS access denied. Please enable the GPS and give access to Chillana.");
+            }
+            else
+            {
+                alert("error in access your location");
+            }
+        });
     }
     else
     {
@@ -332,7 +332,7 @@ function callRefreshAPi(location) {
         //alert(JSON.stringify(results));
         mresults = null;
         mresults = results.result;
-        
+
         rearrangeMarkers(location);
 
     }, function (error) {
@@ -345,7 +345,7 @@ function rearrangeMarkers(location) {
         //drawCircle(location);
         removeMarkers();
         removeMarkerInfoWindow();
-        
+
         //ram:efficient reuse possible.
         markerArray = new Array();
         markerInfoWindowArray = new Array();
@@ -362,10 +362,10 @@ function rearrangeMarkers(location) {
             closeBoxURL: "../img/close-icon.png",
             infoBoxClearance: new google.maps.Size(1, 1)
         });
-          
+
         //ram:for needs to be changed as foreach.
         var result = mresults[i];
-        
+
         var marker = new google.maps.Marker({
             position: {
                 lat: result.lat,
@@ -381,7 +381,7 @@ function rearrangeMarkers(location) {
         concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
 
         var contentString = "<div onclick='showContentDetail(\"" + i + "\")' class=\"info-map-container\">" + "<strong> # " + result.name + "</strong><p class=\"info-map-content\">" + concatmessage + "</p></div>";
-        
+
         infobox.setContent(contentString);
 
 //        try 
@@ -405,9 +405,9 @@ function rearrangeMarkers(location) {
         //Attach click event to the marker.
         (function (marker, result) {
             google.maps.event.addListener(marker, "click", function (e) {
-
+//                angular.element(document.getElementById('MasterTag')).scope().showDetailPost();
                 ga('send', 'event', 'Map Pin', 'click', 'Show Detail');
-                
+
                 //ram:reuse the below few lines.. it's repeated one more time before.
                 var concatmessage = "" + result.message;
                 var index = mresults.indexOf(result);
@@ -476,10 +476,10 @@ function removeMarkerInfoWindow() {
 
 //Focus to current location 
 function focusCurrentLocation() {
-    
+
     if (currentLocation != null) {
         map.setCenter(currentLocation);
-    
+
     } else {
         // Waiting for the location
         console.log("current location clicked and returned null");
@@ -489,11 +489,11 @@ function focusCurrentLocation() {
 
 // check customer new or old. get information for new customer.
 $(window).load(function () {
-    
+
     $("#apploader").hide();
     //checkDeviceType();
 //    var osName = getMobileOperatingSystem();
-    showMapinMobile = true;        
+    showMapinMobile = true;
 //    if (osName === "ios") {
 //        //redirect to ios page        
 ////        showDetectOSInfo();
@@ -521,7 +521,7 @@ $(window).load(function () {
         $('#customerInfo').modal({keyboard: false});   // initialized with no keyboard
         $('#customerInfo').modal('show');                // initializes and invokes show immediately
     }
-    
+
     //copy link is not working in safari .. hence disabled it.
     var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
     if (isSafari) {
@@ -581,16 +581,16 @@ function showAndroidHtmlContent() {
         var android_play_store_url = "https://play.google.com/store/apps/details?id=com.calicom.ultraboard&hl=en";
         var content = '';
         /*
+         content += '<div align="center" class="logo-tag">';
+         content += '<img src="img/logo.png"/><br>';
+         content += '<p align="center" style="line-height: 1.5;">Shout your tweet by downloading Chillana App from Play Store</p>';
+         content += '<button type="button" onclick=\'doDownloadApp(\"' + android_play_store_url + '\")\' class="btn btn-danger">Download Chillana App</button><br/><br/>';
+         content += '<button onclick="hideMobilePopup();" type="button" class="btn btn-primary">Proceed to Chillana.in</button>';
+         */
         content += '<div align="center" class="logo-tag">';
         content += '<img src="img/logo.png"/><br>';
-        content += '<p align="center" style="line-height: 1.5;">Shout your tweet by downloading Chillana App from Play Store</p>';
-        content += '<button type="button" onclick=\'doDownloadApp(\"' + android_play_store_url + '\")\' class="btn btn-danger">Download Chillana App</button><br/><br/>';
-        content += '<button onclick="hideMobilePopup();" type="button" class="btn btn-primary">Proceed to Chillana.in</button>';
-        */
-       content += '<div align="center" class="logo-tag">';
-       content += '<img src="img/logo.png"/><br>';
-       content += '<br>';
-       content += '<button onclick="hideMobilePopup();" type="button" class="btn btn-danger">Proceed to Chillana.in</button>';
+        content += '<br>';
+        content += '<button onclick="hideMobilePopup();" type="button" class="btn btn-danger">Proceed to Chillana.in</button>';
         //content = "";
         //content+="<input type=\"button\" size=\"20\" onclick=\"location.href='http://google.com';\" class=\"btn btn-default\" value=\"Go to Google\" />";
         //alert(content);
@@ -627,7 +627,7 @@ function showContentDetailWithObj(post) {
 function showContentDetail(index) {
     try {
         var post = mresults[index];
-        
+
         var contentString = "<strong class=\"nick-name\">" + post.name + "</strong> <br><p class=\"typ-message\">" + post.message + "</p>";
         $("#detailBoxContent").html(contentString);
 //      $("#detailbox").show();
@@ -645,11 +645,11 @@ function hideContentDetail() {
 }
 
 function hideMobilePopup() {
-    
+
     showMapinMobile = true;
     //first time the map is init-ed after the proceed to chillana.in
     initMap();
-    
+
     $('#chooseOSpopup').modal('hide');
 }
 

@@ -1,3 +1,25 @@
 {
-    "name": "Anand"
+    "posts": [
+        {
+            "post-id-1": {
+                "_id": "566fc422bf78870f74438a90",
+                "address": "valacherry",
+                "content": "Blankets needed at Urapakkam",
+                "postedBy": "566fbf9bbf78870f74438a81",
+                "postedOn": 1450100030,
+                "ownedBy": "566fbf9bbf78870f74438a82",
+                "position": [235, 443],
+                "volunteers": ["user-id-3", "user-id-4"],
+                "followers": [],
+                "endorsers": [],
+                "slug": "abc-383",
+                "created": "2015-12-15T09:45:50.449Z",
+                "status": [{
+                        "value": "started",
+                        "date": "2015-12-15T07:44:05.532Z",
+                        "owner": "566fbf9bbf78870f74438a81"
+                    }]
+            }
+        }
+    ]
 }

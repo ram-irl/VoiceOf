@@ -42,7 +42,7 @@
 <script src="js/app.js"/></script>
 <script src="js/app.constants.js"></script>
 <script src="js/factories/apiFactory.js"/></script>
-<script src="js/directives/postSlider.js"/></script>
+<!--<script src="js/directives/postSlider.js"/></script>-->
 <script src="js/directives/postCommands.js"/></script>
 <script src="js/controllers/masterController.js"/></script>
 
@@ -52,7 +52,7 @@
 <script src="https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
 
 </head>
-<body ng-app="voiceOf" ng-controller="MasterController">
+<body id="MasterTag" ng-app="voiceOf" ng-controller="MasterController">
     <div id="map"></div>
 
     <div class="v_header_row">
@@ -82,7 +82,7 @@
             </div>
             <!-- Right side controls -->
             <div class="v-md-3 right-cntrl" align="right">
-                <a id="list-tag" class="glyphicon glyphicon-align-left menu-icon-style" onclick="showListview()" title="List View"></a>
+                <!--<a id="list-tag" class="glyphicon glyphicon-align-left menu-icon-style" onclick="showListview()" title="List View"></a>-->
                 <a class="glyphicon glyphicon-share-alt menu-icon-style" onclick="showSocialSharingMenus()" title="Share"></a>
             </div>
         </div>
@@ -115,131 +115,134 @@
 
 
     <!-- List of post -->
-<vo-post></vo-post>
+    <!--<vo-post></vo-post>-->
 
 
-<!--
-    <div class="alert alert-info share-strip">
-        <strong id="welcomContent"> </strong>
-<span class="label label-danger" id="copyurl" type="button" onclick="copyToClipboard()" data-toggle="tooltip" data-placement="bottom" title="Copied!">Copy link</span>
+    <!--
+        <div class="alert alert-info share-strip">
+            <strong id="welcomContent"> </strong>
+    <span class="label label-danger" id="copyurl" type="button" onclick="copyToClipboard()" data-toggle="tooltip" data-placement="bottom" title="Copied!">Copy link</span>
+    
+    <div class="social-tags">
+            <a title="Twitter" href="https://twitter.com/home?status=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Twitter')" target="_blank"><img src='img/Twitter-Icon-D.png'/></a>		  
+            <a title="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Facebook')" target="_blank"><img src='img/Facebook-Icon-D.png'/></a>
+            <a title="Google Plus" href="https://plus.google.com/share?url=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Google Plus')" target="_blank"><img src='img/google-Icon-D.png'/></a>
+            <a title="Email" href="mailto:?&subject=Chillana&body=Chillana%20is%20a%20shout-out%20platform%20where%20people%20can%20shout%20a%20tweet%20and%20'we%20put%20it%20in%20the%20map%20from%20where%20and%20what%20they%20shouted'.%20You%20can%20see%20the%20shouts%20around%20you%20or%20anywhere%20in%20the%20world.%0A%0Ahttps%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Email')" ><img src='img/Email-Icon-D.png'/></a>
+            <a title="Whats App" id="whatsapp" href="whatsapp://send?text=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Whats App')" target="_blank"><img src='img/Whatsapp-Icon-D.png'/></a> 
+    </div>
+               
+    </div>
+    
+    -->
 
-<div class="social-tags">
-        <a title="Twitter" href="https://twitter.com/home?status=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Twitter')" target="_blank"><img src='img/Twitter-Icon-D.png'/></a>		  
-        <a title="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Facebook')" target="_blank"><img src='img/Facebook-Icon-D.png'/></a>
-        <a title="Google Plus" href="https://plus.google.com/share?url=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Google Plus')" target="_blank"><img src='img/google-Icon-D.png'/></a>
-        <a title="Email" href="mailto:?&subject=Chillana&body=Chillana%20is%20a%20shout-out%20platform%20where%20people%20can%20shout%20a%20tweet%20and%20'we%20put%20it%20in%20the%20map%20from%20where%20and%20what%20they%20shouted'.%20You%20can%20see%20the%20shouts%20around%20you%20or%20anywhere%20in%20the%20world.%0A%0Ahttps%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Email')" ><img src='img/Email-Icon-D.png'/></a>
-        <a title="Whats App" id="whatsapp" href="whatsapp://send?text=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Whats App')" target="_blank"><img src='img/Whatsapp-Icon-D.png'/></a> 
-</div>
-           
-</div>
+    <div class="controls">
+        <div class="col-lg-12 row">
+            <!--
+            <div class="alert alert-success detail-info-window fade in disable" id="detailbox" role="alert">
+              <a href="#" class="close" onclick='hideContentDetail()' aria-label="close">&times;</a>
+              <div id="detailBoxContent"></div>
+            </div>
+            
+            
+            <div class="dock">
+                <a class="button-left" title="About Chillana" onclick="showAboutInfo()"></a>
+                <a class="button-blog" title="Blogs" href="https://chillanablogs.wordpress.com" onclick="ga('send', 'event', 'Blog', 'click', 'View')" target="_blank" ></a>
+                <a class="button-right" title="My Location" onclick="return focusCurrentLocation();"></a>
+            </div>
+            -->
 
--->
+            <div class="col-lg-12" align="center" id="postArea">
+                <div class="input-group">
+                    <span class="input-group-btn" style="height:35px;">
+                        <!--<button class="btn glyphicon glyphicon-map-marker theme-button" type="button" onclick="return focusCurrentLocation();" title="Current Location" style="font-size:12px;color:#fff;height:35px;"></button>-->
+                        <button class="btn theme-button" title="Current Location" type="button" onclick="return focusCurrentLocation();" style="height:35px;"><span class="glyphicon glyphicon-map-marker"></span></button>
+                    </span>
+                    <input type="text" id="addressMsg" class="form-control" placeholder="Your location"  style="height:35px;">
+                    <span class="input-group-btn" style="height:35px;">
+                        <button class="btn theme-button" type="button" onclick="" title="Current Location" style="color:#fff; height:35px;">SEARCH</button>
+                    </span>
+                </div><!-- /input-group -->
+                
+                <div class="input-group" style="margin-top: 10px;">
+                    <span class="input-group-btn" style="height:40px;">
+                        <button id="submitMsg" class="btn theme-button" title="Upload Photo/video" type="file" style="height:40px;"><span class="glyphicon glyphicon-camera"></span></button>
+                    </span>
+                    <input type="text" id="txtMsg" class="form-control" placeholder="Message" style="height:40px;">
+                    <span class="input-group-btn" style="height:40px;">
+                        <button id="submitMsg" class="btn theme-button" title="Send Now" type="button" style="width:83px;height:40px;">SEND</button>
+                    </span>
 
-<div class="controls">
-    <div class="col-lg-12 row">
-        <!--
-        <div class="alert alert-success detail-info-window fade in disable" id="detailbox" role="alert">
-          <a href="#" class="close" onclick='hideContentDetail()' aria-label="close">&times;</a>
-          <div id="detailBoxContent"></div>
-        </div>
-        
-        
-        <div class="dock">
-            <a class="button-left" title="About Chillana" onclick="showAboutInfo()"></a>
-            <a class="button-blog" title="Blogs" href="https://chillanablogs.wordpress.com" onclick="ga('send', 'event', 'Blog', 'click', 'View')" target="_blank" ></a>
-            <a class="button-right" title="My Location" onclick="return focusCurrentLocation();"></a>
-        </div>
-        -->
+                </div>
 
-        <div class="col-lg-12" align="center" id="postArea">
-            <div class="input-group">
-                <input type="text" id="addressMsg" class="form-control" placeholder="Your location"  style="height:35px;">
-                <span class="input-group-btn" style="height:35px;">
-                    <button class="btn glyphicon glyphicon-map-marker theme-button" type="button" onclick="return focusCurrentLocation();" title="Current Location" style="padding-left:18px; font-size:18px; color:#fff; padding-right:17px; height:35px;"></button>
-                </span>
-            </div><!-- /input-group -->
-
-            <div class="input-group">
-                <input type="text" id="txtMsg" class="form-control" placeholder="Message" style="height:40px;">
-                <span class="input-group-btn" style="height:40px;">
-
-                    <button id="submitMsg" class="btn theme-button" title="Send Now" type="button" style="height:40px;">SEND</button>
-                    <button id="submitMsg" class="btn theme-button" title="Upload Photo/video" type="file" style="height:40px;"><span class="glyphicon glyphicon-camera"></span></button>
-
-
-                </span>
+                <div class="input-group trans-box">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Stay Anonymous</label>
+                    </div>
+                </div><!-- /input-group -->
 
             </div>
 
-            <div class="input-group trans-box">
-                <div class="checkbox">
-                    <label><input type="checkbox" value="">Stay Anonymous</label>
-                </div>
-            </div><!-- /input-group -->
 
         </div>
-
-
     </div>
-</div>
 
 
 
 
-<!--Customer Information Popup window -->
-<!-- Modal -->
-<div  align="center" class="modal fade" data-animation="false" data-backdrop="static" data-keyboard="false" id="customerInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <!--Customer Information Popup window -->
+    <!-- Modal -->
+    <div  align="center" class="modal fade" data-animation="false" data-backdrop="static" data-keyboard="false" id="customerInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-            <div class="modal-body" align="center">
-
-
-
-                <div align="center" class="logo-tag">
-                    <img src="img/logo.png"/><br>
-                    <h5 style="color:#202020">New User</h5>
-                </div>
-
-                <br/>
-                <br/>
-                <input type="text" class="span3 input-field" name="nickname" id="nickname" placeholder="Your Name"></p>
-
-                <br>
-
-                <h3>Contact Number</h3> <br/>
-                <input type="text" class="span3 input-field" name="pnumber" id="pnumber" placeholder="Phone Number (Optional)"></p>
+                <div class="modal-body" align="center">
 
 
-                <div class="modal-footer" align="center" style="text-align:center">
-                    <button type="button" id="submitUser" class="btn btn-success theme-button">Proceed</button>
-                    <br><br>
-                    <div class="border-style"></div>
 
-                    <div class="col-md-12" align="center">
-                        <div class="row text-center sign-with">
-                            <div class="col-md-12">
-                                <h5>
-                                    Sign in with</h5>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="btn-group btn-group-justified">
-                                    <a href="#" class="btn btn-primary" onclick="return doFacebookLogin();">Facebook</a>
-                                    <a href="#" class="btn btn-info" onclick="return doTwitterLogin();">Twitter</a>
-                                    <a href="#" class="btn btn-danger" onclick="return doGooglePlusLogin();">Google</a>
+                    <div align="center" class="logo-tag">
+                        <img src="img/logo.png"/><br>
+                        <h5 style="color:#202020">New User</h5>
+                    </div>
+
+                    <br/>
+                    <br/>
+                    <input type="text" class="span3 input-field" name="nickname" id="nickname" placeholder="Your Name"></p>
+
+                    <br>
+
+                    <h3>Contact Number</h3> <br/>
+                    <input type="text" class="span3 input-field" name="pnumber" id="pnumber" placeholder="Phone Number (Optional)"></p>
+
+
+                    <div class="modal-footer" align="center" style="text-align:center">
+                        <button type="button" id="submitUser" class="btn btn-success theme-button">Proceed</button>
+                        <br><br>
+                        <div class="border-style"></div>
+
+                        <div class="col-md-12" align="center">
+                            <div class="row text-center sign-with">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Sign in with</h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="btn-group btn-group-justified">
+                                        <a href="#" class="btn btn-primary" onclick="return doFacebookLogin();">Facebook</a>
+                                        <a href="#" class="btn btn-info" onclick="return doTwitterLogin();">Twitter</a>
+                                        <a href="#" class="btn btn-danger" onclick="return doGooglePlusLogin();">Google</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
-                </div> 
+                    </div> 
+                </div>
+
             </div>
 
         </div>
-
     </div>
-</div>
 </div>
 <!-- Customer Information End -->
 

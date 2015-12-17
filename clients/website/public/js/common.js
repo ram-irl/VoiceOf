@@ -38,15 +38,15 @@ function showListview(){
     
 }
 
-function showDetailPost(){
-    
-    $('div#list-slider').removeClass('show-list-navigate');
-        isListsviewshowned = false;
-        
-    $('#postDetails').modal();                      // initialized with defaults
-        $('#postDetails').modal({keyboard: false});   // initialized with no keyboard
-        $('#postDetails').modal('show');                // initializes and invokes show immediately
-}
+//function showDetailPost(){
+//    
+//    $('div#list-slider').removeClass('show-list-navigate');
+//        isListsviewshowned = false;
+//        
+//    $('#postDetails').modal();                      // initialized with defaults
+//        $('#postDetails').modal({keyboard: false});   // initialized with no keyboard
+//        $('#postDetails').modal('show');                // initializes and invokes show immediately
+//}
 
 function showSocialSharingMenus(){
     
