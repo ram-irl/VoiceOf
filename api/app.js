@@ -20,13 +20,11 @@ var server = new Server({
 });
 
 var database = new Database(process.env.MONGOLAB_URI);
-
 /**
  * Install routes on app.
  */
 Promise.all([
-    database
-      .connect()
+    database.connect()
   , //router( server )
     App.create(server, database)
       .then( routes.install )

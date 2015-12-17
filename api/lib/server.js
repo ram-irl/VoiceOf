@@ -4,6 +4,9 @@ var restify = require('restify')
   
 var Server = module.exports = function createServer(opts) {
   var server = restify.createServer(opts);
+  
+  server.use(restify.bodyParser({'mapParams': false}));
+  
   server.errors = restify.errors;
   return server;
 }
