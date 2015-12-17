@@ -2,6 +2,8 @@ var mongo = require('mongodb'),
 	ObjectId = mongo.ObjectId,
 	_ = require("underscore")._;
 	
+
+
 module.exports = function(db){
 	var collection = db.collection("posts");
 	
@@ -27,3 +29,6 @@ module.exports = function(db){
 	
 	return model;
 }
+
+
+
