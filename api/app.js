@@ -7,6 +7,7 @@ var Server = require('./lib/server')
   , router = require('./lib/router')
   , routes = require('./lib/routes')
   , models = require('./lib/models')
+  , middleware = require('./lib/middleware')
   , Database = require('./lib/database')
   , App = require('./lib/app')
   ;
@@ -29,6 +30,7 @@ Promise.all([
       .connect()
   , //router( server )
     App.create(server, database, models(database))
+      .then( middleware.install )
       .then( routes.install )
       .then( app => startServer(process.env.PORT || 3030)(app.server) ) // start Server
       .catch( err => debug('Error starting the server', err) )
