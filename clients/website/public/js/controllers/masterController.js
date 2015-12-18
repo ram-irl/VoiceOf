@@ -77,58 +77,6 @@ angular.module("voiceOf.controllers")
                 //Keep selected file
                 $scope.fileSelected = function ($files) {
                     $scope.selFile = $files[0];
-//                    console.log($files);
-//                    $scope.policy = 'eyJleHBpcmF0aW9uIjoiMjAxNS0xMi0xOFQwODo1NDozMy41NjJaIiwiY29uZGl0aW9ucyI6W1sic3RhcnRzLXdpdGgiLCIka2V5IiwidGVtcC8iXSx7ImJ1Y2tldCI6InZvaWNlLW9mIn0seyJhY2wiOiJwdWJsaWMtcmVhZCJ9LFsic3RhcnRzLXdpdGgiLCIkQ29udGVudC1UeXBlIiwiaW1hZ2UvanBlZyJdLHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjoiMjAxIn1dfQ==';
-//                    $scope.signature = 'cvcPuWOMZCAsCTlksFBF/PJ6haM=';
-//                    $scope.keyId = 'AKIAJRBLOIR774SS6NIQ';
-//                    $upload.upload({
-//                        url: 'https://voice-of.s3.amazonaws.com/', //S3 upload url including bucket name
-//                        method: 'POST',
-//                        transformRequest: function (data, headersGetter) {
-//                            var headers = headersGetter();
-//                            delete headers['Authorization'];
-//                            return data;
-//                        },
-//                        data: {
-//                            key: 'temp/'+$scope.selFile.name, // the key to store the file on S3, could be file name or customized
-//                            AWSAccessKeyId: $scope.keyId, //< YOUR AWS AccessKey Id >
-//                            acl: 'public-read', // sets the access to the uploaded file in the bucket: private, public-read, ...
-//                            policy: $scope.policy, // base64-encoded json policy (see article below)
-//                            signature: $scope.signature, // base64-encoded signature based on policy string (see article below)
-//                            "Content-Type": $scope.selFile.type != '' ? $scope.selFile.type : 'application/octet-stream', // content type of the file (NotEmpty)
-//                            filename: $scope.selFile.name // this is needed for Flash polyfill IE8-9
-//                            
-//                        },
-//                        file: $scope.selFile,
-//                    }).then(function (resp) {
-//                        console.log('Success uploaded. Response: ' + resp.data);
-//                    }, function (resp) {
-//                        console.log('Error status: ' + resp.status);
-//                    }, function (evt) {
-//                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-//                        console.log('progress: ' + progressPercentage );
-//                    });
-
-//                    var file = $files[0];
-//                    var upload = $upload.upload({
-//                        url: "https://voice-of.s3.amazonaws.com/",
-//                        method: "POST",
-//                        transformRequest: function (data, headersGetter) {
-//                            var headers = headersGetter();
-//                            delete headers['Authorization'];
-//                            return data;
-//                        },
-//                        data: {
-//                            'key': "temp/" + file.name,
-//                            'acl': 'public-read',
-//                            'Content-Type': file.type,
-//                            'AWSAccessKeyId': "AKIAJRBLOIR774SS6NIQ",
-//                            'success_action_status': '201',
-//                            'Policy': "eyJleHBpcmF0aW9uIjoiMjAxNS0xMi0xOFQxMjowOTozNS41NDJaIiwiY29uZGl0aW9ucyI6W1sic3RhcnRzLXdpdGgiLCIka2V5IiwidGVtcC8iXSx7ImJ1Y2tldCI6InZvaWNlLW9mIn0seyJhY2wiOiJwdWJsaWMtcmVhZCJ9LFsic3RhcnRzLXdpdGgiLCIkQ29udGVudC1UeXBlIiwiaW1hZ2UvanBlZyJdLHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjoiMjAxIn1dfQ==",
-//                            'Signature': "JoAqHxc6toPUSYrgR53+w08+VkQ="
-//                        },
-//                        file: file
-//                    });
                 };
 
                 //Submit post
@@ -139,11 +87,33 @@ angular.module("voiceOf.controllers")
                         var jsonData = {content: $scope.txtMessage, position: [currentLocation.lat, currentLocation.lng]};
                     }
 
-                    api.submitPost(jsonData, function (err, data) {
-                        console.log(err+" "+data);
+                    api.submitPost(jsonData, $scope.selFile, function (err, data) {
+                        if(data!=null){
+                            $scope.locationTxt="";
+                            $scope.txtMessage="";
+                            $scope.selFile=null;
+                            alert("Your shout tweeted!");
+                        }else{
+                            alert("Error");
+                        }
                     });
                 };
                 
+//Remove selected file
+                $scope.removeSelFile=function(){
+                    $scope.selFile = null;
+                };
+
+
+                //Remove selected file
+                $scope.removeSelFile=function(){
+                    $scope.selFile = null;
+                };
+
+                
+
+
+
                 
                 var hardCodeComments = function () {
                     $scope.post.comments = [
@@ -160,6 +130,7 @@ angular.module("voiceOf.controllers")
                             },
                             "created": 'ISODate("2015-12-15T07:45:38.744Z")',
                             "post": "5673fef5e49bca680973858f"
+
                         },
                         {
                             "_id": 'ObjectId("566fc4d4bf78870f74438a96")',

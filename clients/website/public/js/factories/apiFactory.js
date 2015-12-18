@@ -1,4 +1,4 @@
-angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', function ($http, CONSTANTS) {
+angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$upload', function ($http, CONSTANTS, $upload) {
         var service = {};
         service.httpRequest = function (method, path, data, callback) {
 //            if (http == null)
@@ -60,13 +60,55 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
         };
 
         //Submit post
-        service.submitPost = function (values, callback) {
-            this.httpRequest("POST", CONSTANTS.API_URL + "/posts", values, function (err, data) {
-                if (err)
-                    callback(err, null);
-                else
-                    callback(null, data);
-            });
+        service.submitPost = function (values, file, callback) {
+            if (file != null) {
+                this.httpRequest("GET", CONSTANTS.API_URL + "/s3/policy?folder=post&type=" + file.type, null, function (err, policy) {
+                    if (err) {
+                        logger.error("Error in getting policy from AWS", "API,UPLOAD_ARTIFACT");
+                        return;
+                    }
+
+                    var upload = $upload.upload({
+                        url: "https://voice-of.s3.amazonaws.com/",
+                        method: "POST",
+                        transformRequest: function (data, headersGetter) {
+                            var headers = headersGetter();
+                            delete headers['Authorization'];
+                            return data;
+                        },
+                        data: {
+                            'key': "post/" + file.name,
+                            'acl': 'public-read',
+                            'Content-Type': file.type,
+                            'AWSAccessKeyId': policy.AWSAccessKeyId,
+                            'success_action_status': '201',
+                            'Policy': policy.s3Policy,
+                            'Signature': policy.s3Signature
+                        },
+                        file: file
+                    }).then(function (resp) {
+                        console.log('Success uploaded. Response: ' + resp.data);
+                        service.httpRequest("PUT", CONSTANTS.API_URL + "/posts", values, function (err, data) {
+                            if (err)
+                                callback(err, null);
+                            else
+                                callback(null, data);
+                        });
+                    }, function (resp) {
+                        console.log('Error status: ' + resp.status);
+                    }, function (evt) {
+                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        console.log('progress: ' + progressPercentage);
+                    });
+                });
+            } else {
+                this.httpRequest("PUT", CONSTANTS.API_URL + "/posts", values, function (err, data) {
+                    if (err)
+                        callback(err, null);
+                    else
+                        callback(null, data);
+                });
+            }
         };
 
         service.checkLocationAvailable = function (callback) {
