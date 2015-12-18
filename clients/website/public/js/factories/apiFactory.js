@@ -59,7 +59,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
         };
 
         //Submit post
-        service.submitPost = function (values) {
+        service.submitPost = function (values, callback) {
             this.httpRequest("POST", CONSTANTS.API_URL + "/posts", values, function (err, data) {
                 if (err)
                     callback(err, null);
