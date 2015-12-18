@@ -24,7 +24,7 @@ module.exports = function(db){
 		return collection.findOne({_id: ObjectId(postId)});
 	};
 
-	model.post = function(postObj){
+	model.create = function(postObj){
 		var post = Object.assign({}, postObj);
 		if(!post.content || !post.author || !post.position){
 			return Promise.reject(new Error("Required Fields Missing"));
