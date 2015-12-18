@@ -80,18 +80,18 @@ function doProceedFbAuthAPI(paramString){
     var paramObject = JSON.parse(paramString);
     var params = JSON.stringify(paramObject.authResponse);
 
-    $.ajax({ cache: false,
-        crossDomain: true,
+    $.ajax({ 
     url: "http://voiceof-api.herokuapp.com/auth/facebook",
-    type: 'post',
-    dataType: 'json',
-    headers: {'Access-Control-Allow-Origin': '*',
+    type: 'put',
+    
+    headers: {'Content-Type': 'application/json',              
                 Authorization: 'VOICEOF-AUTH token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiI2MzcyMTJmNTM0OTIwNWY5ZjJhMTQ1MDczM2YxNzkxMiIsInR5cGUiOiJhcHAiLCJhcHBJZCI6IldlYnNpdGVBcHAxIiwicGF5bG9hZEhhc2giOiIzNDQ5YzllNWUzMzJmMWRiYjgxNTA1Y2Q3MzlmYmYzZiJ9.wXmdshbFtD50CM6cDZMrm0MAndEUn_0FSgUSrmAXoU0", AppId="WebsiteApp1"'
             },
     data: params
     }).done(function (data) {
-        console.log(data.token);
-        setCookie('userSessionToken',data.token);
+        console.log("Full response:"+JSON.stringify(data));
+        console.log("User token: "+JSON.parse(data).token);
+        setCookie('userSessionToken',JSON.parse(data).token);
     }).fail(function (jqXHR, textStatus) {
         console.log(jqXHR);
         console.log(textStatus);
