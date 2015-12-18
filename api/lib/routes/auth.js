@@ -2,7 +2,7 @@
  * ROUTES `auth`
  * Provides routes for the /auth path.
  **********************************************************************/
- 
+
 
 /**
  * Declare variables
@@ -24,7 +24,7 @@ module.exports = function (app) {
   var models = app.models               // The `models` module
     , auth = app.middleware.authorize   // The `authorize` middleware
     ;
-  
+
   /**
    *  Route: PUT /auth/facebook
    *  Allows the client app to send a Facebook authResponse, for which
@@ -38,7 +38,7 @@ module.exports = function (app) {
    *            body    JSON        A JSON {'token': SESSION_TOKEN}
    */
   app.server.put('/auth/facebook', function (req, res, next) {
-    
+
     var token = req.token;
     if (token.type === 'app' || token.type === 'session') {
       // Create/Update and fetch a user from the database,
@@ -61,7 +61,7 @@ module.exports = function (app) {
     } else {
       res.send(new errors.UnauthorizedError({'message': 'Invalid Authorization parameter [code 3]'}));
     }
-    
+
   });
 
 }

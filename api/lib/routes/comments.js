@@ -8,7 +8,7 @@ var debug = require('debug')('routes:posts')
 module.exports = function (app) {
   var models = app.models;
 
-  app.server.post('/posts/:postId/comments', function (req, res, next) {
+  app.server.put('/posts/:postId/comments', function (req, res, next) {
     var token = req.token;
     if(_.isString(req.body.content) && req.body.content.length > 2048){
       return res.send(new errors.UnauthorizedError({'message': 'Comment length exceeded'}));
