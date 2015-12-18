@@ -404,13 +404,14 @@ function rearrangeMarkers(location) {
 
         //Attach click event to the marker.
         (function (marker, result) {
-            google.maps.event.addListener(marker, "click", function (e) {
-                angular.element(document.getElementById('MasterTag')).scope().showDetailPost();
+            google.maps.event.addListener(marker, "click", function (e) {                
                 ga('send', 'event', 'Map Pin', 'click', 'Show Detail');
 
                 //ram:reuse the below few lines.. it's repeated one more time before.
                 var concatmessage = "" + result.message;
                 var index = mresults.indexOf(result);
+                if(index<0)return;
+                angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
                 concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
                 var contentString = "<div onclick='showContentDetail(\"" + index + "\")' class=\"info-map-container\">" + "<strong> # " + result.name + "</strong><p class=\"info-map-content\">" + result.message + "</p></div>";
 
