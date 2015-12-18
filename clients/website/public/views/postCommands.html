@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="color:#ff5935;">Message with Comments</h4>
+                <h4 class="modal-title" style="color:#ff5935;">{{post.name}}</h4>
             </div>
 
             <div class="modal-body" align="center">
@@ -16,7 +16,7 @@
                 </a>-->
                 <div class="media-body" style="padding-bottom:5px;">
                     <div class="media-body">
-                        <p align="justify">{{post.msg}}</p>
+                        <p align="justify">{{post.message}}</p>
                     </div>
                     <div class="media-left"> 
                         <a href="{{post.image}}" target="_blank" ng-show="post.image!==null && post.image.length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.image}}" style="width: 64px; height: 64px;"> </a>

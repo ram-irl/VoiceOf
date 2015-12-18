@@ -26,6 +26,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                     error: true,
                     errorCode: "UNKNOWN_ERROR"
                 }, null);
+                console.log(data,status,headers,config);
             });
         };
 
@@ -49,13 +50,13 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
         };
 
         //Get all post
-        service.getAllpost = function (callback) {
-//            this.httpRequest("POST", "/users", null, null, function (err, data) {
-//                if (err)
-//                    callback(err, null);
-//                else
-//                    callback(null, data);
-//            });
+        service.getAllpost = function (values, callback) {
+            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/search", values, function (err, data) {
+                if (err)
+                    callback(err, null);
+                else
+                    callback(null, data);
+            });
         };
 
         //Submit post

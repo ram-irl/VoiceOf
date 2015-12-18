@@ -1,12 +1,38 @@
 angular.module("voiceOf.controllers")
-        .controller('MasterController', ['$scope', '$rootScope', 'api', '$upload', function ($scope, $rootScope, api, $upload)
+        .controller('MasterController', ['$scope', '$rootScope', 'api', '$upload', '$window', function ($scope, $rootScope, api, $upload, $window)
             {
                 //selected file in scope
                 $scope.selFile = null;
                 //Check it is a valid location
                 $scope.validLocation = null;
                 //Show command for specific post
-                $scope.showDetailPost = function () {
+                                
+                $scope.post = {};  
+                
+                $scope.refreshPins = function (location) {
+                    var data = {
+                        lat: location.lat,
+                        lng: location.lng,
+                        rad: $window.distanceRadius
+                    };
+                    api.getAllpost(data, function (err, data) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            $window.mresults.length = 0;
+                            $window.mresults = data;
+
+                            $window.rearrangeMarkers(location);
+
+                        }
+                    });
+                };                
+                
+                $scope.showDetailPost = function (index) {                    
+                    $scope.$apply(function () {
+                        $scope.post = $window.mresults[index];
+                        hardCodeComments();
+                    });
                     $('#postDetails').modal();                      // initialized with defaults
                     $('#postDetails').modal({keyboard: false});   // initialized with no keyboard
                     $('#postDetails').modal('show');
@@ -78,56 +104,68 @@ angular.module("voiceOf.controllers")
                     });
                 };
                 
+//Remove selected file
+                $scope.removeSelFile=function(){
+                    $scope.selFile = null;
+                };
+
+
                 //Remove selected file
                 $scope.removeSelFile=function(){
                     $scope.selFile = null;
                 };
 
-                $scope.post = {};
-                $scope.post.msg = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
-                $scope.post.image = "https://goo.gl/5Ryb1S";
-                $scope.post.comments = [
-                    {
-                        "_id": 'ObjectId("566fc4d4bf78870f74438a96")',
-                        "content": {
-                            "msg": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            "image": ["https://goo.gl/5Ryb1S"]
+                
+
+
+
+                
+                var hardCodeComments = function () {
+                    $scope.post.comments = [
+                        {
+                            "_id": 'ObjectId("566fc4d4bf78870f74438a96")',
+                            "content": {
+                                "msg": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                                "image": ["https://goo.gl/5Ryb1S"]
+                            },
+                            "owner": {
+                                "_id": "5673f5848cba8c030083383e",
+                                "name": "Testcseapi Testcseapi",
+                                "picture": "https://scontent.xx.fbcdn.net/hprofile-xlt1/v/t1.0-1/p50x50/11218939_398520093664578_738865213469592085_n.jpg?oh=2b6007b9e8ca4d11a1256e4db45a587b&oe=570BEA6F"
+                            },
+                            "created": 'ISODate("2015-12-15T07:45:38.744Z")',
+                            "post": "5673fef5e49bca680973858f"
+
                         },
-                        "owner": {
-                            "_id": "5673f5848cba8c030083383e",
-                            "name": "Testcseapi Testcseapi",
-                            "picture": "https://scontent.xx.fbcdn.net/hprofile-xlt1/v/t1.0-1/p50x50/11218939_398520093664578_738865213469592085_n.jpg?oh=2b6007b9e8ca4d11a1256e4db45a587b&oe=570BEA6F"
-                        },
-                        "created": 'ISODate("2015-12-15T07:45:38.744Z")',
-                        "post": "5673fef5e49bca680973858f"
-                    },
-                    {
-                        "_id": 'ObjectId("566fc4d4bf78870f74438a96")',
-                        "content": {
-                            "msg": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            "video": ["http://goo.gl/GWDzxF"]
-                        },
-                        "owner": {
-                            "_id": "5673f5848cba8c030083383e",
-                            "name": "Testcseapi Testcseapi",
-                            "picture": "https://scontent.xx.fbcdn.net/hprofile-xlt1/v/t1.0-1/p50x50/11218939_398520093664578_738865213469592085_n.jpg?oh=2b6007b9e8ca4d11a1256e4db45a587b&oe=570BEA6F"
-                        },
-                        "created": 'ISODate("2015-12-15T07:45:38.744Z")',
-                        "post": 'ObjectId("566fc422bf78870f74438a90")'
-                    }
-                    ,
-                    {
-                        "_id": 'ObjectId("566fc4d4bf78870f74438a96")',
-                        "content": {
-                            "msg": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-                        },
-                        "owner": {
-                            "_id": "5673f5848cba8c030083383e",
-                            "name": "Testcseapi Testcseapi",
-                            "picture": "https://scontent.xx.fbcdn.net/hprofile-xlt1/v/t1.0-1/p50x50/11218939_398520093664578_738865213469592085_n.jpg?oh=2b6007b9e8ca4d11a1256e4db45a587b&oe=570BEA6F"
-                        },
-                        "created": 'ISODate("2015-12-15T07:45:38.744Z")',
-                        "post": 'ObjectId("566fc422bf78870f74438a90")'
-                    }
-                ];
+                        {
+                            "_id": 'ObjectId("566fc4d4bf78870f74438a96")',
+                            "content": {
+                                "msg": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                                "video": ["http://goo.gl/GWDzxF"]
+                            },
+                            "owner": {
+                                "_id": "5673f5848cba8c030083383e",
+                                "name": "Testcseapi Testcseapi",
+                                "picture": "https://scontent.xx.fbcdn.net/hprofile-xlt1/v/t1.0-1/p50x50/11218939_398520093664578_738865213469592085_n.jpg?oh=2b6007b9e8ca4d11a1256e4db45a587b&oe=570BEA6F"
+                            },
+                            "created": 'ISODate("2015-12-15T07:45:38.744Z")',
+                            "post": 'ObjectId("566fc422bf78870f74438a90")'
+                        }
+                        ,
+                        {
+                            "_id": 'ObjectId("566fc4d4bf78870f74438a96")',
+                            "content": {
+                                "msg": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                            },
+                            "owner": {
+                                "_id": "5673f5848cba8c030083383e",
+                                "name": "Testcseapi Testcseapi",
+                                "picture": "https://scontent.xx.fbcdn.net/hprofile-xlt1/v/t1.0-1/p50x50/11218939_398520093664578_738865213469592085_n.jpg?oh=2b6007b9e8ca4d11a1256e4db45a587b&oe=570BEA6F"
+                            },
+                            "created": 'ISODate("2015-12-15T07:45:38.744Z")',
+                            "post": 'ObjectId("566fc422bf78870f74438a90")'
+                        }
+                    ];
+                };
+            
             }]);
