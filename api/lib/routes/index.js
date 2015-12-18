@@ -14,6 +14,7 @@ module.exports.install = function (app) {
   require('./auth')(app);
   require('./posts')(app);
   require('./comments')(app);
+  require('./s3')(app);
 
   return app;
 }

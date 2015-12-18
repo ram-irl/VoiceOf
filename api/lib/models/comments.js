@@ -42,6 +42,7 @@ module.exports = function(db){
 
 		commentObj.owner = ObjectId(commentObj.owner);
 		commentObj.post = ObjectId(commentObj.post);
+		commentObj.createdOn = new Date();
 
 		return collection.insertOne(commentObj);
 	};

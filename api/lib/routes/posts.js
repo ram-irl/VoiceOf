@@ -36,5 +36,11 @@ module.exports = function (app) {
       res.send(200, posts);
     })
     .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
-  })
+  });
+  app.server.put("/posts/:postId/vote", function(req, res, next){
+    var token = req.token;
+    models.posts.vote(req.params.postId, token.userId)
+    .then(() => res.send(201))
+    .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
+  });
 }

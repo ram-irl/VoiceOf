@@ -44,27 +44,25 @@ module.exports = function(db){
 		if(!_.isNumber(location.lng) || !_.isNumber(location.lat) || !_.isNumber(radius)){
 			return Promise.reject(new Error("Invalid Fields"));
 		}
-		return new Promise((resolve, reject) => {
-			collection.aggregate([{
-				$geoNear: {
-					near: {
-						type: "Point",
-						coordinates: [parseFloat(location.lng), parseFloat(location.lat)]
-					},
-					distanceField: "distance",
-					maxDistance: radius,
-					spherical: true,
-				}
-			},{
-				$sort: { distance: -1 }
-			}]).toArray(function(err, result){
-				console.log(err, result);
-				if(err)
-					return reject(err);
-				resolve(result);
-			});
-		});
+		return collection.aggregate([{
+			$geoNear: {
+				near: {
+					type: "Point",
+					coordinates: [parseFloat(location.lng), parseFloat(location.lat)]
+				},
+				distanceField: "distance",
+				maxDistance: radius,
+				spherical: true,
+			}
+		},{
+			$sort: { distance: -1 }
+		}]).toArray();
 	};
+
+	model.vote = function(postId, authorId){
+		return collection.findOneAndUpdate({ _id: ObjectId(postId),  },
+						{ $addToSet: { "votes": authorId } });
+	}
 
 	return model;
 }

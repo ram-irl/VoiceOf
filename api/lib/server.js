@@ -27,6 +27,7 @@ var Server = module.exports = function createServer(opts) {
     next();
   });
   server.use(restify.bodyParser({'mapParams': false}));
+  server.use(restify.queryParser());
   server.errors = restify.errors;
   return server;
 }
