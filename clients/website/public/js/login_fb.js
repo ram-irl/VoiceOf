@@ -83,9 +83,9 @@ function doProceedFbAuthAPI(paramString){
     $.ajax({ cache: false,
         crossDomain: true,
     url: "http://voiceof-api.herokuapp.com/auth/facebook",
-    type: 'post',
+    type: 'put',
     dataType: 'json',
-    headers: {'Access-Control-Allow-Origin': '*',
+    headers: {'Access-Control-Allow-Origin': '*',              
                 Authorization: 'VOICEOF-AUTH token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiI2MzcyMTJmNTM0OTIwNWY5ZjJhMTQ1MDczM2YxNzkxMiIsInR5cGUiOiJhcHAiLCJhcHBJZCI6IldlYnNpdGVBcHAxIiwicGF5bG9hZEhhc2giOiIzNDQ5YzllNWUzMzJmMWRiYjgxNTA1Y2Q3MzlmYmYzZiJ9.wXmdshbFtD50CM6cDZMrm0MAndEUn_0FSgUSrmAXoU0", AppId="WebsiteApp1"'
             },
     data: params
