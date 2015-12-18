@@ -91,6 +91,7 @@ function doProceedFbAuthAPI(paramString){
     data: params
     }).done(function (data) {
         console.log(data.token);
+        setCookie('userSessionToken',data.token);
     }).fail(function (jqXHR, textStatus) {
         console.log(jqXHR);
         console.log(textStatus);
