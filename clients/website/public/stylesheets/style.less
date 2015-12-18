@@ -401,6 +401,10 @@ div.message-box{
     max-height: 280px;    overflow-y: auto;
     overflow-x: hidden;
 }
+div.message-box div.user-name{
+    color: #cccccc;
+    font-size: 0.75em;
+}
 div.message-container{
     width:100%;
     padding-top:15px;
@@ -411,6 +415,8 @@ div.message-container{
 .border-style{width: 100%; height: 1px; background: #e8e8e8; text-align: center; margin: 0 auto;}
 
 .list-group-item{ padding-top:15px;padding-bottom:15px}
+.list-group-item video, img {margin-top:5px;}
+.media-body video, img {margin-top:5px;}
 
 
 @media screen and (min-width: 320px) and (max-width: 720px){
@@ -429,53 +435,59 @@ div.message-container{
         width:40px;
         height:40px;    
     }
-    
-div.v-md-3{ width:24%; border:none; padding:0; margin:0px; display: inline-block; height:auto;  vertical-align: top}
-div.v-md-6{ width:48%; border:none;  padding:0; margin:0px; display: inline-block;height:auto;}
 
-.left-cntrl{padding-left:8px;}
-.right-cntrl{padding-right:8px;}
+    div.v-md-3{ width:24%; border:none; padding:0; margin:0px; display: inline-block; height:auto;  vertical-align: top}
+    div.v-md-6{ width:48%; border:none;  padding:0; margin:0px; display: inline-block;height:auto;}
 
-
-#custom-search-input .glyphicon-search{
-    font-size: 13px;
-}
-.container{ padding-left: 0px; padding-right: 0px;}
-
-.menu-icon-style{
-     color:#fff;
-    text-decoration: none;
-    padding:10px;
-    font-size:16px;border: 1px solid #fff;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;    margin-top: 4px;
-    margin-left: 4px;
-}
-
-div#menu-slider{ position: fixed; top:0; left:0; margin-left:-100%; width:100%; margin-top:50px; padding-bottom:100px; height:100%; z-index: 999999999; background: #fff; -webkit-transition: all 0.5s linear;
-    -moz-transition: all 0.5s linear;
-    -o-transition: all 0.5s linear;
-    -ms-transition: all 0.5s linear;
-    transition: all 0.5s linear; overflow-x: hidden; overflow-y: auto; border-right:1px solid #ccc}
+    .left-cntrl{padding-left:8px;}
+    .right-cntrl{padding-right:8px;}
 
 
-div#list-slider{ position: fixed; top:0; right:0; margin-right:-100%; width:100%; margin-top:50px; padding-bottom:100px; 
-                 height:100%; z-index: 999999999; background: #fff; -webkit-transition: all 0.5s linear;
-    -moz-transition: all 0.5s linear;
-    -o-transition: all 0.5s linear;
-    -ms-transition: all 0.5s linear;
-    transition: all 0.5s linear; overflow-x: hidden; overflow-y: auto; border-left:1px solid #ccc}
+    #custom-search-input .glyphicon-search{
+        font-size: 13px;
+    }
+    .container{ padding-left: 0px; padding-right: 0px;}
+
+    .menu-icon-style{
+        color:#fff;
+        text-decoration: none;
+        padding:10px;
+        font-size:16px;border: 1px solid #fff;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;    margin-top: 4px;
+        margin-left: 4px;
+    }
+
+    div#menu-slider{ position: fixed; top:0; left:0; margin-left:-100%; width:100%; margin-top:50px; padding-bottom:100px; height:100%; z-index: 999999999; background: #fff; -webkit-transition: all 0.5s linear;
+                     -moz-transition: all 0.5s linear;
+                     -o-transition: all 0.5s linear;
+                     -ms-transition: all 0.5s linear;
+                     transition: all 0.5s linear; overflow-x: hidden; overflow-y: auto; border-right:1px solid #ccc}
 
 
-.trans-box{
-    border:1px solid #ccc; background: url(../img/transprent_white.png) repeat;
-    border-radius: 5px;
-    width:100%;
-    text-align: center;
-    margin-top:10px;
-    color:#202020; font-size: 14px;
-    text-transform: capitalize;
-}
+    div#list-slider{ position: fixed; top:0; right:0; margin-right:-100%; width:100%; margin-top:50px; padding-bottom:100px; 
+                     height:100%; z-index: 999999999; background: #fff; -webkit-transition: all 0.5s linear;
+                     -moz-transition: all 0.5s linear;
+                     -o-transition: all 0.5s linear;
+                     -ms-transition: all 0.5s linear;
+                     transition: all 0.5s linear; overflow-x: hidden; overflow-y: auto; border-left:1px solid #ccc}
+
+
+    .trans-box{
+        border:1px solid #ccc; background: url(../img/transprent_white.png) repeat;
+        border-radius: 5px;
+        width:100%;
+        text-align: center;
+        margin-top:10px;
+        color:#202020; font-size: 14px;
+        text-transform: capitalize;
+    }
+
+    div.message-box{
+        width:100%;
+        max-height: 80%;    overflow-y: auto;
+        overflow-x: hidden;
+    }
 
 }
 
