@@ -12,7 +12,7 @@ module.exports = function (app) {
     models.posts.create(post)
     .then(post => {
       res.setHeader('Location', '/posts/' + post._id);
-      res.send(200, post);
+      res.send(201, post);
     })
     .catch(e => res.send(new errors.InternalServerError({'message': e.message}));
   });
