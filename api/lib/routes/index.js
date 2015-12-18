@@ -2,7 +2,7 @@
  * MODULE `routes`
  * Provides functions to install routes within the platform.
  **********************************************************************/
- 
+
 
 /**
  * Installs routes on a given Application.
@@ -13,6 +13,7 @@
 module.exports.install = function (app) {
   require('./auth')(app);
   require('./posts')(app);
-  
+  require('./comments')(app);
+
   return app;
 }
