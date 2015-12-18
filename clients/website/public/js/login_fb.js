@@ -9,24 +9,20 @@
     // Full docs on the response object can be found in the documentation
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      testAPI();
+      // Logged into your app and Facebook.      
+      doProceedFbAuthAPI(JSON.stringify(response));
+      //testAPI();
     } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
+      myFacebookLogin();
     } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into Facebook.';
+      myFacebookLogin();
     }
   }
   
   function checkLoginState() {
   console.log('checkLoginState called.... ');
     FB.getLoginStatus(function(response) {
-    testAPI();
+    //testAPI();
     console.log("Test response: "+JSON.stringify(response));
       statusChangeCallback(response);
     });
@@ -47,13 +43,13 @@
   FB.getLoginStatus(function(response) {
       console.log('getLoginStatus start.... ');
       console.log("getLoginStatus response: "+JSON.stringify(response));
-    //statusChangeCallback(response); 
-    /*console.log("hello: "+response.hasOwnProperty('authResponse'));
-    if(response.hasOwnProperty('authResponse')){
+    statusChangeCallback(response); 
+    /*
+    if("authResponse" in response){
         doProceedFbAuthAPI(JSON.stringify(response));
     }
     else{myFacebookLogin();}*/
-    myFacebookLogin();
+    //myFacebookLogin();
     console.log('getLoginStatus end.... ');
   });
   };
@@ -67,12 +63,12 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  function testAPI() {
+  /*function testAPI() {
     //'id,name,public_profile,email,user_location,user_about_me,user_birthday,user_photos'
     FB.api('/me',{fields: 'id,name,email,public_profile'}, function(response) {
         console.log("User info: "+JSON.stringify(response));      
     });
-  }
+  }*/
   
   function myFacebookLogin() {      
     //FB.login(function(response){console.log("Test response: "+JSON.stringify(response));}, {scope: 'public_profile,email,user_location,user_about_me,user_birthday,user_photos'});
