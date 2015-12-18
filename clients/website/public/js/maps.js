@@ -427,8 +427,8 @@ function rearrangeMarkers(location) {
 
         var marker = new google.maps.Marker({
             position: {
-                lat: result.lat,
-                lng: result.lng
+                lat: result.position[0],
+                lng: result.position[1]
             },
             map: map,
             title: '',
@@ -472,7 +472,7 @@ function rearrangeMarkers(location) {
                 if(index<0)return;
                 angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
                 concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
-                var contentString = "<div onclick='showContentDetail(\"" + index + "\")' class=\"info-map-container\">" + "<strong> # " + result.name + "</strong><p class=\"info-map-content\">" + result.message + "</p></div>";
+                var contentString = "<div onclick='showContentDetail(\"" + index + "\")' class=\"info-map-container\">" + "<strong> # " + result.author + "</strong><p class=\"info-map-content\">" + result.content + "</p></div>";
 
                 try {
                     infobox.setContent(contentString);

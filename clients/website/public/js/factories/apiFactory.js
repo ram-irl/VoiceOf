@@ -50,8 +50,8 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
         };
 
         //Get all post
-        service.getAllpost = function (values, callback) {
-            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/search", values, function (err, data) {
+        service.getAllpost = function (url, callback) {
+            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/search"+url, null, function (err, data) {
                 if (err)
                     callback(err, null);
                 else
