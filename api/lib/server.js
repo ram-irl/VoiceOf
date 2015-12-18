@@ -1,12 +1,13 @@
 var restify = require('restify')
   , debug = require('debug')('server')
   ;
-  
+
 var Server = module.exports = function createServer(opts) {
   var server = restify.createServer(opts);
-  
+  server.use(restify.CORS());
+  server.use(restify.fullResponse());
   server.use(restify.bodyParser({'mapParams': false}));
-  
+
   server.errors = restify.errors;
   return server;
 }
@@ -26,7 +27,7 @@ Server.start = function startServer(port) {
   return function(server) {
     // Return a Promise.
     return new Promise( (resolve, reject) => {
-    
+
       /**
        * Clean-up function.
        * Remove event listeners once the promise is fulfilled.
@@ -37,7 +38,7 @@ Server.start = function startServer(port) {
         // Remove the `listening` event listener.
         server.removeListener('listening', onListening);
       }
-    
+
       /**
        * On `error` event listener.
        */
@@ -48,7 +49,7 @@ Server.start = function startServer(port) {
         // Reject the promise with given Error `e` object.
         reject(e);
       }
-      
+
       /**
        * On `listening` event listener.
        */
@@ -59,7 +60,7 @@ Server.start = function startServer(port) {
         // Resolve promise, returning the server instance.
         resolve(server);
       }
-      
+
       /**
        * Install `error` and `listening` event listeners on the given
        * server instance.
@@ -68,7 +69,7 @@ Server.start = function startServer(port) {
         server.on('listening', onListening);
         server.on('error', onError);
       })(server)
-    
+
       // Start listening on port.
       server.listen(port);
     })
