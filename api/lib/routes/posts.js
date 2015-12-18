@@ -11,8 +11,8 @@ module.exports = function (app) {
     post.author = req.token.userId;
     models.posts.create(post)
     .then(post => {
-      res.setHeader('Location', '/posts/' + post._id);
-      res.send(201, post);
+      res.setHeader('Location', '/posts/' + post.insertedId);
+      res.send(201, post.insertedId);
     })
     .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });
