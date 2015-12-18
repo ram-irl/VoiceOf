@@ -14,7 +14,7 @@ module.exports = function (app) {
       res.setHeader('Location', '/posts/' + post._id);
       res.send(201, post);
     })
-    .catch(e => res.send(new errors.InternalServerError({'message': e.message}));
+    .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });
   app.server.get('/posts/:postId', function (req, res, next) {
     var token = req.token;
@@ -25,6 +25,6 @@ module.exports = function (app) {
       res.setHeader('Location', '/posts/' + post._id);
       res.send(200, post);
     })
-    .catch(e => res.send(new errors.InternalServerError({'message': e.message}));
+    .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });
 }

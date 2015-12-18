@@ -9,6 +9,7 @@
  */
 var debug = require('debug')('models')
   , mod_users = require('./users')
+  , mod_posts = require('./posts')
   , mod_comments = require("./comments");
 
 /**
@@ -33,6 +34,7 @@ module.exports = function init(database) {
       try {
         // Init each imported module.
         models.users = mod_users(db); // Initialize Users model.
+        models.posts = mod_posts(db); // Initialize Post model.
         models.comments = mod_comments(db); // Initialize Comments model.
 
         debug('module initialized');

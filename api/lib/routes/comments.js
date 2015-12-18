@@ -25,13 +25,13 @@ module.exports = function (app) {
       res.setHeader('Location', '/posts/' + req.params.postId + "/comments/" + doc.insertedId);
       res.send(201, doc.insertedId);
     })
-    .catch(e => res.send(new errors.InternalServerError({'message': e.message}));
+    .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });
 
   app.server.get('/posts/:postId/comments', function (req, res, next) {
     models.comments.getAll(req.params.postId)
     .then(comments => res.send(200, comments))
-    .catch(e => res.send(new errors.InternalServerError({'message': e.message}));
+    .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });
 
 }
