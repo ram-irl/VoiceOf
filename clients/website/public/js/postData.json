@@ -1,0 +1,17 @@
+{
+    "_id": "566fc422bf78870f74438a90",
+    "content": "some content",
+    "author": "566fbf9bbf78870f74438a81",
+    "owner": "566fbf9bbf78870f74438a81",
+    "position": [235, 443],
+    "status": [{
+            "value": "started",
+            "date": "2015-12-15T07:44:05.532Z",
+            "owner": "566fbf9bbf78870f74438a81"
+        }],
+    "volunteers": [],
+    "followers": [],
+    "endorsers": [],
+    "slug": "abc-383",
+    "created": "2015-12-15T09:45:50.449Z"
+}
