@@ -1,19 +1,9 @@
 
-<div class="media">
-<!--    <div class="media-body">            
-        <img style="width:100%;height:auto;" ng-show="comment.content.image!==null && comment.content.image.length > 0" width="100%" ng-src="{{comment.content.image[0]}}"/>        
-        <video ng-show="comment.content.video!==null && comment.content.video.length > 0" width="100%" controls>
-            <source dynamic-url src="" url="comment.content.video[0]" type="video/mp4"/>
-        </video>
-        <p align="justify" ng-show="comment.content.msg!==null && comment.content.msg.length > 0">{{comment.content.msg}}</p>        
-        <div align="left" class="user-name"> # {{comment.owner}} on {{comment.created}}</div>
-        <hr>
-    </div>   -->
-    
+<div class="media">    
     <div class="media-body" style="padding-bottom:5px;">
         <div class="media-left"> 
-            <a href="{{comment.content.image[0]}}" target="_blank" ng-show="comment.content.image!==null && comment.content.image.length>0 && comment.content.image[0].length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{comment.content.image[0]}}" style="width: 64px; height: 64px;"> </a>
-            <a href="{{comment.content.video}}" target="_blank" ng-show="comment.content.video!==null && comment.content.video.length>0 && comment.content.video[0].length>0" style="width: 64px; height: 64px;"> 
+            <a href="{{comment.content.image[0]}}" target="_blank" ng-show="comment.content.image !== null && comment.content.image.length > 0 && comment.content.image[0].length > 0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{comment.content.image[0]}}" style="width: 64px; height: 64px;"> </a>
+            <a href="{{comment.content.video}}" target="_blank" ng-show="comment.content.video !== null && comment.content.video.length > 0 && comment.content.video[0].length > 0" style="width: 64px; height: 64px;"> 
                 <video class="media-object" width="100%" controls>
                     <source dynamic-url src="" url="comment.content.video[0]" type="video/mp4"/>
                 </video>
