@@ -47,8 +47,13 @@
   FB.getLoginStatus(function(response) {
       console.log('getLoginStatus start.... ');
       console.log("getLoginStatus response: "+JSON.stringify(response));
-    //statusChangeCallback(response);
-    if(response.hasOwnProperty('authResponse')){doProceedFbAuthAPI(JSON.stringify(response));}
+    //statusChangeCallback(response); 
+    /*console.log("hello: "+response.hasOwnProperty('authResponse'));
+    if(response.hasOwnProperty('authResponse')){
+        doProceedFbAuthAPI(JSON.stringify(response));
+    }
+    else{myFacebookLogin();}*/
+    myFacebookLogin();
     console.log('getLoginStatus end.... ');
   });
   };
@@ -77,9 +82,9 @@
 
 function doProceedFbAuthAPI(paramString){
 
-    var paramObject = JSON.parse(paramString);
+    var paramObject = JSON.parse(paramString);console.log(paramString);
     var params = JSON.stringify(paramObject.authResponse);
-
+    
     $.ajax({ 
     url: "http://voiceof-api.herokuapp.com/auth/facebook",
     type: 'put',
