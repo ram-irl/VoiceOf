@@ -6,11 +6,11 @@ angular.module("voiceOf.controllers")
                 //Check it is a valid location
                 $scope.validLocation = null;
                 //Show command for specific post
-                                
-                $scope.post = {};  
-                
-                $scope.refreshPins = function (location) {                    
-                    var url = "?lat="+location.lat+"&lng="+location.lng+"&rad="+($window.distanceRadius*1000);
+
+                $scope.post = {};
+
+                $scope.refreshPins = function (location) {
+                    var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius * 1000);
                     api.getAllpost(url, function (err, data) {
                         if (err) {
                             console.log(err);
@@ -21,9 +21,9 @@ angular.module("voiceOf.controllers")
 
                         }
                     });
-                };                
-                
-                $scope.showDetailPost = function (index) {                    
+                };
+
+                $scope.showDetailPost = function (index) {
                     $scope.$apply(function () {
                         $scope.post = $window.mresults[index];
                         hardCodeComments();
@@ -81,40 +81,45 @@ angular.module("voiceOf.controllers")
 
                 //Submit post
                 $scope.postSubmit = function () {
+                    if($('#txtMsg').val()==""){
+                        alert("Please enter message.");
+                        return;
+                    }
+                    
                     if ($scope.validLocation) {
-                        var jsonData = {content: $scope.txtMessage, position: [$scope.resultLat, $scope.resultLan]};
+                        var jsonData = {content: {msg: $scope.txtMessage,stayAnonmous:$('#stayAnoVal').is(':checked')}, position: [$scope.resultLat, $scope.resultLan]};
                     } else {
-                        var jsonData = {content: $scope.txtMessage, position: [currentLocation.lat, currentLocation.lng]};
+                        var jsonData = {content: {msg: $scope.txtMessage,stayAnonmous:$('#stayAnoVal').is(':checked')}, position: [currentLocation.lat, currentLocation.lng]};
                     }
 
                     api.submitPost(jsonData, $scope.selFile, function (err, data) {
-                        if(data!=null){
-                            $scope.locationTxt="";
-                            $scope.txtMessage="";
-                            $scope.selFile=null;
+                        if (data != null) {
+                            $scope.locationTxt = "";
+                            $scope.txtMessage = "";
+                            $scope.selFile = null;
                             alert("Your shout tweeted!");
-                        }else{
+                        } else {
                             alert("Error");
                         }
                     });
                 };
-                
+
 //Remove selected file
-                $scope.removeSelFile=function(){
+                $scope.removeSelFile = function () {
                     $scope.selFile = null;
                 };
 
 
                 //Remove selected file
-                $scope.removeSelFile=function(){
+                $scope.removeSelFile = function () {
                     $scope.selFile = null;
                 };
 
-                
 
 
 
-                
+
+
                 var hardCodeComments = function () {
                     $scope.post.comments = [
                         {
@@ -162,5 +167,5 @@ angular.module("voiceOf.controllers")
                         }
                     ];
                 };
-            
+
             }]);

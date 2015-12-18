@@ -26,7 +26,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                     error: true,
                     errorCode: "UNKNOWN_ERROR"
                 }, null);
-                console.log(data,status,headers,config);
+                console.log(data, status, headers, config);
             });
         };
 
@@ -51,7 +51,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
 
         //Get all post
         service.getAllpost = function (url, callback) {
-            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/search"+url, null, function (err, data) {
+            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/search" + url, null, function (err, data) {
                 if (err)
                     callback(err, null);
                 else
@@ -88,6 +88,13 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                         file: file
                     }).then(function (resp) {
                         console.log('Success uploaded. Response: ' + resp.data);
+                        if (file.type.indexOf('image') > -1) {
+                            values.content.image = "imageUrl";
+                            console.log('imag');
+                        } else {
+                            console.log('video');
+                            values.content.video = "videoUrl";
+                        }
                         service.httpRequest("PUT", CONSTANTS.API_URL + "/posts", values, function (err, data) {
                             if (err)
                                 callback(err, null);
