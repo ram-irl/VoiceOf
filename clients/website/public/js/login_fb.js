@@ -1,34 +1,4 @@
-
-
-function doFacebookLogin1(){
-    ref.authWithOAuthPopup("facebook", function(error, authData) {
-        //console.log(JSON.stringify(error));
-        //console.log(JSON.stringify(authData));
-      if (error) {
-        console.log("Login Failed!", error);
-      } else {
-        console.log("Login Success!");
-        //console.log("Authenticated successfully with payload:", JSON.stringify(authData));
-        //console.log(JSON.stringify(authData));
-        
-        try{
-               $("#nickname").val(""+authData.facebook.displayName);
-            }catch(e){alert(e);}
-      }
-    });
-}
-
-function doFacebookLogin2(){
-    ref.authWithOAuthRedirect("facebook", function(error) {
-  if (error) {
-    console.log("Login Failed!", error);
-  } else {
-    // We'll never get here, as the page will redirect on success.
-  }
-});
-}
-
-// Method 2 ///
+//login_fb.js
 
 // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -52,10 +22,7 @@ function doFacebookLogin2(){
         'into Facebook.';
     }
   }
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
+  
   function checkLoginState() {
   console.log('checkLoginState called.... ');
     FB.getLoginStatus(function(response) {
@@ -63,33 +30,27 @@ function doFacebookLogin2(){
     console.log("Test response: "+JSON.stringify(response));
       statusChangeCallback(response);
     });
+     console.log('checkLoginState end.... ');
   }
 
   window.fbAsyncInit = function() {
   FB.init({
-    appId      : '727099750723457',
+    //appId      : '727099750723457',//demo
+    appId      : '964116050349573',//live
+    oauth      : false,
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
     xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.2' // use version 2.2
+    version    : 'v2.5' // use version 2.2
   });
-
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
 
   FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
+      console.log('getLoginStatus start.... ');
+      console.log("getLoginStatus response: "+JSON.stringify(response));
+    //statusChangeCallback(response);
+    if(response.hasOwnProperty('authResponse'))doProceedFbAuthAPI(JSON.stringify(response));
+    console.log('getLoginStatus end.... ');
   });
-
   };
 
   // Load the SDK asynchronously
@@ -97,29 +58,46 @@ function doFacebookLogin2(){
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
-    js.src = "http://connect.facebook.net/en_US/sdk.js";
+    js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me',{fields: 'id,name,email'}, function(response) {
-    console.log("Test response: "+JSON.stringify(response));
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+    //'id,name,public_profile,email,user_location,user_about_me,user_birthday,user_photos'
+    FB.api('/me',{fields: 'id,name,email,public_profile'}, function(response) {
+        console.log("User info: "+JSON.stringify(response));      
     });
   }
-  function myFacebookLogin() {
-  FB.login(function(){}, {scope: 'publish_actions'});
+  
+  function myFacebookLogin() {      
+    //FB.login(function(response){console.log("Test response: "+JSON.stringify(response));}, {scope: 'public_profile,email,user_location,user_about_me,user_birthday,user_photos'});
+    FB.login(function(response){console.log("Test response: "+JSON.stringify(response));if(response.hasOwnProperty('authResponse'))doProceedFbAuthAPI(JSON.stringify(response));}, {scope: 'email,public_profile'});
+   }
+
+
+function doProceedFbAuthAPI(paramString){
+
+    var paramObject = JSON.parse(paramString);
+    var params = JSON.stringify(paramObject.authResponse);
+
+    $.ajax({ cache: false,
+        crossDomain: true,
+    url: "http://voiceof-api.herokuapp.com/auth/facebook",
+    type: 'post',
+    dataType: 'json',
+    headers: {'Access-Control-Allow-Origin': '*',
+                Authorization: 'VOICEOF-AUTH token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiI2MzcyMTJmNTM0OTIwNWY5ZjJhMTQ1MDczM2YxNzkxMiIsInR5cGUiOiJhcHAiLCJhcHBJZCI6IldlYnNpdGVBcHAxIiwicGF5bG9hZEhhc2giOiIzNDQ5YzllNWUzMzJmMWRiYjgxNTA1Y2Q3MzlmYmYzZiJ9.wXmdshbFtD50CM6cDZMrm0MAndEUn_0FSgUSrmAXoU0", AppId="WebsiteApp1"'
+            },
+    data: params
+    }).done(function (data) {
+        console.log(data.token);
+    }).fail(function (jqXHR, textStatus) {
+        console.log(jqXHR);
+        console.log(textStatus);
+    });
 }
 
 function doFacebookLogin(){
-/*<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>*/
-  //checkLoginState();  
-  doFacebookLogin1();
-  //doFacebookLogin2();
+    myFacebookLogin();  
+    testAPI();
 }
