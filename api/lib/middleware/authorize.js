@@ -1,7 +1,25 @@
+/***********************************************************************
+ * Authorization Module.
+ * Provides middleware for processing Authorization header in a request.
+ *
+ **********************************************************************/
+
+/**
+ * VARIABLES
+ */
 var debug = require('debug')('middleware:authorize')
   , jwt = require('jwt-simple')
   , errors = require('restify').errors
   ;
+  
+/**
+ * CONSTANTS
+ */
+const AUTH_MECH = 'VOICEOF-AUTH';
+
+/**
+ * FUNCTIONS UTILITY
+ */
   
 function decode(payload, secret) {
   return new Promise( (resolve, reject) => {
@@ -39,7 +57,7 @@ function decodeToken(tok) {
   });
 }
 
-var AUTH_MECH = 'VOICEOF-AUTH';
+
 
 function removeQuotes(str) {
   var result = '';
@@ -139,7 +157,18 @@ function validateSessionToken(token, database) {
   });
 }
 
-module.exports = function createAuthorizer(app) {
+/***********************************************************************
+ * EXPORTS
+ **********************************************************************/
+
+/**
+ * Creates a middleware function to process the Authentication header, 
+ * on every request.
+ * If authentication is successful, then `req.token` will be available
+ * to any defined routes.
+ *
+ */
+var middleware = module.exports = function create(app) {
 
   return function (req, res, next) {
     _authorize(req, app.database)
@@ -166,11 +195,15 @@ module.exports = function createAuthorizer(app) {
 }
 
 
-module.exports.sessionToken = function () {
+middleware.sessionToken = function () {
   return Promise.reject(new Error('Not implemented'));
 }
 
-module.exports.sessionToken.fromAppToken = function (appToken) {
+/**
+ * Converts an APP_TOKEN to a SESSION_TOKEN
+ *
+ */
+middleware.sessionToken.fromAppToken = function (appToken) {
   return function (user) {
     var userId = user._id
       , sessionToken = {'isNew': user.isNew}
@@ -194,5 +227,29 @@ module.exports.sessionToken.fromAppToken = function (appToken) {
         resolve(sessionToken);
       }
     });
+  }
+}
+
+/**
+ * Middleware route to accept only APP_TOKEN
+ *
+ */
+middleware.isApp = function (req, res, next) {
+  if (rek.token && req.token.type === 'app') {
+    next();
+  } else {
+    res.send(new errors.UnauthorizedError({'message': 'Invalid Authorization parameter [code 3:1]'}));
+  }
+}
+
+/**
+ * Middleware route to accept only SESSION_TOKEN
+ *
+ */
+middleware.isSession = function (req, res, next) {
+  if (rek.token && req.token.type === 'session') {
+    next();
+  } else {
+    res.send(new errors.UnauthorizedError({'message': 'Invalid Authorization parameter [code 3:2]'}));
   }
 }

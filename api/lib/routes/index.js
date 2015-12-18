@@ -1,13 +1,15 @@
+/***********************************************************************
+ * MODULE `routes`
+ * Provides functions to install routes within the platform.
+ **********************************************************************/
+ 
 
-module.exports = function (router) {
-  // Define routes on `/users` router.
-  //require('./users')( router('/users') )
-  
-  // Define routes on `/posts` router.
-  require('./posts.bak')( router('/posts') )
-}
-
-
+/**
+ * Installs routes on a given Application.
+ *
+ * @param   Object  app   The application to install routes.
+ * @return  Object        Returns the application with installed routes.
+ */
 module.exports.install = function (app) {
   require('./auth')(app);
   require('./posts')(app);
