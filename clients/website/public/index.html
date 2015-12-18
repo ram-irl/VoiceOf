@@ -174,11 +174,15 @@
                     </span>
                 </div><!-- /input-group -->
 
-                <div class="input-group" style="margin-top: 10px;">
-                    <span class="input-group-btn" style="height:40px;">
-                        <!--<button ngf-select="fileSelected($files, $invalidFiles)" type="file" ng-accept="'image/gif,image/bmp,image/webp,image/jpg,image/jpeg,image/png'" style="display:none" id="artifact_upload" />-->
+                <div ng-switch="!selFile" class="input-group" style="margin-top: 10px;">
+                    <span ng-switch-when="true" class="input-group-btn" style="height:40px;">
                         <button ng-file-select ng-file-change="fileSelected($files)" class="btn theme-button" title="Upload Photo/video" style="height:40px;">
                             <span class="glyphicon glyphicon-camera"></span>
+                        </button>
+                    </span>
+                    <span ng-switch-when="false" class="input-group-btn" style="height:40px;">
+                        <button ng-click="removeSelFile();" class="btn theme-button" title="Remove selected file" style="height:40px;">
+                            <span class="glyphicon glyphicon-remove"></span>
                         </button>
                     </span>
                     <input type="text" id="txtMsg" ng-model="txtMessage" class="form-control" placeholder="Message" style="height:40px;">
