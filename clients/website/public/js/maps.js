@@ -286,7 +286,6 @@ function initGPS() {
             };
             userLocation = currentLocation;
 
-
             map.setCenter(currentLocation);
             callRefreshAPi(currentLocation);
 

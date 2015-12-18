@@ -12,7 +12,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
                 method: method,
                 url: path,
                 headers: {'Content-Type': 'application/json',
-                    Authorization: 'VOICEOF-AUTH token="'+getCookie('userSessionToken')+'", AppId="WebsiteApp1"'
+                    Authorization: 'VOICEOF-AUTH token="' + getCookie('userSessionToken') + '", AppId="WebsiteApp1"'
                 },
                 data: data
             }).success(function (data, status, headers, config) {
@@ -28,7 +28,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
                 }, null);
             });
         };
-        
+
         //Google request
         service.googleRequest = function (method, path, callback) {
             $http({
@@ -59,8 +59,8 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
         };
 
         //Submit post
-        service.submitPost = function () {
-            this.httpRequest("POST", "/users", null, function (err, data) {
+        service.submitPost = function (values) {
+            this.httpRequest("POST", CONSTANTS.API_URL + "/posts", values, function (err, data) {
                 if (err)
                     callback(err, null);
                 else

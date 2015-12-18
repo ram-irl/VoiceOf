@@ -180,9 +180,10 @@
                             <!--<span ng-class="selFile==null?'glyphicon glyphicon-camera':'glyphicon glyphicon-remove'"></span>-->
                         </button>
                     </span>
-                    <input type="text" id="txtMsg" class="form-control" placeholder="Message" style="height:40px;">
+                    <input type="text" id="txtMsg" ng-model="txtMessage" class="form-control" placeholder="Message" style="height:40px;">
                     <span class="input-group-btn" style="height:40px;">
-                        <button id="submitMsg" class="btn theme-button" title="Send Now" type="button" style="width:83px;height:40px;">SEND</button>
+                        <!--<button id="submitMsg" class="btn theme-button" title="Send Now" type="button" style="width:83px;height:40px;">SEND</button>-->
+                        <button ng-click="postSubmit();" class="btn theme-button" title="Send Now" type="button" style="width:83px;height:40px;">SEND</button>
                     </span>
 
                 </div>

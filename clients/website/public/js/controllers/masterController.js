@@ -34,7 +34,7 @@ angular.module("voiceOf.controllers")
                     //clear marker and pin marker
                     $scope.setMapOnAll(null, currentLocation);
                     $scope.validLocation = null;
-                    $scope.locationTxt="";
+                    $scope.locationTxt = "";
                 };
                 $scope.setMapOnAll = function (val, location) {
                     for (var i = 0; i < markers.length; i++) {
@@ -108,5 +108,18 @@ angular.module("voiceOf.controllers")
 //                        },
 //                        file: file
 //                    });
+                };
+
+                //Submit post
+                $scope.postSubmit = function () {
+                    if ($scope.validLocation) {
+                        var jsonData = {content: $scope.txtMessage, position: [$scope.resultLat, $scope.resultLan]};
+                    }else{
+                        var jsonData = {content: $scope.txtMessage, position: [currentLocation.lat, currentLocation.lng]};
+                    }
+
+                    api.submitPost(function (err, jsonData) {
+                        console.log(err+"  "+jsonData);
+                    });
                 };
             }]);

@@ -48,7 +48,7 @@
       console.log('getLoginStatus start.... ');
       console.log("getLoginStatus response: "+JSON.stringify(response));
     //statusChangeCallback(response);
-    if(response.hasOwnProperty('authResponse'))doProceedFbAuthAPI(JSON.stringify(response));
+    if(response.hasOwnProperty('authResponse')){doProceedFbAuthAPI(JSON.stringify(response));}
     console.log('getLoginStatus end.... ');
   });
   };
