@@ -122,12 +122,12 @@ angular.module("voiceOf.controllers")
                 $scope.postSubmit = function () {
                     if ($scope.validLocation) {
                         var jsonData = {content: $scope.txtMessage, position: [$scope.resultLat, $scope.resultLan]};
-                    }else{
+                    } else {
                         var jsonData = {content: $scope.txtMessage, position: [currentLocation.lat, currentLocation.lng]};
                     }
 
-                    api.submitPost(function (err, jsonData) {
-                        console.log(err+"  "+jsonData);
+                    api.submitPost(jsonData, function (err, data) {
+                        console.log(err+" "+data);
                     });
                 };
                 

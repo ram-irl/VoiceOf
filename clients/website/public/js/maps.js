@@ -509,7 +509,7 @@ $(window).load(function () {
 ////        $('#welcomContent').text("Chillana - Shout your tweet");
 ////        return;
 //    }
-    if (getCookie("nickname") && getCookie("nickname").length > 0) {
+    /*if (getCookie("nickname") && getCookie("nickname").length > 0) {
         $('#welcomContent').text("Hello, " + getCookie("nickname"));
         //user already login
         $('#customerInfo').modal('hide');               // initializes and invokes show immediately
@@ -520,7 +520,7 @@ $(window).load(function () {
         $('#customerInfo').modal();                      // initialized with defaults
         $('#customerInfo').modal({keyboard: false});   // initialized with no keyboard
         $('#customerInfo').modal('show');                // initializes and invokes show immediately
-    }
+    }*/
 
     //copy link is not working in safari .. hence disabled it.
     var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
