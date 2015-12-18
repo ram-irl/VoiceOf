@@ -36,8 +36,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.7.min.js"></script>
         <script src="https://cdn.pubnub.com/pubnub-3.7.18.min.js"/></script>
-<!--Jquery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
     <!--Angularjs-->
     <script src="libs/angularjs/angular/angular.min.js"/></script>
 <script src="js/app.js"/></script>
@@ -164,8 +163,8 @@
             <div class="col-lg-12" align="center" id="postArea">
                 <div class="input-group">
                     <span class="input-group-btn" style="height:35px;">
-                        <!--<button class="btn glyphicon glyphicon-map-marker theme-button" type="button" onclick="return focusCurrentLocation();" title="Current Location" style="font-size:12px;color:#fff;height:35px;"></button>-->
-                        <button class="btn theme-button" ng-class="validLocation==null?'CurrentLocCheckedStyle':''" title="Current Location" type="button" onclick="return focusCurrentLocation();" ng-click="validLocation = null" style="height:35px;"><span class="glyphicon glyphicon-map-marker"></span></button>
+                        <!--<button class="btn theme-button" ng-class="validLocation==null?'CurrentLocCheckedStyle':''" title="Current Location" type="button" onclick="return focusCurrentLocation();" ng-click="validLocation = null" style="height:35px;"><span class="glyphicon glyphicon-map-marker"></span></button>-->
+                        <button class="btn theme-button" ng-class="validLocation==null?'CurrentLocCheckedStyle':''" title="Current Location" type="button" ng-click="setCurrentLoc();" style="height:35px;"><span class="glyphicon glyphicon-map-marker"></span></button>
                     </span>
                     <input type="text" id="addressMsg" ng-model="locationTxt" ng-keyup="validLocation = null" class="form-control" ng-class="(validLocation==false && locationTxt.length!=0)?'locationInput':''" placeholder="Your location"  style="height:35px;">
                     <span class="input-group-btn" style="height:35px;">
@@ -176,7 +175,10 @@
                 <div class="input-group" style="margin-top: 10px;">
                     <span class="input-group-btn" style="height:40px;">
                         <!--<button ngf-select="fileSelected($files, $invalidFiles)" type="file" ng-accept="'image/gif,image/bmp,image/webp,image/jpg,image/jpeg,image/png'" style="display:none" id="artifact_upload" />-->
-                        <button ng-file-select ng-file-change="fileSelected($files, $event)" class="btn theme-button" title="Upload Photo/video" style="height:40px;"><span class="glyphicon glyphicon-camera"></span></button>
+                        <button ng-file-select ng-file-change="fileSelected($files)" class="btn theme-button" title="Upload Photo/video" style="height:40px;">
+                            <span class="glyphicon glyphicon-camera"></span>
+                            <!--<span ng-class="selFile==null?'glyphicon glyphicon-camera':'glyphicon glyphicon-remove'"></span>-->
+                        </button>
                     </span>
                     <input type="text" id="txtMsg" class="form-control" placeholder="Message" style="height:40px;">
                     <span class="input-group-btn" style="height:40px;">

@@ -13,7 +13,7 @@ var isMobile = (/Mobile/i.test(navigator.userAgent));
 var infobox;
 var infoboxCharsizelimit = 20;
 var showMapinMobile = false;
-
+var markers = [];
 
 
 
@@ -296,6 +296,7 @@ function initGPS() {
                 title: 'Your Current Location'
                         //icon: userMarkerImage
             });
+            markers.push(userMarker);
 
             userMarker.addListener('click', function () {
                 try {
@@ -476,10 +477,9 @@ function removeMarkerInfoWindow() {
 
 //Focus to current location 
 function focusCurrentLocation() {
-
     if (currentLocation != null) {
         map.setCenter(currentLocation);
-
+        console.log(currentLocation);
     } else {
         // Waiting for the location
         console.log("current location clicked and returned null");

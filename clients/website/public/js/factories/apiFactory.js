@@ -26,6 +26,8 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
                 }, null);
             });
         };
+        
+        //Get all post
         service.getAllpost = function (callback) {
 //            this.httpRequest("POST", "/users", null, null, function (err, data) {
 //                if (err)
@@ -33,12 +35,9 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
 //                else
 //                    callback(null, data);
 //            });
-
-//Get datas from JSON file
-//            $http.get('js/post.json').success(function (data) {
-//                callback(null, data);
-//            });
         };
+        
+        //Submit post
 
         service.checkLocationAvailable = function (callback) {         
             this.httpRequest("GET", "https://maps.googleapis.com/maps/api/geocode/json?address=" + $("#addressMsg").val() + "&key=AIzaSyBTznaZuJw6VKOEACAZENeAabe1MGswaEM", null, null, function (err, data) {
