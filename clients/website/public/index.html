@@ -155,17 +155,18 @@
                 <div class="input-group">
                     <span class="input-group-btn" style="height:35px;">
                         <!--<button class="btn glyphicon glyphicon-map-marker theme-button" type="button" onclick="return focusCurrentLocation();" title="Current Location" style="font-size:12px;color:#fff;height:35px;"></button>-->
-                        <button class="btn theme-button" title="Current Location" type="button" onclick="return focusCurrentLocation();" style="height:35px;"><span class="glyphicon glyphicon-map-marker"></span></button>
+                        <button class="btn theme-button" ng-class="validLocation==null?'CurrentLocCheckedStyle':''" title="Current Location" type="button" onclick="return focusCurrentLocation();" ng-click="validLocation=null" style="height:35px;"><span class="glyphicon glyphicon-map-marker"></span></button>
                     </span>
-                    <input type="text" id="addressMsg" class="form-control" placeholder="Your location"  style="height:35px;">
+                    <input type="text" id="addressMsg" ng-model="locationTxt" ng-keyup="validLocation=null" class="form-control" ng-class="(validLocation==false && locationTxt.length!=0)?'locationInput':''" placeholder="Your location"  style="height:35px;">
                     <span class="input-group-btn" style="height:35px;">
-                        <button class="btn theme-button" type="button" onclick="" title="Current Location" style="color:#fff; height:35px;">SEARCH</button>
+                        <button class="btn theme-button" type="button" ng-click="checkLocationAvailable();" title="search location" style="color:#fff; height:35px;">SEARCH</button>
                     </span>
                 </div><!-- /input-group -->
-                
+
                 <div class="input-group" style="margin-top: 10px;">
                     <span class="input-group-btn" style="height:40px;">
-                        <button id="submitMsg" class="btn theme-button" title="Upload Photo/video" type="file" style="height:40px;"><span class="glyphicon glyphicon-camera"></span></button>
+                        <input ng-file-select ng-file-change="fileSelected($files, $event)" type="file" ng-accept="'image/gif,image/bmp,image/webp,image/jpg,image/jpeg,image/png'" style="display:none" id="artifact_upload" />
+                        <button ng-click="selectArtifact();" class="btn theme-button" title="Upload Photo/video" type="button" style="height:40px;"><span class="glyphicon glyphicon-camera"></span></button>
                     </span>
                     <input type="text" id="txtMsg" class="form-control" placeholder="Message" style="height:40px;">
                     <span class="input-group-btn" style="height:40px;">

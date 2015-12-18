@@ -1,6 +1,6 @@
 angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', function ($http, CONSTANTS) {
         var service = {};
-        service.httpRequest = function (method, path, data, callback) {
+        service.httpRequest = function (method, path, header, data, callback) {
 //            if (http == null)
 //                callback({
 //                    error: true,
@@ -10,8 +10,8 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
 //            _apiHeaders['Content-Type'] = 'application/json';
             $http({
                 method: method,
-                url: CONSTANTS.API_URL + path,
-                headers: CONSTANTS.API_HEADERS,
+                url: path,
+                headers: header,
                 data: data
             }).success(function (data, status, headers, config) {
                 if (data.error) {
@@ -27,7 +27,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
             });
         };
         service.getAllpost = function (callback) {
-//            this.httpRequest("POST", "/users", null, function (err, data) {
+//            this.httpRequest("POST", "/users", null, null, function (err, data) {
 //                if (err)
 //                    callback(err, null);
 //                else
@@ -38,6 +38,15 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', functi
 //            $http.get('js/post.json').success(function (data) {
 //                callback(null, data);
 //            });
+        };
+
+        service.checkLocationAvailable = function (callback) {         
+            this.httpRequest("GET", "https://maps.googleapis.com/maps/api/geocode/json?address=" + $("#addressMsg").val() + "&key=AIzaSyBTznaZuJw6VKOEACAZENeAabe1MGswaEM", null, null, function (err, data) {
+                if (err)
+                    callback(err, null);
+                else
+                    callback(null, data);
+            });
         };
         return service;
     }]);
