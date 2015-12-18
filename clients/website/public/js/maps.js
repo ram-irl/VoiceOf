@@ -405,7 +405,7 @@ function rearrangeMarkers(location) {
         //Attach click event to the marker.
         (function (marker, result) {
             google.maps.event.addListener(marker, "click", function (e) {
-//                angular.element(document.getElementById('MasterTag')).scope().showDetailPost();
+                angular.element(document.getElementById('MasterTag')).scope().showDetailPost();
                 ga('send', 'event', 'Map Pin', 'click', 'Show Detail');
 
                 //ram:reuse the below few lines.. it's repeated one more time before.
