@@ -14,13 +14,13 @@ module.exports = function (app) {
       return res.send(new errors.UnauthorizedError({'message': 'Comment length exceeded'}));
     }
     var comment = Object.assign({}, { content: req.body.content, owner: token.userId, post: req.params.postId });
-    models.posts.get()
+    models.posts.get(req.params.postId)
     .then(post => {
       if(!post)
         throw new Error("Post Not Found");
       return post;
     })
-    .then(app.models.comments.add(comment))
+    .then(() => app.models.comments.add(comment))
     .then(doc => {
       res.setHeader('Location', '/posts/' + req.params.postId + "/comments/" + doc.insertedId);
       res.send(201, doc.insertedId);

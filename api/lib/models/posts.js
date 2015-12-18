@@ -30,11 +30,11 @@ module.exports = function(db){
 		if(!post.content || !post.author || !post.position){
 			return Promise.reject(new Error("Required Fields Missing"));
 		}
+		post.author = ObjectId(post.author);
 		post.createdOn = new Date();
 		return model.createSlug()
 		.then(slug => {
 			post.slug = slug;
-			console.log("IN SLUG");
 			return post;
 		})
 		.then(post => collection.insertOne(post));
@@ -42,7 +42,6 @@ module.exports = function(db){
 
 	model.search = function(location, radius){
 		if(!_.isNumber(location.lng) || !_.isNumber(location.lat) || !_.isNumber(radius)){
-			console.log("FAILED");
 			return Promise.reject(new Error("Invalid Fields"));
 		}
 		return new Promise((resolve, reject) => {

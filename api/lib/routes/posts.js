@@ -27,4 +27,14 @@ module.exports = function (app) {
     })
     .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });
+  app.server.get('/search/posts', function(req, res, next){
+    if(!req.query.lat || !req.query.lng || !req.query.rad){
+      return res.send(new errors.UnauthorizedError({'message': 'Required Fields Missing'}));
+    }
+    models.posts.search({ lng: parseFloat(req.query.lng), lat: parseFloat(req.query.lat)}, parseInt(req.query.rad))
+    .then(posts => {
+      res.send(200, posts);
+    })
+    .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
+  })
 }
