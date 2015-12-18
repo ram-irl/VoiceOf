@@ -14,7 +14,7 @@ var infobox;
 var infoboxCharsizelimit = 20;
 var showMapinMobile = false;
 var markers = [];
-
+var distanceRadius = 1000; // default is 1000 in meters
 
 
 //Submits the user information(nickname and phone number) information to the message table 
@@ -196,6 +196,7 @@ function initMap() {
         zoom: defaultZoom,
         disableDefaultUI: true
     });
+    map.setOptions({ maxZoom: 20, minZoom: 4 });
 
     userMarkerImage = {url: "img/markers/user_marker_icon.png",
         scaledSize: new google.maps.Size(32, 32)
@@ -224,30 +225,87 @@ function initMap() {
         infoBoxClearance: new google.maps.Size(1, 1)
     });
 
-    //Center Changed: {"lat":12.905130058903858,"lng":80.20777717680016}
-    map.addListener('center_changed', function () {
-
-        setTimeout(function () {
-            try {
-                var mylocation = map.getCenter();
-                obj = JSON.parse(JSON.stringify(mylocation));
-                //alert(obj.lat);
-                var mylocationValues = {
-                    lat: obj.lat,
-                    lng: obj.lng
-                };
-
-                callRefreshAPi(mylocationValues);
-
-            } catch (e) {
-                console.log(e);
-            }
-        }, 100);
-    });
+//    //Center Changed: {"lat":12.905130058903858,"lng":80.20777717680016}
+//    map.addListener('center_changed', function () {
+//
+//        setTimeout(function () {
+//            try {
+//                var mylocation = map.getCenter();
+//                obj = JSON.parse(JSON.stringify(mylocation));
+//                //alert(obj.lat);
+//                var mylocationValues = {
+//                    lat: obj.lat,
+//                    lng: obj.lng
+//                };
+//
+//                callRefreshAPi(mylocationValues);
+//
+//            } catch (e) {
+//                console.log(e);
+//            }
+//        }, 100);
+//    });
 
     //ram: need to see if initGPS is required
     initGPS();
+    addMapPositionChangeListener();
 }
+
+// add map position change listener - to get distance from center location to map corner
+function addMapPositionChangeListener() {
+    google.maps.event.addListener(map, 'idle', function (ev) {
+        try {
+            var bounds = map.getBounds();
+            var ne = bounds.getNorthEast(); // LatLng of the north-east corner
+            var sw = bounds.getSouthWest(); // LatLng of the south-west corder
+            var nw = new google.maps.LatLng(ne.lat(), sw.lng());
+            var se = new google.maps.LatLng(sw.lat(), ne.lng());
+
+            var northeast = new google.maps.LatLng(ne.lat(), ne.lng(), false);
+            var southwest = new google.maps.LatLng(sw.lat(), sw.lng(), false);
+            var northwest = new google.maps.LatLng(nw.lat(), nw.lng(), false);
+            var southeast = new google.maps.LatLng(se.lat(), se.lng(), false);
+
+            var mapcenter = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng(), false);
+
+            var ned = google.maps.geometry.spherical.computeDistanceBetween(mapcenter, northeast);
+            var swd = google.maps.geometry.spherical.computeDistanceBetween(mapcenter, southwest);
+            var ned = google.maps.geometry.spherical.computeDistanceBetween(mapcenter, northwest);
+            var sed = google.maps.geometry.spherical.computeDistanceBetween(mapcenter, southeast);
+
+            distanceRadius = Math.max(ned, swd, ned, sed);
+
+//            console.log("distance: " + distanceRadius);
+//            console.log("North East: "+northeast);
+//            console.log("zoom :"+map.zoom);            
+
+//            clearCircle();
+            //drawCircle(northeast);
+//            drawCircle(mapcenter);
+
+            try {
+                callRefreshAPi(getMapCenterLocation());
+            } catch (e) {
+                console.log(e);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    });
+}
+
+    
+    // get map center position - lat and lng
+function getMapCenterLocation() {
+//    var mylocation = map.getCenter();
+    var mylocation = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng(), false);
+    var mylocationValues = {
+        lat: mylocation.lat(),
+        lng: mylocation.lng()
+    };
+    return mylocationValues;
+}
+
 
 //
 function initGPS() {
@@ -323,21 +381,22 @@ function initGPS() {
     }
 }
 function callRefreshAPi(location) {
-    //alert(JSON.stringify(location));
-    client.invokeApi("message?lat=" + location.lat + "&lng=" + location.lng, {
-        body: null,
-        method: "get"
-    }).done(function (results) {
-
-        //alert(JSON.stringify(results));
-        mresults = null;
-        mresults = results.result;
-
-        rearrangeMarkers(location);
-
-    }, function (error) {
-        console.log(error.message);
-    });
+    angular.element(document.getElementById('MasterTag')).scope().refreshPins(location);
+//    var api = "message?lat=" + location.lat + "&lng=" + location.lng + "&dis=" + distanceRadius/1000;
+//    client.invokeApi(api, {
+//        body: null,
+//        method: "get"
+//    }).done(function (results) {
+//
+//        //alert(JSON.stringify(results));
+//        mresults = null;
+//        mresults = results.result;
+//
+//        rearrangeMarkers(location);
+//
+//    }, function (error) {
+//        console.log(error.message);
+//    });
 }
 function rearrangeMarkers(location) {
     if (mresults != null && mresults.length >= 0) {
@@ -451,12 +510,13 @@ function clearCircle() {
 }
 function removeMarkers() {
     try {
-        //ram:not sure why the below commented code is
-        // if (markerArray != null) {
-        //     for (i = 0; i < markerArray.length; i++) {
-        //         markerArray[i].setMap(null);
-        //     }
-        // }
+//        ram:not sure why the below commented code is
+        if (markerArray != null) {
+            for (i = 0; i < markerArray.length; i++) {
+                markerArray[i].setMap(null);
+            }
+        }
+        markerArray.length = 0;
         markerArray = null;
     } catch (e) {
     }
@@ -465,11 +525,12 @@ function removeMarkers() {
 function removeMarkerInfoWindow() {
     try {
         //ram:not sure why the below commented code is
-        // if (markerInfoWindowArray != null) {
-        //     for (i = 0; i < markerInfoWindowArray.length; i++) {
-        //         markerInfoWindowArray[i].setMap(null);
-        //     }
-        // }
+        if (markerInfoWindowArray != null) {
+            for (i = 0; i < markerInfoWindowArray.length; i++) {
+                markerInfoWindowArray[i].setMap(null);
+            }
+        }
+        markerInfoWindowArray.length = 0;
         markerInfoWindowArray = null;
     } catch (e) {
     }

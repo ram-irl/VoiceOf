@@ -7,10 +7,28 @@ angular.module("voiceOf.controllers")
                 $scope.validLocation = null;
                 //Show command for specific post
                                 
-                $scope.post = {};                
+                $scope.post = {};  
                 
-                $scope.showDetailPost = function (index) {
-                    $scope.mresults = $window.mresults;
+                $scope.refreshPins = function (location) {
+                    var data = {
+                        lat: location.lat,
+                        lng: location.lng,
+                        rad: $window.distanceRadius
+                    };
+                    api.getAllpost(data, function (err, data) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            $window.mresults.length = 0;
+                            $window.mresults = data;
+
+                            $window.rearrangeMarkers(location);
+
+                        }
+                    });
+                };                
+                
+                $scope.showDetailPost = function (index) {                    
                     $scope.$apply(function () {
                         $scope.post = $window.mresults[index];
                         hardCodeComments();
