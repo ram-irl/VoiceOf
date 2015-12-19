@@ -94,7 +94,7 @@ angular.module("voiceOf.controllers")
                             $scope.txtMessage = "";
                             $scope.selFile = null;
                             alert("Your shout tweeted!");
-                            $scope.refreshPins({lat: jsonData.position[0], lng: jsonData.position[1]});
+                            $scope.refreshPins({lat: jsonData.position[1], lng: jsonData.position[0]});
                         } else {
                             alert("Error");
                         }
