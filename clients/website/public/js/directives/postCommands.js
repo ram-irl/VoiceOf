@@ -6,12 +6,30 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
             scope: {
                 post: "=post"
             },
-            controller: function ($scope) {
+            link: function ($scope) {
                 $scope.cmdSelFile = null;
                 //On file select, save file in scope varible
                 $scope.cmdfileSelected = function ($files) {
                     $scope.cmdSelFile = $files[0];
                 };
+
+                $scope.showCommentsLoading = false;
+                $scope.getComments = function () {
+                    if (!$scope.post._id)
+                        return;
+                    $scope.showCommentsLoading = true;
+                    api.getAllComments($scope.post._id, function (err, data) {
+                        $scope.showCommentsLoading = false;
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            $scope.post.comments = data;
+                        }
+                    });
+                };
+                $scope.$watch('post._id', function (newval, oldval) {
+                    $scope.getComments();
+                });
 
                 //Post commands
                 $scope.postCommand = function () {
@@ -24,9 +42,11 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                         if (data != null) {
                             $scope.cmdSelFile = null;
                             $scope.cmdTxt = "";
-                            alert("Command submitted.");
+                            alert("Comment posted.");
+                            $scope.getComments();
                         } else {
                             alert("Error");
+                            console.log(err);
                         }
                     });
                 };
@@ -65,7 +85,6 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                     } catch (e) {
                         alert(e);
                     }
-                    //console.log("openFbPopUp end...");
                 };
                 $scope.votePost = function () {
 
@@ -81,7 +100,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                             //$window.mresults = data;
 
                             //$window.rearrangeMarkers(location);
-
+                            console.log("votePost Success");
                         }
                     });
                 };

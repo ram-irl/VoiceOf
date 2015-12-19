@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" style="color:#ff5935;">
                     <span ng-show="post.stayAnonmous===true">Anonymous</span>
-                    <span ng-hide="post.stayAnonmous===true">{{post.author}}</span>
+                    <span ng-hide="post.stayAnonmous===true">{{post.author.name}}</span>
                 </h4>
             </div>
             <div align="right">
@@ -53,10 +53,10 @@
                 </div>
 
                 <div class="message-box">
-
                     <div class="message-container">
-                        <div class="bs-example" data-example-id="media-alignment">
-                            <div view-comment ng-repeat="comment in post.comments" comment="comment"></div>                                                                                   
+                        <div ng-show="showCommentsLoading" align="center" style="margin-top: 10%;">Loading...</div>
+                        <div ng-hide="showCommentsLoading" class="bs-example" data-example-id="media-alignment">
+                            <div ng-show="post.comments!==null && post.comments.length>0" view-comment ng-repeat="comment in post.comments.slice().reverse()" comment="comment"></div>                                                                                   
                         </div>
 
                     </div>
