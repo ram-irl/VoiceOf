@@ -83,6 +83,12 @@ angular.module("voiceOf.controllers")
                     $("#apploader").show();
                     if ($('#txtMsg').val() == "") {
                         alert("Please enter message.");
+                        $("#apploader").hide();
+                        return;
+                    }
+                    if(!getCookie('userSessionToken')){
+                        alert("Please refresh the page and do login....");
+                        $("#apploader").hide();
                         return;
                     }
 
