@@ -37,11 +37,14 @@
 
                 <div class="input-group">
                     <input id="cmdTxt" ng-model="cmdTxt" type="text" placeholder="Type your Message here" class="form-control" aria-label="Text input with multiple buttons">
-                    <div class="input-group-btn"> 
-                        <button type="file" class="btn btn-default" aria-label="Camera">
+                    <div ng-switch="!cmdSelFile" class="input-group-btn"> 
+                        <button ng-switch-when="true" ng-file-select ng-file-change="cmdfileSelected($files)" type="file" class="btn btn-default" aria-label="Camera">
                             <span class="glyphicon glyphicon-camera"></span>
                         </button>
-                        <button ng-click="submitCommand();" type="button" class="btn btn-default">Send</button>
+                        <button ng-switch-when="false" ng-click="removeCmdSelFile();" type="file" class="btn btn-default" aria-label="Camera">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button ng-click="postCommand();" type="button" class="btn btn-default">Send</button>
                     </div>
                 </div>
 

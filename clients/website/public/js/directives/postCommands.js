@@ -6,13 +6,34 @@ voiceOf.directive("voCommands", ['api', function (api)
             scope: {
                 post: "=post"
             },
-            controller: function ($scope) {              
+            controller: function ($scope) {
+                $scope.cmdSelFile = null;
+                //On file select, save file in scope varible
+                $scope.cmdfileSelected=function($files){
+                    $scope.cmdSelFile = $files[0];
+                };
+                
+                //Post commands
                 $scope.postCommand = function () {
-                    console.log($scope.post);
-//                    var postId=$scope.post;
-//                    api.postCommand(function (err, data){
-//                        
-//                    });
+                    if ($('#cmdTxt').val() == "") {
+                        alert("Please enter command.");
+                        return;
+                    }
+
+                    api.postCommand($scope.post._id, $scope.cmdSelFile, function (err, data) {
+                        if (data != null) {
+                            $scope.cmdSelFile = null;
+                            $scope.cmdTxt="";
+                            alert("Command submitted.");
+                        }else{
+                            alert("Error");
+                        }
+                    });
+                };
+                
+                //Remove selected file
+                $scope.removeCmdSelFile = function () {
+                    $scope.cmdSelFile = null;
                 };
             }
         };
