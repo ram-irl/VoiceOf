@@ -6,9 +6,13 @@ voiceOf.directive("voCommands", ['api', function (api)
             scope: {
                 post: "=post"
             },
-            controller: function ($scope) {
+            controller: function ($scope) {              
                 $scope.postCommand = function () {
                     console.log($scope.post);
+//                    var postId=$scope.post;
+//                    api.postCommand(function (err, data){
+//                        
+//                    });
                 };
             }
         };
