@@ -131,6 +131,7 @@ angular.module("voiceOf.controllers")
                     if(!postID)return;
                     $("#apploader").show();
                     $scope.post._id=""; // reset to get new comments 
+                    $scope.post.comments = [];
                     api.getPostByID(postID, function (err, data) {
                         $("#apploader").hide();
                         if (err) {
