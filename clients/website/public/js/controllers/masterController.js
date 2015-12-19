@@ -83,16 +83,17 @@ angular.module("voiceOf.controllers")
                 //Submit post
                 $scope.postSubmit = function () {
                     $("#apploader").show();
+                    if(!getCookie('userSessionToken')){
+                        alert("Please refresh the page and do login to post your query....");
+                        $("#apploader").hide();
+                        return;
+                    }
                     if ($('#txtMsg').val() == "") {
                         alert("Please enter message.");
                         $("#apploader").hide();
                         return;
                     }
-                    if(!getCookie('userSessionToken')){
-                        alert("Please refresh the page and do login....");
-                        $("#apploader").hide();
-                        return;
-                    }
+                    
 
                     if ($scope.validLocation) {
                         var jsonData = {content: {msg: $scope.txtMessage, stayAnonmous: $('#stayAnoVal').is(':checked')}, position: [$scope.resultLan, $scope.resultLat]};
@@ -174,11 +175,15 @@ angular.module("voiceOf.controllers")
                 
                 $scope.setUserName = function(){
                     var username = getCookie('nickname');                    
+                    try{
                     if(username){
                         $scope.nickname = username;
                     }else{
                         $scope.nickname = "User";
-                    }                     
+                    }   
+                    }catch(e){
+                        console.log("setUserName error: "+e);
+                    }
                 };
 
             }]);

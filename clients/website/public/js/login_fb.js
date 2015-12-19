@@ -68,8 +68,8 @@
     FB.api('/me',{fields: 'id,name,email'}, function(response) {
         console.log("User info: "+JSON.stringify(response));
         try{
-            var userinfo = JSON.parse(response);
-            setCookie("nickname",userinfo.name); 
+            //var userinfo = JSON.parse(response);
+            setCookie("nickname",response.name); 
             //angular.element(document.getElementById('MasterTag')).scope().showDetailPost(0);
             $('#welcomContent').text("Hello, " + getCookie("nickname"));
         }catch(e){console.log(e);}
@@ -84,7 +84,7 @@
 
 function doProceedFbAuthAPI(paramString){
 
-    var paramObject = JSON.parse(paramString);console.log(paramString);
+    var paramObject = JSON.parse(paramString);
     var params = JSON.stringify(paramObject.authResponse);
     
     $.ajax({ 
