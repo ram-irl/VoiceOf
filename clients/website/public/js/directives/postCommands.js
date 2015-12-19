@@ -1,21 +1,22 @@
-voiceOf.directive("voCommands", ['api', '$rootScope', function (api, $rootScope)
+voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
     {
         var directive = {
             restrict: 'E',
             templateUrl: 'views/postCommands.html',
             scope: {
                 post: "=post"
-            },            
-            link: function ($scope) { 
+            },
+            link: function ($scope) {
                 $scope.cmdSelFile = null;
                 //On file select, save file in scope varible
-                $scope.cmdfileSelected=function($files){
+                $scope.cmdfileSelected = function ($files) {
                     $scope.cmdSelFile = $files[0];
                 };
-                
+
                 $scope.showCommentsLoading = false;
                 $scope.getComments = function () {
-                    if(!$scope.post._id)return;
+                    if (!$scope.post._id)
+                        return;
                     $scope.showCommentsLoading = true;
                     api.getAllComments($scope.post._id, function (err, data) {
                         $scope.showCommentsLoading = false;
@@ -26,10 +27,10 @@ voiceOf.directive("voCommands", ['api', '$rootScope', function (api, $rootScope)
                         }
                     });
                 };
-                $scope.$watch('post._id', function(newval, oldval) {
+                $scope.$watch('post._id', function (newval, oldval) {
                     $scope.getComments();
-                });                
-                
+                });
+
                 //Post commands
                 $scope.postCommand = function () {
                     if ($('#cmdTxt').val() == "") {
@@ -40,16 +41,16 @@ voiceOf.directive("voCommands", ['api', '$rootScope', function (api, $rootScope)
                     api.postCommand($scope.post._id, $scope.cmdSelFile, function (err, data) {
                         if (data != null) {
                             $scope.cmdSelFile = null;
-                            $scope.cmdTxt="";
+                            $scope.cmdTxt = "";
                             alert("Comment posted.");
                             $scope.getComments();
-                        }else{
+                        } else {
                             alert("Error");
                             console.log(err);
                         }
                     });
                 };
-                
+
                 //Remove selected file
                 $scope.removeCmdSelFile = function () {
                     $scope.cmdSelFile = null;
@@ -68,44 +69,63 @@ voiceOf.directive("voCommands", ['api', '$rootScope', function (api, $rootScope)
                                     name: 'Facebook Share',
                                     //link: 'https://chillana.in',
                                     //link: 'http://localhost:3000?sharedurl=5675109d37a24203000dc1b7',
-                                    link: 'https://chillana.in?sharedurl='+postObj._id,
+                                    link: 'https://chillana.in?sharedurl=' + postObj._id,
                                     picture: 'https://chillana.in/img/logo.png',
                                     caption: 'Reference Documentation',
                                     description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
                                 },
-                                function (response) {
-                                    if (response && response.post_id) {
-                                        alert('Post was published successful.');
-                                    } else {
-                                        alert('Post was not published.');
-                                    }
-                                }
+                        function (response) {
+                            if (response && response.post_id) {
+                                alert('Post was published successful.');
+                            } else {
+                                alert('Post was not published.');
+                            }
+                        }
                         );
                     } catch (e) {
                         alert(e);
-                    }                   
+                    }
                 };
                 $scope.votePost = function () {
-                   
+
                     var postObj = $scope.post;
                     var postid = postObj._id;
-                    console.log("votePost ID: "+postid);
-                
-                   api.votePost(postid, function (err, data) {
+                    console.log("votePost ID: " + postid);
+
+                    api.votePost(postid, function (err, data) {
                         if (err) {
-                            console.log("votePost Error: "+err);
+                            console.log("votePost Error: " + err);
                         } else {
-                            console.log("votePost Success");                            
+                            console.log("votePost response: " + data);
+                            //$window.mresults = data;
+
+                            //$window.rearrangeMarkers(location);
+                            console.log("votePost Success");
                         }
                     });
                 };
-                
+
                 //Change post status to complete
-                $scope.postComplete=function(){
+                $scope.postComplete = function () {
                     api.postComplete($scope.post._id, function (err, data) {
                         if (data != null) {
-                            alert("Post Completed.");
-                        }else{
+                            var mylocation = map.getCenter();
+                            var location = JSON.parse(JSON.stringify(mylocation));
+
+                            var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius);
+                            console.log(url);
+                            api.getAllpost(url, function (err, data) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    $window.mresults = data;
+
+                                    $window.rearrangeMarkers(location);
+
+                                }
+                                alert("Post Completed.");
+                            });
+                        } else {
                             alert("Error");
                         }
                     });
