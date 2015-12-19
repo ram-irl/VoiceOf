@@ -22,11 +22,8 @@ angular.module("voiceOf.controllers")
                     });
                 };
 
-                $scope.showDetailPost = function (index) {
-                    $scope.$apply(function () {
-                        $scope.post = $window.mresults[index];
-                        $scope.post.jsonContent = $scope.post.content;                        
-                    });
+                $scope.showDetailPost = function (index) {                    
+                    showDetailPopup($window.mresults[index]._id);
                     $('#postDetails').modal();                      // initialized with defaults
                     $('#postDetails').modal({keyboard: false});   // initialized with no keyboard
                     $('#postDetails').modal('show');
@@ -127,17 +124,20 @@ angular.module("voiceOf.controllers")
                             sharedID = pair[1];
                         }
                     }
-                    
-                    if(!sharedID)return;
-                    api.getPostByID(sharedID, function (err, data) {
+                    showDetailPopup(sharedID);
+                };
+                
+                var showDetailPopup = function(postID){
+                    if(!postID)return;
+                    $("#apploader").show();
+                    api.getPostByID(postID, function (err, data) {
+                        $("#apploader").hide();
                         if (err) {
                             console.log(err);
-                        } else {
-                            console.log("obj: "+data);
-                            console.log("Obj String: "+JSON.stringify(data));
+                        } else {                                                        
                             $scope.showSingleDetailPost(data);                            
                         }
-                    });                    
+                    });
                 };
                 
                 $scope.showSingleDetailPost = function (postObj) {
