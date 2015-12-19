@@ -130,6 +130,7 @@ angular.module("voiceOf.controllers")
                 var showDetailPopup = function(postID){
                     if(!postID)return;
                     $("#apploader").show();
+                    $scope.post._id=""; // reset to get new comments 
                     api.getPostByID(postID, function (err, data) {
                         $("#apploader").hide();
                         if (err) {
