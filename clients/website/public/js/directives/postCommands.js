@@ -27,10 +27,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                             $scope.post.comments = data;
                         }
                     });
-                };
-                $scope.$watch('post._id', function (newval, oldval) {
-                    $scope.getComments();
-                });
+                };                
 
                 //Post commands
                 $scope.postCommand = function () {
@@ -90,17 +87,29 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                         alert(e);
                     }
                 };
-                $scope.votePost = function () {
+                $scope.voteInprogress = false;
+                $scope.votePosted = false;                
+                $scope.voteInit = function () {
+                    $scope.votePosted = ($scope.post.votes && $scope.post.votes.indexOf(getCookie('userID'))>=0);                    
+                };
+                $scope.votePost = function () {                    
                     $("#apploader").show();
                     var postObj = $scope.post;
                     var postid = postObj._id;
                     console.log("votePost ID: " + postid);
-
+                    $scope.voteInprogress = true;
                     api.votePost(postid, function (err, data) {
+                        $scope.voteInprogress = false;
                         $("#apploader").hide();
                         if (err) {
                             console.log("votePost Error: " + err);
                         } else {
+                            var userID = getCookie('userID'); 
+                            if(!$scope.post.votes || $scope.post.votes===null){
+                                $scope.post.votes = [];
+                            }
+                            $scope.post.votes.push(userID);                            
+                            $scope.votePosted = true;
                             console.log("votePost response: " + data);
                             //$window.mresults = data;
 
@@ -135,6 +144,11 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                         }
                     });
                 };
+                
+                $scope.$watch('post._id', function (newval, oldval) {
+                    $scope.getComments();
+                    $scope.voteInit();
+                });
             }
         };
         return directive;
