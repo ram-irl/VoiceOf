@@ -4,6 +4,14 @@
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
+    if(!getCookie('nickname') && !getCookie('userSessionToken')){
+        myFacebookLogin();
+        return;
+    }
+    else if(!getCookie('nickname')){
+        getFBUserInfo();
+        return;
+    }
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
@@ -11,7 +19,7 @@
     if (response.status === 'connected') {
       // Logged into your app and Facebook.      
       doProceedFbAuthAPI(JSON.stringify(response));
-      testAPI();
+      getFBUserInfo();
     } else if (response.status === 'not_authorized') {
       myFacebookLogin();
     } else {
@@ -22,7 +30,7 @@
   function checkLoginState() {
   console.log('checkLoginState called.... ');
     FB.getLoginStatus(function(response) {
-    //testAPI();
+    //getFBUserInfo();
     console.log("Test response: "+JSON.stringify(response));
       statusChangeCallback(response);
     });
@@ -63,22 +71,25 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  function testAPI() {
+  function getFBUserInfo() {
     //'id,name,public_profile,email,user_location,user_about_me,user_birthday,user_photos'
     FB.api('/me',{fields: 'id,name,email'}, function(response) {
         console.log("User info: "+JSON.stringify(response));
         try{
-            //var userinfo = JSON.parse(response);
-            setCookie("nickname",response.name); 
-            //angular.element(document.getElementById('MasterTag')).scope().showDetailPost(0);
-            $('#welcomContent').text("Hello, " + getCookie("nickname"));
+            setCookie("nickname",response.name);             
         }catch(e){console.log(e);}
     });
   }
   
   function myFacebookLogin() {      
     //FB.login(function(response){console.log("Test response: "+JSON.stringify(response));}, {scope: 'public_profile,email,user_location,user_about_me,user_birthday,user_photos'});
-    FB.login(function(response){console.log("Test response: "+JSON.stringify(response));if(response.hasOwnProperty('authResponse'))doProceedFbAuthAPI(JSON.stringify(response));}, {scope: 'email,public_profile,publish_actions'});
+    FB.login(function(response){
+        console.log("Test response: "+JSON.stringify(response));
+        if(response.authResponse){
+            doProceedFbAuthAPI(JSON.stringify(response));
+            getFBUserInfo();
+        }
+    }, {scope: 'email,public_profile,publish_actions'});
    }
 
 
@@ -108,6 +119,6 @@ function doProceedFbAuthAPI(paramString){
 
 function doFacebookLogin(){
     myFacebookLogin();  
-    testAPI();
+    getFBUserInfo();
 }
 
