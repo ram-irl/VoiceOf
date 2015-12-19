@@ -69,7 +69,7 @@
         console.log("User info: "+JSON.stringify(response));
         try{
             var userinfo = JSON.parse(response);
-            setCookie("nickname",userinfo.name);
+            setCookie("nickname",userinfo.name); 
             //angular.element(document.getElementById('MasterTag')).scope().showDetailPost(0);
             $('#welcomContent').text("Hello, " + getCookie("nickname"));
         }catch(e){console.log(e);}
