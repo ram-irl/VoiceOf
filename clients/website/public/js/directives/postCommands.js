@@ -1,12 +1,28 @@
-voiceOf.directive("voCommands", ['api', function (api)
+voiceOf.directive("voCommands", ['api', '$rootScope', function (api, $rootScope)
     {
         var directive = {
             restrict: 'E',
             templateUrl: 'views/postCommands.html',
             scope: {
                 post: "=post"
-            },
-            controller: function ($scope) {              
+            },            
+            link: function ($scope) {   
+                $scope.showCommentsLoading = false;
+                $scope.getComments = function () {
+                    if(!$scope.post._id)return;
+                    $scope.showCommentsLoading = true;
+                    api.getAllComments($scope.post._id, function (err, data) {
+                        $scope.showCommentsLoading = false;
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            $scope.post.comments = data;
+                        }
+                    });
+                };
+                $scope.$watch('post._id', function(newval, oldval) {
+                    $scope.getComments();
+                });
                 $scope.postCommand = function () {
                     console.log($scope.post);
 //                    var postId=$scope.post;
