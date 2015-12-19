@@ -423,6 +423,23 @@
                 <span style="color:#fff;text-align:center;">Loading</span>
             </td></tr></table>
 </div>
-
+<script>
+    $( window ).load(function() {
+        try{
+  //alert("hai"+window.location);
+  var variable = "sharedurl";
+  var query = window.location.search.substring(1);
+  query= ""+window.location;
+  console.log(query);
+  var vars = query.split("/");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      alert(pair[1]);
+    }
+  } 
+        }catch(e){console.log(""+e);}
+});
+</script>
 </body>
 </html>
