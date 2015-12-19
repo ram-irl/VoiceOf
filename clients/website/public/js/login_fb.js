@@ -99,6 +99,7 @@ function doProceedFbAuthAPI(paramString){
         //console.log("Full response:"+JSON.stringify(data));
         //console.log("User token: "+JSON.parse(data).token);
         setCookie('userSessionToken',JSON.parse(data).token);
+        callRefreshAPi(getCurrentLocation());
     }).fail(function (jqXHR, textStatus) {
         console.log(jqXHR);
         console.log(textStatus);

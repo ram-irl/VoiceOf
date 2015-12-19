@@ -7,7 +7,7 @@ var MobileServiceClient = WindowsAzure.MobileServiceClient;
 var client = new MobileServiceClient('https://chillana-app.azure-mobile.net/', 'CHRFiNaoLZUdUYfCIFIHUVpoiIGOkC10');
 var messageTable = client.getTable('message?lng=1&lat=1');
 var userTable = client.getTable('user');
-var currentLocation = null;
+
 var userLocation = null;
 var isMobile = (/Mobile/i.test(navigator.userAgent));
 var infobox;
@@ -380,6 +380,9 @@ function initGPS() {
         alert('error in finding your location');
     }
 }
+function getCurrentLocation(){
+    return currentLocation;
+}
 function callRefreshAPi(location) {
     angular.element(document.getElementById('MasterTag')).scope().refreshPins(location);
 //    var api = "message?lat=" + location.lat + "&lng=" + location.lng + "&dis=" + distanceRadius/1000;
@@ -399,6 +402,7 @@ function callRefreshAPi(location) {
 //    });
 }
 function rearrangeMarkers(location) {
+    if(!mresults)return;
     removeMarkers();
     if (mresults != null && mresults.length >= 0) {
         //clearCircle();
