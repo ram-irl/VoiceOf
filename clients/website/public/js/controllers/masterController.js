@@ -25,11 +25,8 @@ angular.module("voiceOf.controllers")
                     });
                 };
 
-                $scope.showDetailPost = function (index) {
-                    $scope.$apply(function () {
-                        $scope.post = $window.mresults[index];
-                        $scope.post.jsonContent = $scope.post.content;                        
-                    });
+                $scope.showDetailPost = function (index) {                    
+                    showDetailPopup($window.mresults[index]._id);
                     $('#postDetails').modal();                      // initialized with defaults
                     $('#postDetails').modal({keyboard: false});   // initialized with no keyboard
                     $('#postDetails').modal('show');
@@ -100,7 +97,7 @@ angular.module("voiceOf.controllers")
                             $scope.txtMessage = "";
                             $scope.selFile = null;
                             alert("Your shout tweeted!");
-                            $scope.refreshPins({lat: jsonData.position[0], lng: jsonData.position[1]});
+                            $scope.refreshPins({lat: jsonData.position[1], lng: jsonData.position[0]});
                         } else {
                             alert("Error");
                         }
@@ -130,17 +127,22 @@ angular.module("voiceOf.controllers")
                             sharedID = pair[1];
                         }
                     }
-                    
-                    if(!sharedID)return;
-                    api.getPostByID(sharedID, function (err, data) {
+                    showDetailPopup(sharedID);
+                };
+                
+                var showDetailPopup = function(postID){
+                    if(!postID)return;
+                    $("#apploader").show();
+                    $scope.post._id=""; // reset to get new comments 
+                    $scope.post.comments = [];
+                    api.getPostByID(postID, function (err, data) {
+                        $("#apploader").hide();
                         if (err) {
                             console.log(err);
-                        } else {
-                            console.log("obj: "+data);
-                            console.log("Obj String: "+JSON.stringify(data));
+                        } else {                                                        
                             $scope.showSingleDetailPost(data);                            
                         }
-                    });                    
+                    });
                 };
                 
                 $scope.showSingleDetailPost = function (postObj) {
