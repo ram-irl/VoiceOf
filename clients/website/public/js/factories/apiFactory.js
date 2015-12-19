@@ -59,10 +59,10 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                 }
             });
         };
-        
+
         //Get all comments based on post id
         service.getAllComments = function (id, callback) {
-            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/" + id + "/comments" , null, function (err, data) {
+            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/" + id + "/comments", null, function (err, data) {
                 if (err) {
                     callback(err, null);
                 } else {
@@ -146,7 +146,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
         };
 
         service.postCommand = function (postId, file, callback) {
-            var values = {content: $('#cmdTxt').val()};
+            var values = {content: {msg: $('#cmdTxt').val()}};
 
             if (file != null) {
                 this.httpRequest("GET", CONSTANTS.API_URL + "/s3/policy?folder=post&type=" + file.type, null, function (err, policy) {
@@ -200,7 +200,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                     });
                 });
             } else {
-                console.log("content : "+values);
+                console.log("content : " + values);
                 this.httpRequest("PUT", CONSTANTS.API_URL + "/posts/" + postId + "/comments", values, function (err, data) {
                     if (err)
                         callback(err, null);
@@ -208,7 +208,17 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                         callback(null, data);
                 });
             }
-        }
+        };
+
+        service.postComplete = function (postId, callback) {
+            console.log("called");
+            this.httpRequest("PUT", CONSTANTS.API_URL + "/posts/" + postId + "/statuses/completed", null, function (err, data) {
+                if (err)
+                    callback(err, null);
+                else
+                    callback(null, data);
+            });
+        };
 
         return service;
     }]);

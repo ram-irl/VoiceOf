@@ -63,6 +63,17 @@ voiceOf.directive("voCommands", ['api', function (api)
                     }
                     console.log("openFbPopUp end...");
                 };
+                
+                //Change post status to complete
+                $scope.postComplete=function(){
+                    api.postComplete($scope.post._id, function (err, data) {
+                        if (data != null) {
+                            alert("Post Completed.");
+                        }else{
+                            alert("Error");
+                        }
+                    });
+                };
             }
         };
         return directive;
