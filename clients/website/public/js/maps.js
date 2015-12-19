@@ -427,8 +427,8 @@ function rearrangeMarkers(location) {
 
         var marker = new google.maps.Marker({
             position: {
-                lat: result.position[0],
-                lng: result.position[1]
+                lat: result.position.coordinates[1],
+                lng: result.position.coordinates[0]
             },
             map: map,
             title: '',

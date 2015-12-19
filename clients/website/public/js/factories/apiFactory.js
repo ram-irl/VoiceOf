@@ -65,7 +65,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
             if (file != null) {
                 this.httpRequest("GET", CONSTANTS.API_URL + "/s3/policy?folder=post&type=" + file.type, null, function (err, policy) {
                     if (err) {
-                        logger.error("Error in getting policy from AWS", "API,UPLOAD_ARTIFACT");
+                        callback(err, null);
                         return;
                     }
 
@@ -134,13 +134,13 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
             });
         };
 
-        service.postCommand = function () {
-//            this.httpRequest("PUT", CONSTANTS.API_URL + "/posts", values, function (err, data) {
-//                if (err)
-//                    callback(err, null);
-//                else
-//                    callback(null, data);
-//            });
+        service.postCommand = function (values, callback) {
+            this.httpRequest("PUT", CONSTANTS.API_URL + "/post/POST_ID/comments", values, function (err, data) {
+                if (err)
+                    callback(err, null);
+                else
+                    callback(null, data);
+            });
         }
 
         return service;
