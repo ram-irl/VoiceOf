@@ -109,21 +109,22 @@ function doFacebookLogin(){
     testAPI();
 }
 
-function openFbPopUp1() {
+function openFbPopUp(content1) {
+    console.log(JSON.stringify(content1));
     console.log("openFbPopUp called...");
     try{
         FB.ui(
           {
             method: 'feed',
-            name: 'Facebook Dialogs',
-            link: 'https://developers.facebook.com/docs/dialogs/',
-            picture: 'http://fbrell.com/f8.jpg',
+            name: 'Facebook Share',
+            link: 'https://chillana.in',
+            picture: 'https://chillana.in/img/logo.png',
             caption: 'Reference Documentation',
             description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
           },
           function(response) {
             if (response && response.post_id) {
-              alert('Post was published.');
+              alert('Post was published successful.');
             } else {
               alert('Post was not published.');
             }
@@ -133,9 +134,10 @@ function openFbPopUp1() {
 console.log("openFbPopUp end...");
     }
     
-    function openFbPopUp(){
-        var fbURL = "https://www.facebook.com/sharer/sharer.php?u=display=popup&ref=plugin";
-        fbURL+=encodeURI("http://voiceof.in");
+    function openFbPopUp1(){
+        var fbURL = "https://www.facebook.com/sharer/sharer.php?display=popup&ref=plugin";
+        fbURL+="&app_id=964116050349573&sdk=joey";
+        fbURL+="&u="+encodeURI("http://voiceof.in");
         //fbURL="https://www.facebook.com/sharer/sharer.php?u=href=$url&display=popup&ref=plugin" target="_window"><img src='/_img/icons/facebook.png'
-        window.open(fbURL, 'Share on Facebook', 'width=640, height=536'); 
+        window.open(fbURL, 'Share on Facebook', 'width=350, height=480'); 
     }
