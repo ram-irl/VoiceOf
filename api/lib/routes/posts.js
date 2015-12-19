@@ -27,13 +27,17 @@ module.exports = function (app) {
     .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });
   app.server.get('/posts/:postId', function (req, res, next) {
-    var token = req.token;
-    var post = Object.assign({}, req.body);
-    post.author = req.token.userId;
-    models.posts.get(req.params.postId)
+    models.posts.getBySlug(req.params.postId)
     .then(post => {
-      res.setHeader('Location', '/posts/' + post._id);
-      res.send(200, post);
+        if(post){
+            res.setHeader('Location', '/posts/' + post._id);
+            res.send(200, post);
+        }
+        else return req.params.postId;
+    }).then(models.posts.get)
+    .then(post =>{
+        res.setHeader('Location', '/posts/' + post._id);
+        res.send(200, post);
     })
     .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });

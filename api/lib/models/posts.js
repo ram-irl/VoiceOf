@@ -22,7 +22,35 @@ module.exports = function(db){
 	};
 
 	model.get = function(postId){
-		return collection.findOne({_id: ObjectId(postId)});
+		return new Promise((resolve, reject) => {
+			collection.findOne({_id: ObjectId(postId)}, function(err, post){
+				if(err)
+					return reject(err);
+				if(post != null){
+					db.collection("users").findOne({ _id: post.author }, function(err, user){
+						post.author = { _id: user._id, name: user.name, picture: user.picture };
+						resolve(post);
+					});
+				}
+				else resolve(post);
+			})
+		});
+	};
+
+	model.getBySlug = function(slug){
+		return new Promise((resolve, reject) => {
+			collection.findOne({slug: slug}, function(err, post){
+				if(err)
+					return reject(err);
+				if(post != null){
+					db.collection("users").findOne({ _id: post.author }, function(err, user){
+						post.author = { _id: user._id, name: user.name, picture: user.picture };
+						resolve(post);
+					});
+				}
+				else resolve(post);
+			})
+		});
 	};
 
 	model.create = function(postObj){
