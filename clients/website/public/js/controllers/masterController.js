@@ -96,7 +96,7 @@ angular.module("voiceOf.controllers")
                             $scope.selFile = null;
                             alert("Your shout tweeted!");
                             $("#apploader").hide();
-                            $scope.refreshPins({lat: jsonData.position[0], lng: jsonData.position[1]});
+                            $scope.refreshPins({lat: jsonData.position[1], lng: jsonData.position[0]});
                         } else {
                             alert("Error");
                         }
@@ -132,6 +132,8 @@ angular.module("voiceOf.controllers")
                 var showDetailPopup = function(postID){
                     if(!postID)return;
                     $("#apploader").show();
+                    $scope.post._id=""; // reset to get new comments 
+                    $scope.post.comments = [];
                     api.getPostByID(postID, function (err, data) {
                         $("#apploader").hide();
                         if (err) {
