@@ -52,9 +52,9 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
         //Get all post
         service.getAllpost = function (url, callback) {
             this.httpRequest("GET", CONSTANTS.API_URL + "/posts/search" + url, null, function (err, data) {
-                if (err){
+                if (err) {
                     callback(err, null);
-                }else{
+                } else {
                     callback(null, data);
                 }
             });
@@ -90,7 +90,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                     }).then(function (resp) {
                         if (resp.status === 201) {
                             var data = xmlToJSON.parseString(resp.data, {childrenAsArray: false});
-                            var location=data.PostResponse.Location["_text"];
+                            var location = data.PostResponse.Location["_text"];
                             if (file.type.indexOf('image') > -1) {
                                 values.content.image = location;
                                 console.log('imag');
@@ -133,5 +133,15 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                     callback(null, data);
             });
         };
+
+        service.postCommand = function () {
+//            this.httpRequest("PUT", CONSTANTS.API_URL + "/posts", values, function (err, data) {
+//                if (err)
+//                    callback(err, null);
+//                else
+//                    callback(null, data);
+//            });
+        }
+
         return service;
     }]);

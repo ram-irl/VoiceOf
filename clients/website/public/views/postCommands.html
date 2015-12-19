@@ -10,7 +10,7 @@
 		data-layout="button_count" onlick="openFbPopUp();">
                 
                 </div> -->
-                <button type="button" class="btn btn-default" onclick="openFbPopUp();">Share</button>
+                <button type="button" class="btn btn-default" onclick="openFbPopUp(post);">Share</button>
                 <!--<a title="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Facebook')" target="_blank"><img src='img/Facebook-Icon-D.png'/></a>-->
             </div>
             <div class="modal-body" align="center">
@@ -37,8 +37,11 @@
 
                 <div class="input-group">
                     <input type="text" placeholder="Type your Message here" class="form-control" aria-label="Text input with multiple buttons">
-                    <div class="input-group-btn"> <button type="file" class="btn btn-default" aria-label="Camera"><span class="glyphicon glyphicon-camera"></span></button>
-                        <button type="button" class="btn btn-default">Send</button>
+                    <div class="input-group-btn"> 
+                        <button type="file" class="btn btn-default" aria-label="Camera">
+                            <span class="glyphicon glyphicon-camera"></span>
+                        </button>
+                        <button ng-click="submitCommand();" type="button" class="btn btn-default">Send</button>
                     </div>
                 </div>
 
