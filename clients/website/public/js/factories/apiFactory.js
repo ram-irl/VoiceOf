@@ -90,7 +90,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                         },
                         data: {
                             //'key': "post/" + file.name,
-                            'key': "post/" + Math.round(Math.random() * 100000) + file.name.replace(/[^a-zA-Z0-9]/g, ''),
+                            'key': "post/" + Math.round(Math.random() * 100000) + file.name,
                             'acl': 'public-read',
                             'Content-Type': file.type,
                             'AWSAccessKeyId': policy.AWSAccessKeyId,
@@ -166,7 +166,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                         },
                         data: {
                             //'key': "post/" + file.name,
-                            'key': "post/" + Math.round(Math.random() * 100000) + file.name.replace(/[^a-zA-Z0-9]/g, ''),
+                            'key': "post/" + Math.round(Math.random() * 100000) + file.name,
                             'acl': 'public-read',
                             'Content-Type': file.type,
                             'AWSAccessKeyId': policy.AWSAccessKeyId,
