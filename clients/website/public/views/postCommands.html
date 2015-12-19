@@ -16,14 +16,14 @@
                 </a>-->
                 <div class="media-body" style="padding-bottom:5px;">
                     <div class="media-body">
-                        <p align="justify">{{post.content}}</p>
+                        <p align="justify">{{post.jsonContent.msg}}</p>
                     </div>
                     <div class="media-left"> 
-                        <a href="{{post.image}}" target="_blank" ng-show="post.image!==null && post.image.length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.image}}" style="width: 64px; height: 64px;"> </a>
-                        <a href="{{post.video}}" target="_blank" ng-show="post.video!==null && post.video.length>0"> 
-                            <video class="media-object" width="100%" controls>
-                                <source dynamic-url src="" url="post.video" type="video/mp4"/>
-                            </video>
+                        <a href="{{post.jsonContent.image}}" target="_blank" ng-show="post.jsonContent.image!==null && post.jsonContent.image.length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.jsonContent.image}}" style="width: 64px; height: auto;"> </a>
+                        <a href="{{post.jsonContent.video}}" target="_blank" ng-show="post.jsonContent.video!==null && post.jsonContent.video.length>0"> 
+                            <video class="media-object" style="width: 150px; height: 100px;" controls>
+                                <source dynamic-url src="" url="post.jsonContent.video"/>
+                            </video>                            
                         </a>
                     </div>
                 </div>
