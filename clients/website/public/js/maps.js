@@ -482,9 +482,9 @@ function openfbContent(){
     //mresults
     var variable = "sharedurl";
   //alert("openfbContent start");
-  var query = window.location.search.substring(1);
-  query= ""+window.location;
-  query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";
+  var query = "";
+  //query= ""+window.location;//hosted check
+  query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";//local check
   console.log(query);
   var vars = query.split("?");console.log(vars);
   for (var i=0;i<vars.length;i++) {
@@ -501,8 +501,8 @@ function openfbContent(){
             console.log(JSON.stringify(obj));
             if(obj._id == sharedID){
                 console.log("conditioned");
-                showContentDetailWithObj(obj);
-                //angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
+                //showContentDetailWithObj(obj);
+                angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
             }
         }
     }

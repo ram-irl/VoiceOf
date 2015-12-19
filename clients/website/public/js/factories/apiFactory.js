@@ -209,6 +209,17 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                 });
             }
         }
+        
+        //vote for a post
+        service.votePost = function (postid, callback) {
+            this.httpRequest("PUT", CONSTANTS.API_URL + "/posts/" + postid + "/vote", null, function (err, data) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, data);
+                }
+            });
+        };
 
         return service;
     }]);
