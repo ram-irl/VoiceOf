@@ -355,15 +355,15 @@ function initGPS() {
             });
             markers.push(userMarker);
 
-            userMarker.addListener('click', function () {
-                try {
-                    infobox.setContent('<div><br><p style="top:25%; font-size:14px; text-align:center;">Your current location</p></div>');
-                    infobox.open(map, userMarker);
-                    ga('send', 'event', 'Map Pin', 'click', 'User Pin');
-                } catch (e) {
-                    //console.log(e);
-                }
-            });
+//            userMarker.addListener('click', function () {
+//                try {
+//                    infobox.setContent('<div><br><p style="top:25%; font-size:14px; text-align:center;">Your current location</p></div>');
+//                    infobox.open(map, userMarker);
+//                    ga('send', 'event', 'Map Pin', 'click', 'User Pin');
+//                } catch (e) {
+//                    //console.log(e);
+//                }
+//            });
         }, function (error) {
             if (error.code === error.PERMISSION_DENIED)
             {
