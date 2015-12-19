@@ -404,6 +404,7 @@ function callRefreshAPi(location) {
 function rearrangeMarkers(location) {
     if(!mresults)return;
     removeMarkers();
+    removeMarkerInfoWindow();
     if (mresults != null && mresults.length >= 0) {
         //clearCircle();
         //drawCircle(location);
@@ -514,19 +515,19 @@ function removeMarkers() {
     }
 }
 
-//function removeMarkerInfoWindow() {
-//    try {
-//        //ram:not sure why the below commented code is
-//        if (markerInfoWindowArray != null) {
-//            for (i = 0; i < markerInfoWindowArray.length; i++) {
-//                markerInfoWindowArray[i].setMap(null);
-//            }
-//        }
-//        markerInfoWindowArray.length = 0;
-//        markerInfoWindowArray = null;
-//    } catch (e) {
-//    }
-//}
+function removeMarkerInfoWindow() {
+    try {
+        //ram:not sure why the below commented code is
+        if (markerInfoWindowArray != null) {
+            for (i = 0; i < markerInfoWindowArray.length; i++) {
+                markerInfoWindowArray[i].setMap(null);
+            }
+        }
+        markerInfoWindowArray.length = 0;
+        markerInfoWindowArray = null;
+    } catch (e) {
+    }
+}
 
 //Focus to current location 
 function focusCurrentLocation() {

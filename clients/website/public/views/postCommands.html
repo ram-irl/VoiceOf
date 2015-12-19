@@ -66,7 +66,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button ng-if="post.statuses===undefined" ng-click="postComplete();" class="btn btn-success" data-dismiss="modal" type="button"><span class="glyphicon glyphicon-ok"></span>  Completed</button>                        
+                    <button ng-if="post.statuses===undefined" ng-click="postComplete();" class="btn btn-success" data-dismiss="modal" type="button"><span class="glyphicon glyphicon-ok"></span>  Completed</button>
+                    <span ng-if="post.statuses!==undefined"><span class="glyphicon glyphicon-ok"></span>  Completed</span>
                     <!--<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-send"></span></button>-->
 
                 </div>
