@@ -87,20 +87,26 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                         },
                         file: file
                     }).then(function (resp) {
-                        console.log('Success uploaded. Response: ' + resp.data);
-                        if (file.type.indexOf('image') > -1) {
-                            values.content.image = "imageUrl";
-                            console.log('imag');
+                        if (resp.status === 201) {
+                            var data = xmlToJSON.parseString(resp.data, {childrenAsArray: false});
+                            var location=data.PostResponse.Location["_text"];
+                            if (file.type.indexOf('image') > -1) {
+                                values.content.image = location;
+                                console.log('imag');
+                            } else {
+                                console.log('video');
+                                values.content.video = location;
+                            }
+                            service.httpRequest("PUT", CONSTANTS.API_URL + "/posts", values, function (err, data) {
+                                if (err)
+                                    callback(err, null);
+                                else
+                                    callback(null, data);
+                            });
                         } else {
-                            console.log('video');
-                            values.content.video = "videoUrl";
+                            if (callback)
+                                callback(resp, null);
                         }
-                        service.httpRequest("PUT", CONSTANTS.API_URL + "/posts", values, function (err, data) {
-                            if (err)
-                                callback(err, null);
-                            else
-                                callback(null, data);
-                        });
                     }, function (resp) {
                         console.log('Error status: ' + resp.status);
                     }, function (evt) {
