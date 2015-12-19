@@ -1,17 +1,34 @@
-voiceOf.directive("voCommands", ['api', function (api)
+voiceOf.directive("voCommands", ['api', '$rootScope', function (api, $rootScope)
     {
         var directive = {
             restrict: 'E',
             templateUrl: 'views/postCommands.html',
             scope: {
                 post: "=post"
-            },
-            controller: function ($scope) {
+            },            
+            link: function ($scope) { 
                 $scope.cmdSelFile = null;
                 //On file select, save file in scope varible
                 $scope.cmdfileSelected=function($files){
                     $scope.cmdSelFile = $files[0];
                 };
+                
+                $scope.showCommentsLoading = false;
+                $scope.getComments = function () {
+                    if(!$scope.post._id)return;
+                    $scope.showCommentsLoading = true;
+                    api.getAllComments($scope.post._id, function (err, data) {
+                        $scope.showCommentsLoading = false;
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            $scope.post.comments = data;
+                        }
+                    });
+                };
+                $scope.$watch('post._id', function(newval, oldval) {
+                    $scope.getComments();
+                });                
                 
                 //Post commands
                 $scope.postCommand = function () {
@@ -24,9 +41,11 @@ voiceOf.directive("voCommands", ['api', function (api)
                         if (data != null) {
                             $scope.cmdSelFile = null;
                             $scope.cmdTxt="";
-                            alert("Command submitted.");
+                            alert("Comment posted.");
+                            $scope.getComments();
                         }else{
                             alert("Error");
+                            console.log(err);
                         }
                     });
                 };
@@ -77,6 +96,17 @@ voiceOf.directive("voCommands", ['api', function (api)
                             console.log("votePost Error: "+err);
                         } else {
                             console.log("votePost Success");                            
+                        }
+                    });
+                };
+                
+                //Change post status to complete
+                $scope.postComplete=function(){
+                    api.postComplete($scope.post._id, function (err, data) {
+                        if (data != null) {
+                            alert("Post Completed.");
+                        }else{
+                            alert("Error");
                         }
                     });
                 };
