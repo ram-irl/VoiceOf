@@ -4,13 +4,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" style="color:#ff5935;">
-                    <span ng-show="post.stayAnonmous===true">Anonymous</span>
-                    <span ng-hide="post.stayAnonmous===true">{{post.author.name}}</span>
+                    <span ng-show="post.stayAnonmous === true">Anonymous</span>
+                    <span ng-hide="post.stayAnonmous === true">{{post.author.name}}</span>
                 </h4>
             </div>
             <div align="right">
                 <!--<div class="fb-share-button" data-href="http://www.your-domain.com/your-page.html" 
-		data-layout="button_count" onlick="openFbPopUp();">
+                data-layout="button_count" onlick="openFbPopUp();">
                 
                 </div> -->
                 <button type="button" class="btn btn-default" ng-click="openFbPopUp();">Share FB</button>
@@ -18,22 +18,23 @@
                 <!--<a title="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Facebook')" target="_blank"><img src='img/Facebook-Icon-D.png'/></a>-->
             </div>
             <div class="modal-body" align="center">
-                    
 
-<!--                <a class="list-group-item">
-                    <p align="left" class="list-group-item-text">{{post.msg}}</p>
-                    <img width="10%" ng-show="post.image && post.image.length>0" ng-src="{{post.image}}"/>
-                    <video width="10%" ng-show="post.video && post.video.length>0" ng-src="{{post.video}}" controls></video>
-                </a>-->
+
+                <!--                <a class="list-group-item">
+                                    <p align="left" class="list-group-item-text">{{post.msg}}</p>
+                                    <img width="10%" ng-show="post.image && post.image.length>0" ng-src="{{post.image}}"/>
+                                    <video width="10%" ng-show="post.video && post.video.length>0" ng-src="{{post.video}}" controls></video>
+                                </a>-->
                 <div class="media-body" style="padding-bottom:5px;">
                     <div class="media-body">
                         <p align="justify">{{post.jsonContent.msg}}</p>
                     </div>
-                    <div class="media-left"> 
+
+                    <div class="media-right media-middle"> 
                         <a href="{{post.jsonContent.image}}" target="_blank" ng-show="post.jsonContent.image!==null && post.jsonContent.image.length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.jsonContent.image}}" style="width: 64px; height: auto;"> </a>
                         <a href="{{post.jsonContent.video}}" target="_blank" ng-show="post.jsonContent.video!==null && post.jsonContent.video.length>0"> 
                             <video class="media-object" style="width: 175px; height: auto;">
-                                <source dynamic-url src="" url="post.jsonContent.video"/>
+                                <source dynamic-url src="" url="post.jsonContent.video" type=""/>                                
                             </video>                            
                         </a>
                     </div>
@@ -48,7 +49,9 @@
                         <button ng-switch-when="false" ng-click="removeCmdSelFile();" type="file" class="btn btn-default" aria-label="Camera">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
-                        <button ng-click="postCommand();" type="button" class="btn btn-default">Send</button>
+                        <button ng-click="postCommand();" type="button" class="btn btn-default">
+                            <span ng-class="cmdLoad?'glyphicon glyphicon-repeat fa-spin':''">{{cmdLoad?'':'Send'}}</span>
+                        </button>
                     </div>
                 </div>
 
@@ -56,8 +59,8 @@
                     <div class="message-container">
                         <div ng-show="showCommentsLoading" align="center" style="margin-top: 10%;">Loading...</div>
                         <div ng-hide="showCommentsLoading" class="bs-example" data-example-id="media-alignment">
-                            <div ng-show="post.comments!==null && post.comments.length>0" view-comment ng-repeat="comment in post.comments.slice().reverse()" comment="comment"></div>
-                            <div ng-hide="post.comments!==null && post.comments.length>0" align="center" style="margin-top:10%;">No Comments</div>
+                            <div ng-show="post.comments !== null && post.comments.length > 0" view-comment ng-repeat="comment in post.comments.slice().reverse()" comment="comment"></div>
+                            <div ng-hide="post.comments !== null && post.comments.length > 0" align="center" style="margin-top:10%;">No Comments</div>
                         </div>
 
                     </div>
@@ -66,8 +69,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button ng-if="post.statuses===undefined" ng-click="postComplete();" class="btn btn-success" data-dismiss="modal" type="button"><span class="glyphicon glyphicon-ok"></span>  Completed</button>
-                    <span ng-if="post.statuses!==undefined"><span class="glyphicon glyphicon-ok"></span>  Completed</span>
+                    <button ng-if="post.statuses === undefined" ng-click="postComplete();" class="btn btn-success" data-dismiss="modal" type="button"><span class="glyphicon glyphicon-ok"></span>  Completed</button>
+                    <span ng-if="post.statuses !== undefined"><span class="glyphicon glyphicon-ok"></span>  Completed</span>
                     <!--<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-send"></span></button>-->
 
                 </div>
