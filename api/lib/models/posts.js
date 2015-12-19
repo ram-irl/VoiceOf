@@ -30,6 +30,10 @@ module.exports = function(db){
 		if(!post.content || !post.author || !post.position){
 			return Promise.reject(new Error("Required Fields Missing"));
 		}
+		post.position = {
+			type: "Point",
+			coordinates: post.position
+		};
 		post.author = ObjectId(post.author);
 		post.createdOn = new Date();
 		return model.createSlug()
