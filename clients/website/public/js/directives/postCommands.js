@@ -87,12 +87,13 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                     }
                 };
                 $scope.votePost = function () {
-
+                    $("#apploader").show();
                     var postObj = $scope.post;
                     var postid = postObj._id;
                     console.log("votePost ID: " + postid);
 
                     api.votePost(postid, function (err, data) {
+                        $("#apploader").hide();
                         if (err) {
                             console.log("votePost Error: " + err);
                         } else {
