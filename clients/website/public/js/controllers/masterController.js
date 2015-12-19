@@ -153,7 +153,7 @@ angular.module("voiceOf.controllers")
                         $("#apploader").hide();
                         if (err) {
                             console.log(err);
-                        } else {                                                        
+                        } else {                            
                             $scope.showSingleDetailPost(data);                            
                         }
                     });

@@ -13,7 +13,7 @@
             <p align="justify">{{comment.content.msg}}</p>
         </div>                    
     </div>    
-    <div align="left" class="user-name"> # {{comment.owner.name}} on {{comment.createdOn}}</div>
+    <div align="left" class="user-name"> # {{comment.owner.name}} on <span ng-bind="comment.createdOn | date:'dd/MM/yyyy @ h:mma'"></span></div>
     <hr>
 </div> 
 

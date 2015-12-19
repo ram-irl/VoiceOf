@@ -23,6 +23,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                         if (err) {
                             console.log(err);
                         } else {
+                            console.log(JSON.stringify(data));
                             $scope.post.comments = data;
                         }
                     });
