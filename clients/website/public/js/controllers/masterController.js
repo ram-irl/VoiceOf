@@ -80,6 +80,7 @@ angular.module("voiceOf.controllers")
 
                 //Submit post
                 $scope.postSubmit = function () {
+                    $("#apploader").show();
                     if ($('#txtMsg').val() == "") {
                         alert("Please enter message.");
                         return;
@@ -97,6 +98,7 @@ angular.module("voiceOf.controllers")
                             $scope.txtMessage = "";
                             $scope.selFile = null;
                             alert("Your shout tweeted!");
+                            $("#apploader").hide();
                             $scope.refreshPins({lat: jsonData.position[1], lng: jsonData.position[0]});
                         } else {
                             alert("Error");
