@@ -101,15 +101,15 @@
 
     <div id="menu-slider">
         <!-- Profile and App Menus -->
-        <div class="list-group">
+        <div class="list-group" ng-app="voiceOf">
             <a href="#" class="list-group-item disabled" style="color:#202020;">
-                <strong id="welcomContent"> Hello, User </strong>
+                <strong id="welcomContent"> Hello, <span ng-bind="nickname">User</span> </strong>
             </a>
-            <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user"></span> Profile</a>
-            <a href="#" class="list-group-item"><span class="glyphicon glyphicon-heart"></span> Saved Issues</a>
-            <a href="#" class="list-group-item"><span class="glyphicon glyphicon-asterisk"></span> Privacy Police</a>
-            <a href="#" class="list-group-item"><span class="glyphicon glyphicon-ok"></span> Support</a>
-            <a href="#" class="list-group-item"><span class="glyphicon glyphicon-camera"></span> Help</a>
+            <a href="#" class="list-group-item" ng-hide="true"><span class="glyphicon glyphicon-user"></span> Profile</a>
+            <a href="#" class="list-group-item" ng-hide="true"><span class="glyphicon glyphicon-heart"></span> Saved Issues</a>
+            <a href="#" class="list-group-item" ng-hide="true"><span class="glyphicon glyphicon-asterisk"></span> Privacy Police</a>
+            <a href="#" class="list-group-item" ng-hide="true"><span class="glyphicon glyphicon-ok"></span> Support</a>
+            <a href="#" class="list-group-item" ng-hide="true"><span class="glyphicon glyphicon-camera"></span> Help</a>
             <a  title="Blogs" href="https://chillanablogs.wordpress.com" onclick="ga('send', 'event', 'Blog', 'click', 'View')" target="_blank" class="list-group-item"><span class="glyphicon glyphicon-comment"></span> Blogs</a>
             <a onclick="showAboutInfo()" class="list-group-item"><span class="glyphicon glyphicon-book"></span> About Us</a>
         </div>
@@ -424,43 +424,5 @@
                 <span style="color:#fff;text-align:center;">Loading</span>
             </td></tr></table>
 </div>
-<script>
-    var shareTimeout;
-    var sharedID = "";
-    $( window ).load(function() {
-        try{
-  //alert("hai"+window.location);
-//  var variable = "sharedurl";
-//  
-//  var query = window.location.search.substring(1);
-//  query= ""+window.location;
-//  query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";
-//  console.log(query);
-//  var vars = query.split("?");console.log(vars);
-//  for (var i=0;i<vars.length;i++) {
-//    var pair = vars[i].split("=");
-//    if (pair[0] == variable) {
-//      sharedID = pair[1];
-//    }
-//  }
-  //myVar = setTimeout(function(){ timeout(); }, 3000);
-  
-        }catch(e){console.log(""+e);}
-});
-function timeout(){
-    try{
-        alert("2");
-    //alert(JSON.stringify(mresults));
-//    if(mresults!==null){
-//        for(var obj in mresults){
-//            if(obj._id == sharedID){
-//                alert("3");
-//                showContentDetailWithObj(obj);
-//            }
-//        }
-//    }
-    }catch(e){console.log("timeout Error: "+e);}
-}
-</script>
 </body>
 </html>
