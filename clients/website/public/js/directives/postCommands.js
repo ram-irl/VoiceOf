@@ -41,9 +41,11 @@ voiceOf.directive("voCommands", ['api', '$rootScope', function (api, $rootScope)
                         if (data != null) {
                             $scope.cmdSelFile = null;
                             $scope.cmdTxt="";
-                            alert("Command submitted.");
+                            alert("Comment posted.");
+                            $scope.getComments();
                         }else{
                             alert("Error");
+                            console.log(err);
                         }
                     });
                 };

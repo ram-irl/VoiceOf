@@ -56,7 +56,7 @@
                     <div class="message-container">
                         <div ng-show="showCommentsLoading" align="center" style="margin-top: 10%;">Loading...</div>
                         <div ng-hide="showCommentsLoading" class="bs-example" data-example-id="media-alignment">
-                            <div ng-show="post.comments!==null && post.comments.length>0" view-comment ng-repeat="comment in post.comments" comment="comment"></div>                                                                                   
+                            <div ng-show="post.comments!==null && post.comments.length>0" view-comment ng-repeat="comment in post.comments.slice().reverse()" comment="comment"></div>                                                                                   
                         </div>
 
                     </div>
