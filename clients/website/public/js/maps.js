@@ -475,38 +475,6 @@ function rearrangeMarkers(location) {
             });
         })(marker, result);
     }
-    openfbContent();
-}
-
-function openfbContent(){
-    //mresults
-    var variable = "sharedurl";
-  //alert("openfbContent start");
-  var query = "";
-  //query= ""+window.location;//hosted check
-  query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";//local check
-  console.log(query);
-  var vars = query.split("?");console.log(vars);
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-    if (pair[0] == variable) {
-      sharedID = pair[1];
-    }
-  }
-  //alert("openfbContent start 11");
-  console.log(JSON.stringify(mresults));
-    if(mresults!==null){
-        for(var index = 0;index< mresults.length;index++){
-            var obj = mresults[index];
-            console.log(JSON.stringify(obj));
-            if(obj._id == sharedID){
-                console.log("conditioned");
-                //showContentDetailWithObj(obj);
-                angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
-            }
-        }
-    }
-    //alert("openfbContent start 122");
     
 }
 

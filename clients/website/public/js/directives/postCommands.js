@@ -64,8 +64,7 @@ voiceOf.directive("voCommands", ['api', function (api)
                         );
                     } catch (e) {
                         alert(e);
-                    }
-                    //console.log("openFbPopUp end...");
+                    }                   
                 };
                 $scope.votePost = function () {
                    
@@ -77,11 +76,7 @@ voiceOf.directive("voCommands", ['api', function (api)
                         if (err) {
                             console.log("votePost Error: "+err);
                         } else {
-                            console.log("votePost response: "+data);
-                            //$window.mresults = data;
-
-                            //$window.rearrangeMarkers(location);
-
+                            console.log("votePost Success");                            
                         }
                     });
                 };

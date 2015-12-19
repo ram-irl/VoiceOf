@@ -19,12 +19,13 @@ angular.module("voiceOf.controllers")
                             $window.mresults = data;
 
                             $window.rearrangeMarkers(location);
-
+                            
+                            //$scope.openfbContent();
                         }
                     });
                 };
 
-                $scope.showDetailPost = function (index) {  
+                $scope.showDetailPost = function (index) {
                     $scope.$apply(function () {
                         $scope.post = $window.mresults[index];
                         var jsonContent = angular.fromJson($scope.post.content);
@@ -120,10 +121,47 @@ angular.module("voiceOf.controllers")
                     $scope.selFile = null;
                 };
 
-
-
+                $scope.openfbContent = function () {
+                    //mresults
+                    var variable = "sharedurl";
+                    //alert("openfbContent start");
+                    var query = "";
+                    query = "" + window.location;//hosted check
+                    //query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";//local check
+                    console.log(query);                    
+                    var vars = query.split("?");
+                    console.log(vars);
+                    for (var i = 0; i < vars.length; i++) {
+                        var pair = vars[i].split("=");
+                        if (pair[0] == variable) {
+                            sharedID = pair[1];
+                        }
+                    }
+                    
+                    api.getPostByID(sharedID, function (err, data) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log("obj: "+data);
+                            console.log("Obj String: "+JSON.stringify(data));
+                            $scope.showSingleDetailPost(data);                            
+                        }
+                    });                    
+                };
                 
-
+                $scope.showSingleDetailPost = function (postObj) {
+                    $scope.$apply(function () {
+                        //$scope.post = $window.mresults[index];
+                        //var jsonContent = angular.fromJson($scope.post.content);
+                        $scope.post.jsonContent = {};
+                        $scope.post.jsonContent = postObj;
+                        //hardCodeComments();
+                    });
+                    $('#postDetails').modal();                      // initialized with defaults
+                    $('#postDetails').modal({keyboard: false});   // initialized with no keyboard
+                    $('#postDetails').modal('show');
+                };
+                
 //                var hardCodeComments = function () {
 //                    $scope.post.comments = [
 //                        {

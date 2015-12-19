@@ -220,6 +220,17 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                 }
             });
         };
+        
+        //Get all post
+        service.getPostByID = function (postID, callback) {
+            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/" + postID, null, function (err, data) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, data);
+                }
+            });
+        };
 
         return service;
     }]);
