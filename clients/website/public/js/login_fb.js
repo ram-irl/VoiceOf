@@ -48,17 +48,8 @@
     version    : 'v2.5' // use version 2.2
   });
 
-  FB.getLoginStatus(function(response) {
-      console.log('getLoginStatus start.... ');
-      console.log("getLoginStatus response: "+JSON.stringify(response));
-    statusChangeCallback(response); 
-    /*
-    if("authResponse" in response){
-        doProceedFbAuthAPI(JSON.stringify(response));
-    }
-    else{myFacebookLogin();}*/
-    //myFacebookLogin();
-    console.log('getLoginStatus end.... ');
+  FB.getLoginStatus(function(response) {      
+    statusChangeCallback(response);     
   });
   };
 
@@ -108,7 +99,9 @@ function doProceedFbAuthAPI(paramString){
     data: params
     }).done(function (data) {
         //console.log("Full response:"+JSON.stringify(data));
-        //console.log("User token: "+JSON.parse(data).token);
+        console.log("User token: "+JSON.parse(data).token);
+        //var Location = data.getResponseHeader('Location');
+        //console.log("Location: "+Location);
         setCookie('userSessionToken',JSON.parse(data).token);
         callRefreshAPi(getCurrentLocation());
     }).fail(function (jqXHR, textStatus) {

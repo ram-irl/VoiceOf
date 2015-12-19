@@ -22,8 +22,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                         $scope.showCommentsLoading = false;
                         if (err) {
                             console.log(err);
-                        } else {
-                            console.log(JSON.stringify(data));
+                        } else {                            
                             $scope.post.comments = data;
                         }
                     });
@@ -73,7 +72,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                                     name: 'Facebook Share',
                                     //link: 'https://chillana.in',
                                     //link: 'http://localhost:3000?sharedurl=5675109d37a24203000dc1b7',
-                                    link: 'https://chillana.in?sharedurl=' + postObj._id,
+                                    link: 'http://voiceof.in?sharedurl=' + postObj.slug,
                                     picture: 'https://chillana.in/img/logo.png',
                                     caption: 'Reference Documentation',
                                     description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'

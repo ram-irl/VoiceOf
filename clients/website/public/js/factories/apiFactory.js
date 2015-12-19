@@ -220,8 +220,7 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
             }
         };
 
-        service.postComplete = function (postId, callback) {
-            console.log("called");
+        service.postComplete = function (postId, callback) {            
             this.httpRequest("PUT", CONSTANTS.API_URL + "/posts/" + postId + "/statuses/completed", null, function (err, data) {
                 if (err)
                     callback(err, null);
@@ -242,8 +241,8 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
         };
         
         //Get all post
-        service.getPostByID = function (postID, callback) {
-            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/" + postID, null, function (err, data) {
+        service.getPostByID = function (postID, callback) {           
+            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/" + postID, null, function (err, data) {                
                 if (err) {
                     callback(err, null);
                 } else {

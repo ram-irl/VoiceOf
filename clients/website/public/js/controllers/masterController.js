@@ -127,11 +127,13 @@ angular.module("voiceOf.controllers")
                 };
 
                 $scope.openfbContent = function () {
+                    try{
                     var variable = "sharedurl";
                     var sharedID = "";
                     var query = "";
                     query = "" + window.location;//hosted check
                     //query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";//local check
+                    
                     var vars = query.split("?");
                     for (var i = 0; i < vars.length; i++) {
                         var pair = vars[i].split("=");
@@ -139,20 +141,25 @@ angular.module("voiceOf.controllers")
                             sharedID = pair[1];
                         }
                     }
+                    sharedID = sharedID.replace('#','');
+                    console.log("Slug url: "+sharedID);
                     if(sharedID){
                         showDetailPopup(sharedID);
                     }
+                 }catch(e){
+                     console.log("openfbContent Error: "+e);
+                 } 
                 };
                 
-                var showDetailPopup = function(postID){
-                    if(!postID)return;
+                var showDetailPopup = function(postID){                    
+                    if(!postID)return;                    
                     $("#apploader").show();
                     $scope.post._id=""; // reset to get new comments 
                     $scope.post.comments = [];
-                    api.getPostByID(postID, function (err, data) {
+                    api.getPostByID(postID, function (err, data) {                        
                         $("#apploader").hide();
                         if (err) {
-                            console.log(err);
+                            console.log("showDetailPopup error: "+JSON.stringify(err));
                         } else {                            
                             $scope.showSingleDetailPost(data);                            
                         }
