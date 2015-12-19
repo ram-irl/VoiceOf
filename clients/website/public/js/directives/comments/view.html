@@ -2,17 +2,17 @@
 <div class="media">    
     <div class="media-body" style="padding-bottom:5px;">
         <div class="media-left"> 
-            <a href="{{comment.content.image[0]}}" target="_blank" ng-show="comment.content.image !== null && comment.content.image.length > 0 && comment.content.image[0].length > 0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{comment.content.image[0]}}" style="width: 64px; height: 64px;"> </a>
-            <a href="{{comment.content.video}}" target="_blank" ng-show="comment.content.video !== null && comment.content.video.length > 0 && comment.content.video[0].length > 0" style="width: 64px; height: 64px;"> 
-                <video class="media-object" width="100%" controls>
-                    <source dynamic-url src="" url="comment.content.video[0]" type="video/mp4"/>
+            <a href="{{comment.content.image}}" target="_blank" ng-show="comment.content.image !== null && comment.content.image.length > 0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{comment.content.image}}" style="width: 64px; height: auto;"> </a>
+            <a href="{{comment.content.video}}" target="_blank" ng-show="comment.content.video !== null && comment.content.video.length > 0"> 
+                <video class="media-object" style="width: 64px; height: auto;">
+                    <source dynamic-url src="" url="comment.content.video" type=""/>
                 </video>
             </a>
         </div>
         <div class="media-body">
             <p align="justify">{{comment.content.msg}}</p>
         </div>                    
-    </div>
+    </div>    
     <div align="left" class="user-name"> # {{comment.owner.name}} on {{comment.owner.createdOn}}</div>
     <hr>
 </div> 

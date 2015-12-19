@@ -10,7 +10,8 @@ angular.module("voiceOf.controllers")
                 $scope.post = {};
 
                 $scope.refreshPins = function (location) {
-                    var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius * 1000);
+                    var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius);
+                    console.log(url);
                     api.getAllpost(url, function (err, data) {
                         if (err) {
                             console.log(err);
@@ -90,9 +91,9 @@ angular.module("voiceOf.controllers")
                     }
 
                     if ($scope.validLocation) {
-                        var jsonData = {content: {msg: $scope.txtMessage, stayAnonmous: $('#stayAnoVal').is(':checked')}, position: [$scope.resultLat, $scope.resultLan]};
+                        var jsonData = {content: {msg: $scope.txtMessage, stayAnonmous: $('#stayAnoVal').is(':checked')}, position: [$scope.resultLan, $scope.resultLat]};
                     } else {
-                        var jsonData = {content: {msg: $scope.txtMessage, stayAnonmous: $('#stayAnoVal').is(':checked')}, position: [currentLocation.lat, currentLocation.lng]};
+                        var jsonData = {content: {msg: $scope.txtMessage, stayAnonmous: $('#stayAnoVal').is(':checked')}, position: [currentLocation.lng, currentLocation.lat]};
                     }
 
                     api.submitPost(jsonData, $scope.selFile, function (err, data) {
@@ -130,7 +131,7 @@ angular.module("voiceOf.controllers")
                             "_id": 'ObjectId("566fc4d4bf78870f74438a96")',
                             "content": {
                                 "msg": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                                "image": ["https://goo.gl/5Ryb1S"]
+                                "image": "https://goo.gl/5Ryb1S"
                             },
                             "owner": {
                                 "_id": "5673f5848cba8c030083383e",
@@ -145,7 +146,7 @@ angular.module("voiceOf.controllers")
                             "_id": 'ObjectId("566fc4d4bf78870f74438a96")',
                             "content": {
                                 "msg": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                                "video": ["http://goo.gl/GWDzxF"]
+                                "video": "https://voice-of.s3.amazonaws.com/post%2Fbig_buck_bunny_720p_1mb.mp4"
                             },
                             "owner": {
                                 "_id": "5673f5848cba8c030083383e",

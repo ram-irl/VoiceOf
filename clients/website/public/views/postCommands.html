@@ -28,7 +28,7 @@
                     <div class="media-left"> 
                         <a href="{{post.jsonContent.image}}" target="_blank" ng-show="post.jsonContent.image!==null && post.jsonContent.image.length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.jsonContent.image}}" style="width: 64px; height: auto;"> </a>
                         <a href="{{post.jsonContent.video}}" target="_blank" ng-show="post.jsonContent.video!==null && post.jsonContent.video.length>0"> 
-                            <video class="media-object" style="width: 150px; height: 100px;" controls>
+                            <video class="media-object" style="width: 175px; height: auto;">
                                 <source dynamic-url src="" url="post.jsonContent.video"/>
                             </video>                            
                         </a>
