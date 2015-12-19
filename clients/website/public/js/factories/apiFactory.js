@@ -59,10 +59,10 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                 }
             });
         };
-        
+
         //Get all comments based on post id
         service.getAllComments = function (id, callback) {
-            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/" + id + "/comments" , null, function (err, data) {
+            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/" + id + "/comments", null, function (err, data) {
                 if (err) {
                     callback(err, null);
                 } else {
@@ -145,14 +145,91 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
             });
         };
 
-        service.postCommand = function (values, callback) {
-            this.httpRequest("PUT", CONSTANTS.API_URL + "/post/POST_ID/comments", values, function (err, data) {
+        service.postCommand = function (postId, file, callback) {
+            var values = {content: {msg: $('#cmdTxt').val()}};
+
+            if (file != null) {
+                this.httpRequest("GET", CONSTANTS.API_URL + "/s3/policy?folder=post&type=" + file.type, null, function (err, policy) {
+                    if (err) {
+                        callback(err, null);
+                        return;
+                    }
+
+                    var upload = $upload.upload({
+                        url: "https://voice-of.s3.amazonaws.com/",
+                        method: "POST",
+                        transformRequest: function (data, headersGetter) {
+                            var headers = headersGetter();
+                            delete headers['Authorization'];
+                            return data;
+                        },
+                        data: {
+                            'key': "post/" + file.name,
+                            'acl': 'public-read',
+                            'Content-Type': file.type,
+                            'AWSAccessKeyId': policy.AWSAccessKeyId,
+                            'success_action_status': '201',
+                            'Policy': policy.s3Policy,
+                            'Signature': policy.s3Signature
+                        },
+                        file: file
+                    }).then(function (resp) {
+                        if (resp.status === 201) {
+                            var data = xmlToJSON.parseString(resp.data, {childrenAsArray: false});
+                            var location = data.PostResponse.Location["_text"];
+                            if (file.type.indexOf('image') > -1) {
+                                values.content.image = location;
+                            } else {
+                                values.content.video = location;
+                            }
+                            service.httpRequest("PUT", CONSTANTS.API_URL + "/posts/" + postId + "/comments", values, function (err, data) {
+                                if (err)
+                                    callback(err, null);
+                                else
+                                    callback(null, data);
+                            });
+                        } else {
+                            if (callback)
+                                callback(resp, null);
+                        }
+                    }, function (resp) {
+                        console.log('Error status: ' + resp.status);
+                    }, function (evt) {
+                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        console.log('progress: ' + progressPercentage);
+                    });
+                });
+            } else {
+                console.log("content : " + values);
+                this.httpRequest("PUT", CONSTANTS.API_URL + "/posts/" + postId + "/comments", values, function (err, data) {
+                    if (err)
+                        callback(err, null);
+                    else
+                        callback(null, data);
+                });
+            }
+        };
+
+        service.postComplete = function (postId, callback) {
+            console.log("called");
+            this.httpRequest("PUT", CONSTANTS.API_URL + "/posts/" + postId + "/statuses/completed", null, function (err, data) {
                 if (err)
                     callback(err, null);
                 else
                     callback(null, data);
             });
-        }
+        };
+        
+        //vote for a post
+        service.votePost = function (postid, callback) {
+            this.httpRequest("PUT", CONSTANTS.API_URL + "/posts/" + postid + "/vote", null, function (err, data) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, data);
+                }
+            });
+        };
 
         return service;
     }]);

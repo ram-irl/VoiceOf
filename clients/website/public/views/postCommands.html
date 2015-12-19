@@ -14,6 +14,7 @@
                 
                 </div> -->
                 <button type="button" class="btn btn-default" ng-click="openFbPopUp();">Share</button>
+                <button type="button" class="btn btn-default" ng-click="votePost();">Vote({{(post.votes)?post.votes.length:"0"}})</button>
                 <!--<a title="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Facebook')" target="_blank"><img src='img/Facebook-Icon-D.png'/></a>-->
             </div>
             <div class="modal-body" align="center">
@@ -40,11 +41,14 @@
 
                 <div class="input-group">
                     <input id="cmdTxt" ng-model="cmdTxt" type="text" placeholder="Type your Message here" class="form-control" aria-label="Text input with multiple buttons">
-                    <div class="input-group-btn"> 
-                        <button type="file" class="btn btn-default" aria-label="Camera">
+                    <div ng-switch="!cmdSelFile" class="input-group-btn"> 
+                        <button ng-switch-when="true" ng-file-select ng-file-change="cmdfileSelected($files)" type="file" class="btn btn-default" aria-label="Camera">
                             <span class="glyphicon glyphicon-camera"></span>
                         </button>
-                        <button ng-click="submitCommand();" type="button" class="btn btn-default">Send</button>
+                        <button ng-switch-when="false" ng-click="removeCmdSelFile();" type="file" class="btn btn-default" aria-label="Camera">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button ng-click="postCommand();" type="button" class="btn btn-default">Send</button>
                     </div>
                 </div>
 
@@ -61,7 +65,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-dismiss="modal" type="button"><span class="glyphicon glyphicon-ok"></span>  Completed</button>                        
+                    <button ng-if="post.statuses===undefined" ng-click="postComplete();" class="btn btn-success" data-dismiss="modal" type="button"><span class="glyphicon glyphicon-ok"></span>  Completed</button>                        
                     <!--<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-send"></span></button>-->
 
                 </div>
