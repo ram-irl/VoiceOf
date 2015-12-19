@@ -37,7 +37,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                     if ($scope.cmdLoad == true)
                         return;
                     if ($('#cmdTxt').val() == "") {
-                        alert("Please enter command.");
+                        alert("Please type your message");
                         return;
                     }
                     $scope.cmdLoad = true;
