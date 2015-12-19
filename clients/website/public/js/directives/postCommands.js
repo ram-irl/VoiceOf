@@ -33,11 +33,13 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
 
                 //Post commands
                 $scope.postCommand = function () {
+                    if ($scope.cmdLoad == true)
+                        return;
                     if ($('#cmdTxt').val() == "") {
                         alert("Please enter command.");
                         return;
                     }
-
+                    $scope.cmdLoad = true;
                     api.postCommand($scope.post._id, $scope.cmdSelFile, function (err, data) {
                         if (data != null) {
                             $scope.cmdSelFile = null;
@@ -48,6 +50,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                             alert("Error");
                             console.log(err);
                         }
+                        $scope.cmdLoad = false;
                     });
                 };
 
