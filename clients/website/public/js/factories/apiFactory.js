@@ -59,6 +59,17 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
                 }
             });
         };
+        
+        //Get all comments based on post id
+        service.getAllComments = function (id, callback) {
+            this.httpRequest("GET", CONSTANTS.API_URL + "/posts/" + id + "/comments" , null, function (err, data) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, data);
+                }
+            });
+        };
 
         //Submit post
         service.submitPost = function (values, file, callback) {

@@ -75,7 +75,8 @@
                 <div class="container" style="width:100%">
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="custom-search-input" style="width:100%">
+                            <span style="color:#FFF; position: absolute; font-size: medium; margin-top:2px; margin-left:-22px; text-align: center;">VoiceOf</span>
+<!--                            <div id="custom-search-input" style="width:100%">
                                 <div class="input-group col-md-12">
                                     <input type="text" class="form-control input-lg transp" value="Search your queries" placeholder="search" />
                                     <span class="input-group-btn">
@@ -84,7 +85,7 @@
                                         </button>
                                     </span>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -423,6 +424,23 @@
                 <span style="color:#fff;text-align:center;">Loading</span>
             </td></tr></table>
 </div>
-
+<script>
+    $( window ).load(function() {
+        try{
+  //alert("hai"+window.location);
+  var variable = "sharedurl";
+  var query = window.location.search.substring(1);
+  query= ""+window.location;
+  console.log(query);
+  var vars = query.split("/");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      alert(pair[1]);
+    }
+  } 
+        }catch(e){console.log(""+e);}
+});
+</script>
 </body>
 </html>
