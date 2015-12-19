@@ -3,7 +3,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="color:#ff5935;">{{post.author}}</h4>
+                <h4 class="modal-title" style="color:#ff5935;">
+                    <span ng-show="post.stayAnonmous===true">Anonymous</span>
+                    <span ng-hide="post.stayAnonmous===true">{{post.author}}</span>
+                </h4>
             </div>
             <div align="right">
                 <!--<div class="fb-share-button" data-href="http://www.your-domain.com/your-page.html" 
