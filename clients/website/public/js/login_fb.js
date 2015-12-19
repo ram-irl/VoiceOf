@@ -70,6 +70,7 @@
         try{
             var userinfo = JSON.parse(response);
             setCookie("nickname",userinfo.name);
+            //angular.element(document.getElementById('MasterTag')).scope().showDetailPost(0);
             $('#welcomContent').text("Hello, " + getCookie("nickname"));
         }catch(e){console.log(e);}
     });
@@ -95,8 +96,8 @@ function doProceedFbAuthAPI(paramString){
             },
     data: params
     }).done(function (data) {
-        console.log("Full response:"+JSON.stringify(data));
-        console.log("User token: "+JSON.parse(data).token);
+        //console.log("Full response:"+JSON.stringify(data));
+        //console.log("User token: "+JSON.parse(data).token);
         setCookie('userSessionToken',JSON.parse(data).token);
     }).fail(function (jqXHR, textStatus) {
         console.log(jqXHR);

@@ -6,10 +6,13 @@ angular.module("voiceOf.controllers")
                 //Check it is a valid location
                 $scope.validLocation = null;
                 //Show command for specific post
+                
+                $scope.nickname = "User";
 
                 $scope.post = {};
 
                 $scope.refreshPins = function (location) {
+                    $scope.setUserName();                   
                     var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius);
                     console.log(url);
                     api.getAllpost(url, function (err, data) {
@@ -153,5 +156,14 @@ angular.module("voiceOf.controllers")
                 angular.element(document).ready(function () {
                     $scope.openfbContent();
                 });
+                
+                $scope.setUserName = function(){
+                    var username = getCookie('nickname');                    
+                    if(username){
+                        $scope.nickname = username;
+                    }else{
+                        $scope.nickname = "User";
+                    }                     
+                };
 
             }]);
