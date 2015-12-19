@@ -355,15 +355,15 @@ function initGPS() {
             });
             markers.push(userMarker);
 
-            userMarker.addListener('click', function () {
-                try {
-                    infobox.setContent('<div><br><p style="top:25%; font-size:14px; text-align:center;">Your current location</p></div>');
-                    infobox.open(map, userMarker);
-                    ga('send', 'event', 'Map Pin', 'click', 'User Pin');
-                } catch (e) {
-                    //console.log(e);
-                }
-            });
+//            userMarker.addListener('click', function () {
+//                try {
+//                    infobox.setContent('<div><br><p style="top:25%; font-size:14px; text-align:center;">Your current location</p></div>');
+//                    infobox.open(map, userMarker);
+//                    ga('send', 'event', 'Map Pin', 'click', 'User Pin');
+//                } catch (e) {
+//                    //console.log(e);
+//                }
+//            });
         }, function (error) {
             if (error.code === error.PERMISSION_DENIED)
             {
@@ -411,16 +411,16 @@ function rearrangeMarkers(location) {
     }
 
     for (var i = 0; i < mresults.length; i++) {
-        var infobox = new InfoBox({
-            content: "",
-            disableAutoPan: true,
-            maxWidth: 150,
-            pixelOffset: new google.maps.Size(-92, -100),
-            zIndex: null,
-            closeBoxMargin: "-10px 2px 2px 2px",
-            closeBoxURL: "../img/close-icon.png",
-            infoBoxClearance: new google.maps.Size(1, 1)
-        });
+//        var infobox = new InfoBox({
+//            content: "",
+//            disableAutoPan: true,
+//            maxWidth: 150,
+//            pixelOffset: new google.maps.Size(-92, -100),
+//            zIndex: null,
+//            closeBoxMargin: "-10px 2px 2px 2px",
+//            closeBoxURL: "../img/close-icon.png",
+//            infoBoxClearance: new google.maps.Size(1, 1)
+//        });
 
         //ram:for needs to be changed as foreach.
         var result = mresults[i];
@@ -436,25 +436,10 @@ function rearrangeMarkers(location) {
         });
 
 
-        var concatmessage = "" + result.message;
-        concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
-
-        var contentString = "<div onclick='showContentDetail(\"" + i + "\")' class=\"info-map-container\">" + "<strong> # " + result.name + "</strong><p class=\"info-map-content\">" + concatmessage + "</p></div>";
-
-        infobox.setContent(contentString);
-
-//        try 
-//        {
-//            if( (Math.random()*10) < 2)
-//            {
-//                infobox.open(map, marker);
-//            }
-//        } 
-//        catch (e) 
-//        {
-//            //alert(e);
-//        }
-
+//        var concatmessage = "" + result.message;
+//        concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
+//        var contentString = "<div onclick='showContentDetail(\"" + i + "\")' class=\"info-map-container\">" + "<strong> # " + result.name + "</strong><p class=\"info-map-content\">" + concatmessage + "</p></div>";
+//        infobox.setContent(contentString);
 
         //ram:could be better.. not a deal breaker.
         // Push your newly created marker into the array:
@@ -467,19 +452,19 @@ function rearrangeMarkers(location) {
                 ga('send', 'event', 'Map Pin', 'click', 'Show Detail');
 
                 //ram:reuse the below few lines.. it's repeated one more time before.
-                var concatmessage = "" + result.message;
+//                var concatmessage = "" + result.message;
                 var index = mresults.indexOf(result);
                 if(index<0)return;
                 angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
-                concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
-                var contentString = "<div onclick='showContentDetail(\"" + index + "\")' class=\"info-map-container\">" + "<strong> # " + result.author + "</strong><p class=\"info-map-content\">" + result.content + "</p></div>";
-
-                try {
-                    infobox.setContent(contentString);
-                    infobox.open(map, marker);
-                } catch (e) {
-                    alert(e);
-                }
+//                concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
+//                var contentString = "<div onclick='showContentDetail(\"" + index + "\")' class=\"info-map-container\">" + "<strong> # " + result.author + "</strong><p class=\"info-map-content\">" + result.content + "</p></div>";
+//
+//                try {
+//                    infobox.setContent(contentString);
+//                    infobox.open(map, marker);
+//                } catch (e) {
+//                    alert(e);
+//                }
 
                 showContentDetailWithObj(result);
                 // $("#clientName").text("" + result.name);//phone

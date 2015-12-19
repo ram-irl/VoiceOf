@@ -81,15 +81,15 @@ angular.module("voiceOf.controllers")
 
                 //Submit post
                 $scope.postSubmit = function () {
-                    if($('#txtMsg').val()==""){
+                    if ($('#txtMsg').val() == "") {
                         alert("Please enter message.");
                         return;
                     }
-                    
+
                     if ($scope.validLocation) {
-                        var jsonData = {content: {msg: $scope.txtMessage,stayAnonmous:$('#stayAnoVal').is(':checked')}, position: [$scope.resultLat, $scope.resultLan]};
+                        var jsonData = {content: {msg: $scope.txtMessage, stayAnonmous: $('#stayAnoVal').is(':checked')}, position: [$scope.resultLat, $scope.resultLan]};
                     } else {
-                        var jsonData = {content: {msg: $scope.txtMessage,stayAnonmous:$('#stayAnoVal').is(':checked')}, position: [currentLocation.lat, currentLocation.lng]};
+                        var jsonData = {content: {msg: $scope.txtMessage, stayAnonmous: $('#stayAnoVal').is(':checked')}, position: [currentLocation.lat, currentLocation.lng]};
                     }
 
                     api.submitPost(jsonData, $scope.selFile, function (err, data) {
@@ -98,6 +98,7 @@ angular.module("voiceOf.controllers")
                             $scope.txtMessage = "";
                             $scope.selFile = null;
                             alert("Your shout tweeted!");
+                            $scope.refreshPins({lat: jsonData.position[0], lng: jsonData.position[1]});
                         } else {
                             alert("Error");
                         }
