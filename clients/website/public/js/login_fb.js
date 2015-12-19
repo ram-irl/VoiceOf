@@ -106,10 +106,11 @@ function doProceedFbAuthAPI(paramString){
                 Authorization: 'VOICEOF-AUTH token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiI2MzcyMTJmNTM0OTIwNWY5ZjJhMTQ1MDczM2YxNzkxMiIsInR5cGUiOiJhcHAiLCJhcHBJZCI6IldlYnNpdGVBcHAxIiwicGF5bG9hZEhhc2giOiIzNDQ5YzllNWUzMzJmMWRiYjgxNTA1Y2Q3MzlmYmYzZiJ9.wXmdshbFtD50CM6cDZMrm0MAndEUn_0FSgUSrmAXoU0", AppId="WebsiteApp1"'
             },
     data: params
-    }).done(function (data) {
+    }).done(function (data, status, jqXHR) {
         //console.log("Full response:"+JSON.stringify(data));
         //console.log("User token: "+JSON.parse(data).token);
         setCookie('userSessionToken',JSON.parse(data).token);
+        setCookie('userID', jqXHR.getResponseHeader('Location').replace('/users/',''));        
         callRefreshAPi(getCurrentLocation());
     }).fail(function (jqXHR, textStatus) {
         console.log(jqXHR);
