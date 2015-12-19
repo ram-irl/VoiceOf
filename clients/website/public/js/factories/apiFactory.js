@@ -7,7 +7,15 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
 //                    errorCode: "HTTP_NULL"
 //                }, null);
 //            loadHeaders();
-//            _apiHeaders['Content-Type'] = 'application/json';           
+//            _apiHeaders['Content-Type'] = 'application/json';   
+            var sessionToken = getCookie('userSessionToken');
+            if(!(sessionToken && sessionToken!==null && sessionToken.length>0)){
+                callback({
+                    error: true,
+                    errorCode: "INVALID_SESSION"
+                }, null);
+                return;
+            }
             $http({
                 method: method,
                 url: path,

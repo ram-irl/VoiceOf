@@ -7,7 +7,7 @@ var MobileServiceClient = WindowsAzure.MobileServiceClient;
 var client = new MobileServiceClient('https://chillana-app.azure-mobile.net/', 'CHRFiNaoLZUdUYfCIFIHUVpoiIGOkC10');
 var messageTable = client.getTable('message?lng=1&lat=1');
 var userTable = client.getTable('user');
-var currentLocation = null;
+
 var userLocation = null;
 var isMobile = (/Mobile/i.test(navigator.userAgent));
 var infobox;
@@ -380,6 +380,9 @@ function initGPS() {
         alert('error in finding your location');
     }
 }
+function getCurrentLocation(){
+    return currentLocation;
+}
 function callRefreshAPi(location) {
     angular.element(document.getElementById('MasterTag')).scope().refreshPins(location);
 //    var api = "message?lat=" + location.lat + "&lng=" + location.lng + "&dis=" + distanceRadius/1000;
@@ -398,13 +401,13 @@ function callRefreshAPi(location) {
 //        console.log(error.message);
 //    });
 }
-function rearrangeMarkers(location) {
+function rearrangeMarkers(location) {    
     removeMarkers();
-    if (mresults != null && mresults.length >= 0) {
+    removeMarkerInfoWindow();
+    if(!mresults)return;
+    if (mresults !== null && mresults.length >= 0) {
         //clearCircle();
         //drawCircle(location);
-//        removeMarkers();
-//        removeMarkerInfoWindow();
 
         //ram:efficient reuse possible.
         markerArray = new Array();
@@ -510,19 +513,19 @@ function removeMarkers() {
     }
 }
 
-//function removeMarkerInfoWindow() {
-//    try {
-//        //ram:not sure why the below commented code is
-//        if (markerInfoWindowArray != null) {
-//            for (i = 0; i < markerInfoWindowArray.length; i++) {
-//                markerInfoWindowArray[i].setMap(null);
-//            }
-//        }
-//        markerInfoWindowArray.length = 0;
-//        markerInfoWindowArray = null;
-//    } catch (e) {
-//    }
-//}
+function removeMarkerInfoWindow() {
+    try {
+        //ram:not sure why the below commented code is
+        if (markerInfoWindowArray != null) {
+            for (i = 0; i < markerInfoWindowArray.length; i++) {
+                markerInfoWindowArray[i].setMap(null);
+            }
+        }
+        markerInfoWindowArray.length = 0;
+        markerInfoWindowArray = null;
+    } catch (e) {
+    }
+}
 
 //Focus to current location 
 function focusCurrentLocation() {
