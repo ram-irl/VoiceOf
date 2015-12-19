@@ -401,15 +401,13 @@ function callRefreshAPi(location) {
 //        console.log(error.message);
 //    });
 }
-function rearrangeMarkers(location) {
-    if(!mresults)return;
+function rearrangeMarkers(location) {    
     removeMarkers();
     removeMarkerInfoWindow();
-    if (mresults != null && mresults.length >= 0) {
+    if(!mresults)return;
+    if (mresults !== null && mresults.length >= 0) {
         //clearCircle();
         //drawCircle(location);
-//        removeMarkers();
-//        removeMarkerInfoWindow();
 
         //ram:efficient reuse possible.
         markerArray = new Array();
