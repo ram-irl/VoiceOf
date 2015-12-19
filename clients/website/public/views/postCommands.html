@@ -29,15 +29,10 @@
                     <div class="media-body">
                         <p align="justify">{{post.jsonContent.msg}}</p>
                     </div>
-<<<<<<< HEAD
-                    <div class="media-left"> 
-                        <a href="{{post.jsonContent.image}}" target="_blank" ng-show="post.jsonContent.image !== null && post.jsonContent.image.length > 0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.jsonContent.image}}" style="width: 64px; height: auto;"> </a>
-                        <a href="{{post.jsonContent.video}}" target="_blank" ng-show="post.jsonContent.video !== null && post.jsonContent.video.length > 0"> 
-=======
+
                     <div class="media-right media-middle"> 
                         <a href="{{post.jsonContent.image}}" target="_blank" ng-show="post.jsonContent.image!==null && post.jsonContent.image.length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.jsonContent.image}}" style="width: 64px; height: auto;"> </a>
                         <a href="{{post.jsonContent.video}}" target="_blank" ng-show="post.jsonContent.video!==null && post.jsonContent.video.length>0"> 
->>>>>>> c1e4faf0cdb3baaa645cfbaeebd4ae67fe6606e7
                             <video class="media-object" style="width: 175px; height: auto;">
                                 <source dynamic-url src="" url="post.jsonContent.video" type=""/>                                
                             </video>                            
