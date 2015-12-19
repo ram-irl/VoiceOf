@@ -18,6 +18,8 @@ angular.module("voiceOf.controllers")
                     api.getAllpost(url, function (err, data) {
                         if (err) {
                             console.log(err);
+                            if($window.mresults)$window.mresults.length=0;
+                            $window.rearrangeMarkers(location);
                         } else {
                             $window.mresults = data;
                             $window.rearrangeMarkers(location);                                                        
