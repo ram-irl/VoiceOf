@@ -18,6 +18,8 @@ angular.module("voiceOf.controllers")
                     api.getAllpost(url, function (err, data) {
                         if (err) {
                             console.log(err);
+                            if($window.mresults)$window.mresults.length=0;
+                            $window.rearrangeMarkers(location);
                         } else {
                             $window.mresults = data;
                             $window.rearrangeMarkers(location);                                                        
@@ -83,6 +85,12 @@ angular.module("voiceOf.controllers")
                     $("#apploader").show();
                     if ($('#txtMsg').val() == "") {
                         alert("Please enter message.");
+                        $("#apploader").hide();
+                        return;
+                    }
+                    if(!getCookie('userSessionToken')){
+                        alert("Please refresh the page and do login....");
+                        $("#apploader").hide();
                         return;
                     }
 
@@ -119,6 +127,7 @@ angular.module("voiceOf.controllers")
 
                 $scope.openfbContent = function () {
                     var variable = "sharedurl";
+                    var sharedID = "";
                     var query = "";
                     query = "" + window.location;//hosted check
                     //query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";//local check
@@ -129,7 +138,9 @@ angular.module("voiceOf.controllers")
                             sharedID = pair[1];
                         }
                     }
-                    showDetailPopup(sharedID);
+                    if(sharedID){
+                        showDetailPopup(sharedID);
+                    }
                 };
                 
                 var showDetailPopup = function(postID){
