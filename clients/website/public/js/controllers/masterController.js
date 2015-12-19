@@ -23,9 +23,12 @@ angular.module("voiceOf.controllers")
                     });
                 };
 
-                $scope.showDetailPost = function (index) {
+                $scope.showDetailPost = function (index) {                    
                     $scope.$apply(function () {
                         $scope.post = $window.mresults[index];
+                        var jsonContent = angular.fromJson($scope.post.content);
+                        $scope.post.jsonContent = {};
+                        $scope.post.jsonContent = jsonContent;
                         hardCodeComments();
                     });
                     $('#postDetails').modal();                      // initialized with defaults
