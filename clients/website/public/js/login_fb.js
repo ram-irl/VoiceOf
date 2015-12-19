@@ -11,7 +11,7 @@
     if (response.status === 'connected') {
       // Logged into your app and Facebook.      
       doProceedFbAuthAPI(JSON.stringify(response));
-      //testAPI();
+      testAPI();
     } else if (response.status === 'not_authorized') {
       myFacebookLogin();
     } else {
@@ -63,16 +63,21 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  /*function testAPI() {
+  function testAPI() {
     //'id,name,public_profile,email,user_location,user_about_me,user_birthday,user_photos'
-    FB.api('/me',{fields: 'id,name,email,public_profile'}, function(response) {
-        console.log("User info: "+JSON.stringify(response));      
+    FB.api('/me',{fields: 'id,name,email'}, function(response) {
+        console.log("User info: "+JSON.stringify(response));
+        try{
+            var userinfo = JSON.parse(response);
+            setCookie("nickname",userinfo.name);
+            $('#welcomContent').text("Hello, " + getCookie("nickname"));
+        }catch(e){console.log(e);}
     });
-  }*/
+  }
   
   function myFacebookLogin() {      
     //FB.login(function(response){console.log("Test response: "+JSON.stringify(response));}, {scope: 'public_profile,email,user_location,user_about_me,user_birthday,user_photos'});
-    FB.login(function(response){console.log("Test response: "+JSON.stringify(response));if(response.hasOwnProperty('authResponse'))doProceedFbAuthAPI(JSON.stringify(response));}, {scope: 'email,public_profile'});
+    FB.login(function(response){console.log("Test response: "+JSON.stringify(response));if(response.hasOwnProperty('authResponse'))doProceedFbAuthAPI(JSON.stringify(response));}, {scope: 'email,public_profile,publish_actions'});
    }
 
 
@@ -103,3 +108,34 @@ function doFacebookLogin(){
     myFacebookLogin();  
     testAPI();
 }
+
+function openFbPopUp1() {
+    console.log("openFbPopUp called...");
+    try{
+        FB.ui(
+          {
+            method: 'feed',
+            name: 'Facebook Dialogs',
+            link: 'https://developers.facebook.com/docs/dialogs/',
+            picture: 'http://fbrell.com/f8.jpg',
+            caption: 'Reference Documentation',
+            description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
+          },
+          function(response) {
+            if (response && response.post_id) {
+              alert('Post was published.');
+            } else {
+              alert('Post was not published.');
+            }
+          }
+        );
+    }catch(e){alert(e);}
+console.log("openFbPopUp end...");
+    }
+    
+    function openFbPopUp(){
+        var fbURL = "https://www.facebook.com/sharer/sharer.php?u=display=popup&ref=plugin";
+        fbURL+=encodeURI("http://voiceof.in");
+        //fbURL="https://www.facebook.com/sharer/sharer.php?u=href=$url&display=popup&ref=plugin" target="_window"><img src='/_img/icons/facebook.png'
+        window.open(fbURL, 'Share on Facebook', 'width=640, height=536'); 
+    }

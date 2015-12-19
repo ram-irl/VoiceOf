@@ -52,10 +52,11 @@ angular.module('voiceOf.factories').factory("api", ['$http', 'CONSTANTS', '$uplo
         //Get all post
         service.getAllpost = function (url, callback) {
             this.httpRequest("GET", CONSTANTS.API_URL + "/posts/search" + url, null, function (err, data) {
-                if (err)
+                if (err){
                     callback(err, null);
-                else
+                }else{
                     callback(null, data);
+                }
             });
         };
 

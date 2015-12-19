@@ -5,9 +5,16 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" style="color:#ff5935;">{{post.author}}</h4>
             </div>
-
+            <div align="right">
+                <!--<div class="fb-share-button" data-href="http://www.your-domain.com/your-page.html" 
+		data-layout="button_count" onlick="openFbPopUp();">
+                
+                </div> -->
+                <button type="button" class="btn btn-default" onclick="openFbPopUp();">Share</button>
+                <!--<a title="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chillana.in/" onclick="ga('send', 'event', 'Share', 'click', 'Facebook')" target="_blank"><img src='img/Facebook-Icon-D.png'/></a>-->
+            </div>
             <div class="modal-body" align="center">
-
+                    
 
 <!--                <a class="list-group-item">
                     <p align="left" class="list-group-item-text">{{post.msg}}</p>
