@@ -355,15 +355,15 @@ function initGPS() {
             });
             markers.push(userMarker);
 
-//            userMarker.addListener('click', function () {
-//                try {
-//                    infobox.setContent('<div><br><p style="top:25%; font-size:14px; text-align:center;">Your current location</p></div>');
-//                    infobox.open(map, userMarker);
-//                    ga('send', 'event', 'Map Pin', 'click', 'User Pin');
-//                } catch (e) {
-//                    //console.log(e);
-//                }
-//            });
+            userMarker.addListener('click', function () {
+                try {
+                    infobox.setContent('<div><br><p style="top:25%; font-size:14px; text-align:center;">Your current location</p></div>');
+                    infobox.open(map, userMarker);
+                    ga('send', 'event', 'Map Pin', 'click', 'User Pin');
+                } catch (e) {
+                    //console.log(e);
+                }
+            });
         }, function (error) {
             if (error.code === error.PERMISSION_DENIED)
             {
@@ -400,6 +400,7 @@ function callRefreshAPi(location) {
 }
 function rearrangeMarkers(location) {
     removeMarkers();
+    removeMarkerInfoWindow();
     if (mresults != null && mresults.length >= 0) {
         //clearCircle();
         //drawCircle(location);
@@ -510,19 +511,19 @@ function removeMarkers() {
     }
 }
 
-//function removeMarkerInfoWindow() {
-//    try {
-//        //ram:not sure why the below commented code is
-//        if (markerInfoWindowArray != null) {
-//            for (i = 0; i < markerInfoWindowArray.length; i++) {
-//                markerInfoWindowArray[i].setMap(null);
-//            }
-//        }
-//        markerInfoWindowArray.length = 0;
-//        markerInfoWindowArray = null;
-//    } catch (e) {
-//    }
-//}
+function removeMarkerInfoWindow() {
+    try {
+        //ram:not sure why the below commented code is
+        if (markerInfoWindowArray != null) {
+            for (i = 0; i < markerInfoWindowArray.length; i++) {
+                markerInfoWindowArray[i].setMap(null);
+            }
+        }
+        markerInfoWindowArray.length = 0;
+        markerInfoWindowArray = null;
+    } catch (e) {
+    }
+}
 
 //Focus to current location 
 function focusCurrentLocation() {
