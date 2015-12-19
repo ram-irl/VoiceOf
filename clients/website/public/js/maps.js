@@ -15,7 +15,7 @@ var infoboxCharsizelimit = 20;
 var showMapinMobile = false;
 var markers = [];
 var distanceRadius = 1000; // default is 1000 in meters
-
+var sharedID = "";
 
 //Submits the user information(nickname and phone number) information to the message table 
 $(function () {
@@ -454,6 +454,7 @@ function rearrangeMarkers(location) {
                 //ram:reuse the below few lines.. it's repeated one more time before.
 //                var concatmessage = "" + result.message;
                 var index = mresults.indexOf(result);
+                
                 if(index<0)return;
                 angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
 //                concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
@@ -474,6 +475,39 @@ function rearrangeMarkers(location) {
             });
         })(marker, result);
     }
+    openfbContent();
+}
+
+function openfbContent(){
+    //mresults
+    var variable = "sharedurl";
+  //alert("openfbContent start");
+  var query = window.location.search.substring(1);
+  query= ""+window.location;
+  query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";
+  console.log(query);
+  var vars = query.split("?");console.log(vars);
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      sharedID = pair[1];
+    }
+  }
+  //alert("openfbContent start 11");
+  console.log(JSON.stringify(mresults));
+    if(mresults!==null){
+        for(var index = 0;index< mresults.length;index++){
+            var obj = mresults[index];
+            console.log(JSON.stringify(obj));
+            if(obj._id == sharedID){
+                console.log("conditioned");
+                showContentDetailWithObj(obj);
+                //angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
+            }
+        }
+    }
+    //alert("openfbContent start 122");
+    
 }
 
 function drawCircle(location) {
@@ -658,6 +692,7 @@ function doDownloadApp(linkURL) {
 // show user posted message when click on the marker
 function showContentDetailWithObj(post) {
     try {
+        //alert(JSON.stringify(post));
         if (!post)
             return;
         var contentString = "<strong class=\"nick-name\">" + post.name + "</strong> <br><p class=\"typ-message\">" + post.message + "</p>";

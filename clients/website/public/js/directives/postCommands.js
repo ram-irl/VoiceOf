@@ -24,7 +24,8 @@ voiceOf.directive("voCommands", ['api', function (api)
                                     method: 'feed',
                                     name: 'Facebook Share',
                                     //link: 'https://chillana.in',
-                                    link: 'http://localhost:3000/sharedurl=http://google.co.in',
+                                    //link: 'http://localhost:3000?sharedurl=5675109d37a24203000dc1b7',
+                                    link: 'https://chillana.in?sharedurl=5675109d37a24203000dc1b7',
                                     picture: 'https://chillana.in/img/logo.png',
                                     caption: 'Reference Documentation',
                                     description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'

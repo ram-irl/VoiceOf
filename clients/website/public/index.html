@@ -424,22 +424,42 @@
             </td></tr></table>
 </div>
 <script>
+    var shareTimeout;
+    var sharedID = "";
     $( window ).load(function() {
         try{
   //alert("hai"+window.location);
-  var variable = "sharedurl";
-  var query = window.location.search.substring(1);
-  query= ""+window.location;
-  console.log(query);
-  var vars = query.split("/");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-    if (pair[0] == variable) {
-      alert(pair[1]);
-    }
-  } 
+//  var variable = "sharedurl";
+//  
+//  var query = window.location.search.substring(1);
+//  query= ""+window.location;
+//  query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";
+//  console.log(query);
+//  var vars = query.split("?");console.log(vars);
+//  for (var i=0;i<vars.length;i++) {
+//    var pair = vars[i].split("=");
+//    if (pair[0] == variable) {
+//      sharedID = pair[1];
+//    }
+//  }
+  //myVar = setTimeout(function(){ timeout(); }, 3000);
+  
         }catch(e){console.log(""+e);}
 });
+function timeout(){
+    try{
+        alert("2");
+    //alert(JSON.stringify(mresults));
+//    if(mresults!==null){
+//        for(var obj in mresults){
+//            if(obj._id == sharedID){
+//                alert("3");
+//                showContentDetailWithObj(obj);
+//            }
+//        }
+//    }
+    }catch(e){console.log("timeout Error: "+e);}
+}
 </script>
 </body>
 </html>
