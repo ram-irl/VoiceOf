@@ -68,5 +68,10 @@ module.exports = function(db){
 						{ $addToSet: { "votes": authorId } });
 	}
 
+	model.setStatus = function(postId, authorId, status){
+		return collection.findOneAndUpdate({ _id: ObjectId(postId),  },
+						{ $addToSet: { "statuses": { status: status, author: authorId } } });
+	}
+
 	return model;
 }

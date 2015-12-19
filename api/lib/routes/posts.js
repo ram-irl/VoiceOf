@@ -43,4 +43,10 @@ module.exports = function (app) {
     .then(() => res.send(201))
     .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
   });
+  app.server.put("/posts/:postId/statuses/completed", function(req, res, next){
+    var token = req.token;
+    models.posts.setStatus(req.params.postId, token.userId, "completed")
+    .then(() => res.send(201))
+    .catch(e => res.send(new errors.InternalServerError({'message': e.message})));
+  });
 }
