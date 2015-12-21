@@ -70,8 +70,8 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                                 {
                                     method: 'feed',
                                     name: 'VoiceOf - Shout your Tweet',
-                                    link: 'https://www.voiceof.in?sharedurl=' + postObj.slug,
-                                    picture: 'https://www.voiceof.in/img/logo.png',
+                                    link: 'https://voiceof.in?sharedurl=' + postObj.slug,
+                                    picture: 'https://voiceof.in/img/logo.png',
                                     caption: 'https://blogs.calicom.com',
                                     description: "VoiceOf.in - It's a tool for the government for the People by the Youth. Post your problems at the location you see. Let's clean up the city together"
                                 },
