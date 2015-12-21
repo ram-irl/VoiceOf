@@ -114,7 +114,7 @@
             <a href="#" class="list-group-item" ng-hide="true"><span class="glyphicon glyphicon-asterisk"></span> Privacy Police</a>
             <a href="#" class="list-group-item" ng-hide="true"><span class="glyphicon glyphicon-ok"></span> Support</a>
             <a href="#" class="list-group-item" ng-hide="true"><span class="glyphicon glyphicon-camera"></span> Help</a>
-            <a  title="Blogs" href="https://blogs.calicom.com" onclick="ga('send', 'event', 'Blog', 'click', 'View');" target="_blank" class="list-group-item"><span class="glyphicon glyphicon-comment"></span> Blogs</a>
+            <a  title="Blogs" href="http://blogs.calicom.com" onclick="ga('send', 'event', 'Blog', 'click', 'View');" target="_blank" class="list-group-item"><span class="glyphicon glyphicon-comment"></span> Blogs</a>
             <a onclick="showAboutInfo()" class="list-group-item"><span class="glyphicon glyphicon-book"></span> About Us</a>
         </div>
 
@@ -165,7 +165,7 @@
                         <!--<button class="btn theme-button" ng-class="validLocation==null?'CurrentLocCheckedStyle':''" title="Current Location" type="button" onclick="return focusCurrentLocation();" ng-click="validLocation = null" style="height:35px;"><span class="glyphicon glyphicon-map-marker"></span></button>-->
                         <button class="btn theme-button" ng-class="validLocation==null?'CurrentLocCheckedStyle':''" title="Current Location" type="button" ng-click="setCurrentLoc();" style="height:35px;"><span class="glyphicon glyphicon-map-marker"></span></button>
                     </span>
-                    <input type="text" id="addressMsg" ng-model="locationTxt" ng-keyup="validLocation = null" class="form-control" ng-class="(validLocation==false && locationTxt.length!=0)?'locationInput':''" placeholder="Your location"  style="height:35px;">
+                    <input type="text" id="addressMsg" ng-model="locationTxt" class="form-control" ng-class="(validLocation==false && locationTxt.length!=0)?'locationInput':''" placeholder="Your location"  style="height:35px;">
                     <span class="input-group-btn" style="height:35px;">
                         <button class="btn theme-button" type="button" ng-click="checkLocationAvailable();" title="search location" style="color:#fff; height:35px;">SEARCH</button>
                     </span>
