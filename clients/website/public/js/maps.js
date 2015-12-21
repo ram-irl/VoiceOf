@@ -50,7 +50,7 @@ function submitUserInfo() {
             console.log(err);
         });
     } else {
-        alert("Please fill the form ");
+        alert("Please fill the form");
     }
     ga('send', 'event', 'Sign In', 'click', 'Start Now');
 }

@@ -113,7 +113,7 @@ angular.module("voiceOf.controllers")
                             $("#apploader").hide();
                             $scope.refreshPins({lat: jsonData.position[1], lng: jsonData.position[0]});
                         } else {
-                            alert("Error");
+                            alert("Unable to process. Please try again.");
                         }
                     });
                 };

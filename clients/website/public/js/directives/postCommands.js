@@ -44,7 +44,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                             alert("Comment posted.");
                             $scope.getComments();
                         } else {
-                            alert("Error");
+                            alert("Unable to process. Please try again.");
                             console.log(err);
                         }
                         $scope.cmdLoad = false;
@@ -139,7 +139,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                                 alert("Post Completed.");
                             });
                         } else {
-                            alert("Error");
+                            alert("Unable to process. Please try again.");
                         }
                     });
                 };
