@@ -579,7 +579,7 @@ $(window).load(function () {
     //copy link is not working in safari .. hence disabled it.
     var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
     if (isSafari) {
-        document.getElementById('copyurl').style.display = 'none';
+        //document.getElementById('copyurl').style.display = 'none';
     }
 });
 
