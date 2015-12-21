@@ -543,7 +543,7 @@ function focusCurrentLocation() {
 $(window).load(function () {
 
     $("#apploader").hide();
-    //checkDeviceType();
+    checkDeviceType();
 //    var osName = getMobileOperatingSystem();
     showMapinMobile = true;
 //    if (osName === "ios") {
