@@ -66,9 +66,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                         FB.ui(
                                 {
                                     method: 'feed',
-                                    name: 'Facebook Share',
-                                    //link: 'https://chillana.in',
-                                    //link: 'http://localhost:3000?sharedurl=5675109d37a24203000dc1b7',
+                                    name: 'VoiceOf - Shout your Tweet',
                                     link: 'https://www.voiceof.in?sharedurl=' + postObj.slug,
                                     picture: 'https://www.voiceof.in/img/logo.png',
                                     caption: 'blogs.voiceof.in',
