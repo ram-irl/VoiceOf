@@ -69,10 +69,10 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                                     name: 'Facebook Share',
                                     //link: 'https://chillana.in',
                                     //link: 'http://localhost:3000?sharedurl=5675109d37a24203000dc1b7',
-                                    link: 'https://voiceof.in?sharedurl=' + postObj.slug,
-                                    picture: 'https://voiceof.in/img/logo.png',
-                                    caption: 'Reference Documentation',
-                                    description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
+                                    link: 'https://www.voiceof.in?sharedurl=' + postObj.slug,
+                                    picture: 'https://www.voiceof.in/img/logo.png',
+                                    caption: 'blogs.voiceof.in',
+                                    description: "VoiceOf.in - It's a tool for the government for the People by the Youth. Post your problems at the location you see. Let's clean up the city together"
                                 },
                         function (response) {
                             if (response && response.post_id) {
