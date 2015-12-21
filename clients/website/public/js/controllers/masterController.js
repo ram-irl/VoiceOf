@@ -12,9 +12,12 @@ angular.module("voiceOf.controllers")
                 $scope.post = {};
 
                 $scope.refreshPins = function (location) {
-                    $scope.setUserName();
-                    var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius);
-                    console.log(url);
+                    $scope.setUserName();                   
+                    
+                    // ignore if location was null
+                    if(!location || location===null)return;
+                    
+                    var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius);                    
                     api.getAllpost(url, function (err, data) {
                         if (err) {
                             console.log(err);
@@ -116,7 +119,7 @@ angular.module("voiceOf.controllers")
                             $("#apploader").hide();
                             $scope.refreshPins({lat: jsonData.position[1], lng: jsonData.position[0]});
                         } else {
-                            alert("Error");
+                            alert("Unable to process. Please try again.");
                         }
                     });
                 };
@@ -146,15 +149,14 @@ angular.module("voiceOf.controllers")
                             if (pair[0] == variable) {
                                 sharedID = pair[1];
                             }
-                        }
-                        sharedID = sharedID.replace('#', '');
-                        console.log("Slug url: " + sharedID);
-                        if (sharedID) {
-                            showDetailPopup(sharedID);
-                        }
-                    } catch (e) {
-                        console.log("openfbContent Error: " + e);
+                        }                       
+                    sharedID = sharedID.replace('#','');
+                    if(sharedID){
+                        showDetailPopup(sharedID);
                     }
+                 }catch(e){
+                     console.log("openfbContent Error: "+e);
+                 }
                 };
 
                 var showDetailPopup = function (postID) {
