@@ -17,14 +17,32 @@
     // Full docs on the response object can be found in the documentation
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
+        //hidefbmodalpopup();
+        try{
+        window.location.reload();
+    }catch(e){alert(e);}
       // Logged into your app and Facebook.      
-      doProceedFbAuthAPI(JSON.stringify(response));
-      getFBUserInfo();
+     // doProceedFbAuthAPI(JSON.stringify(response));
+      //getFBUserInfo();
+      
     } else if (response.status === 'not_authorized') {
-      myFacebookLogin();
+      //myFacebookLogin();
+      showfbmodalpopup();
     } else {
-      myFacebookLogin();
+      //myFacebookLogin();
+      showfbmodalpopup();
     }
+  }
+  
+  function hidefbmodalpopup(){
+       $('#customerInfo').modal();
+      $('#customerInfo').modal('hide'); 
+  }
+  
+  function showfbmodalpopup(){
+      $('#customerInfo').modal();                      // initialized with defaults
+     $('#customerInfo').modal({keyboard: false});   // initialized with no keyboard
+     $('#customerInfo').modal('show');                // initializes and invokes show immediately
   }
   
   function checkLoginState() {
@@ -48,9 +66,9 @@
     version    : 'v2.5' // use version 2.2
   });
 
-  FB.getLoginStatus(function(response) {      
+  /*FB.getLoginStatus(function(response) {      
     statusChangeCallback(response);     
-  });
+  });*/
   };
 
   // Load the SDK asynchronously
@@ -75,10 +93,12 @@
   function myFacebookLogin() {      
     //FB.login(function(response){console.log("Test response: "+JSON.stringify(response));}, {scope: 'public_profile,email,user_location,user_about_me,user_birthday,user_photos'});
     FB.login(function(response){
+       
         console.log("Test response: "+JSON.stringify(response));
         if(response.authResponse){
             doProceedFbAuthAPI(JSON.stringify(response));
             getFBUserInfo();
+            hidefbmodalpopup();
         }
     }, {scope: 'email,public_profile,publish_actions'});
    }
@@ -113,6 +133,6 @@ function doProceedFbAuthAPI(paramString){
 
 function doFacebookLogin(){
     myFacebookLogin();  
-    getFBUserInfo();
+    //getFBUserInfo();
 }
 
