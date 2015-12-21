@@ -72,7 +72,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                                     name: 'VoiceOf - Shout your Tweet',
                                     link: 'https://www.voiceof.in?sharedurl=' + postObj.slug,
                                     picture: 'https://www.voiceof.in/img/logo.png',
-                                    caption: 'blogs.voiceof.in',
+                                    caption: 'https://blogs.calicom.com',
                                     description: "VoiceOf.in - It's a tool for the government for the People by the Youth. Post your problems at the location you see. Let's clean up the city together"
                                 },
                         function (response) {
