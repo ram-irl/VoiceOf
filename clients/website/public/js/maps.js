@@ -50,7 +50,7 @@ function submitUserInfo() {
             console.log(err);
         });
     } else {
-        alert("Please fill the form ");
+        alert("Please fill the form");
     }
     ga('send', 'event', 'Sign In', 'click', 'Start Now');
 }
@@ -592,7 +592,9 @@ function checkDeviceType() {
     if (!isMobile) {
         document.getElementById('whatsapp').style.display = 'none';
     } else {
-        document.getElementById('copyurl').style.display = 'none';
+        var element = document.getElementById('copyurl');
+        if(element && element!==null)
+            document.getElementById('copyurl').style.display = 'none';
     }
 }
 function showDetectOSInfo() {
