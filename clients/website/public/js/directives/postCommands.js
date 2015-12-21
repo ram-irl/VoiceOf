@@ -61,19 +61,31 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                     ga('send', 'event', 'Post detail', 'click', 'Share to FB');
                     var postObj = $scope.post;
                     //alert((postObj === 'undefined')?"true":"false");
-                    //alert(JSON.stringify(postObj));
+                    alert(JSON.stringify(postObj));
                     //postObj = JSON.parse(postObj);
                     //console.log(JSON.stringify(content1));
                     //console.log("openFbPopUp called...");
+                    var imageURL = "https://voiceof.in/img/logo.png";
+                    var videoURL = "";
+                    if(postObj.jsonContent.image && postObj.jsonContent.image!==null){
+                       imageURL = ""+postObj.jsonContent.image;
+                    }
+                    if(postObj.jsonContent.video && postObj.jsonContent.video!==null){
+                       videoURL = ""+postObj.jsonContent.video;
+                    }
+                    
                     try {
                         FB.ui(
                                 {
                                     method: 'feed',
                                     name: 'VoiceOf - Shout your Tweet',
                                     link: 'https://voiceof.in?sharedurl=' + postObj.slug,
-                                    picture: 'https://voiceof.in/img/logo.png',
+                                    picture: imageURL,
+                                    source:videoURL,
+                                    //picture: 'https://voiceof.in/img/logo.png',
                                     caption: 'https://blogs.calicom.com',
-                                    description: "VoiceOf.in - It's a tool for the government for the People by the Youth. Post your problems at the location you see. Let's clean up the city together"
+                                    description:''+postObj.jsonContent.msg
+                                    //description: "VoiceOf.in - It's a tool for the government for the People by the Youth. Post your problems at the location you see. Let's clean up the city together"
                                 },
                         function (response) {
                             if (response && response.post_id) {
