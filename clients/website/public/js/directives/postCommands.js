@@ -61,7 +61,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                     ga('send', 'event', 'Post detail', 'click', 'Share to FB');
                     var postObj = $scope.post;
                     //alert((postObj === 'undefined')?"true":"false");
-                    alert(JSON.stringify(postObj));
+                   // alert(JSON.stringify(postObj));
                     //postObj = JSON.parse(postObj);
                     //console.log(JSON.stringify(content1));
                     //console.log("openFbPopUp called...");
