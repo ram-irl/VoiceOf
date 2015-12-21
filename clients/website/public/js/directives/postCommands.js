@@ -78,6 +78,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                         FB.ui(
                                 {
                                     method: 'feed',
+                                    app_id: '964116050349573',
                                     name: 'VoiceOf - Shout your Tweet',
                                     link: 'https://voiceof.in?sharedurl=' + postObj.slug,
 
