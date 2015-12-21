@@ -196,7 +196,7 @@ function initMap() {
         zoom: defaultZoom,
         disableDefaultUI: true
     });
-    map.setOptions({ maxZoom: 20, minZoom: 4 });
+    map.setOptions({maxZoom: 20, minZoom: 4});
 
     userMarkerImage = {url: "img/markers/user_marker_icon.png",
         scaledSize: new google.maps.Size(32, 32)
@@ -294,8 +294,8 @@ function addMapPositionChangeListener() {
     });
 }
 
-    
-    // get map center position - lat and lng
+
+// get map center position - lat and lng
 function getMapCenterLocation() {
 //    var mylocation = map.getCenter();
     var mylocation = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng(), false);
@@ -380,7 +380,7 @@ function initGPS() {
         alert('error in finding your location');
     }
 }
-function getCurrentLocation(){
+function getCurrentLocation() {
     return currentLocation;
 }
 function callRefreshAPi(location) {
@@ -401,10 +401,11 @@ function callRefreshAPi(location) {
 //        console.log(error.message);
 //    });
 }
-function rearrangeMarkers(location) {    
+function rearrangeMarkers(location) {
     removeMarkers();
     removeMarkerInfoWindow();
-    if(!mresults)return;
+    if (!mresults)
+        return;
     if (mresults !== null && mresults.length >= 0) {
         //clearCircle();
         //drawCircle(location);
@@ -452,14 +453,15 @@ function rearrangeMarkers(location) {
 
         //Attach click event to the marker.
         (function (marker, result) {
-            google.maps.event.addListener(marker, "click", function (e) {                
+            google.maps.event.addListener(marker, "click", function (e) {
                 ga('send', 'event', 'Map Pin', 'click', 'View post detail');
 
                 //ram:reuse the below few lines.. it's repeated one more time before.
 //                var concatmessage = "" + result.message;
                 var index = mresults.indexOf(result);
-                
-                if(index<0)return;
+
+                if (index < 0)
+                    return;
                 angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
 //                concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
 //                var contentString = "<div onclick='showContentDetail(\"" + index + "\")' class=\"info-map-container\">" + "<strong> # " + result.author + "</strong><p class=\"info-map-content\">" + result.content + "</p></div>";
@@ -479,7 +481,7 @@ function rearrangeMarkers(location) {
             });
         })(marker, result);
     }
-    
+
 }
 
 function drawCircle(location) {
@@ -562,17 +564,17 @@ $(window).load(function () {
 ////        return;
 //    }
     /*if (getCookie("nickname") && getCookie("nickname").length > 0) {
-        $('#welcomContent').text("Hello, " + getCookie("nickname"));
-        //user already login
-        $('#customerInfo').modal('hide');               // initializes and invokes show immediately
-        //console.log("User already exist");
-    } else {
-        //user not already login
-        //console.log("New user");
-        $('#customerInfo').modal();                      // initialized with defaults
-        $('#customerInfo').modal({keyboard: false});   // initialized with no keyboard
-        $('#customerInfo').modal('show');                // initializes and invokes show immediately
-    }*/
+     $('#welcomContent').text("Hello, " + getCookie("nickname"));
+     //user already login
+     $('#customerInfo').modal('hide');               // initializes and invokes show immediately
+     //console.log("User already exist");
+     } else {
+     //user not already login
+     //console.log("New user");
+     $('#customerInfo').modal();                      // initialized with defaults
+     $('#customerInfo').modal({keyboard: false});   // initialized with no keyboard
+     $('#customerInfo').modal('show');                // initializes and invokes show immediately
+     }*/
 
     //copy link is not working in safari .. hence disabled it.
     var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
@@ -586,6 +588,11 @@ function showAboutInfo() {
     $('#aboutApp').modal({keyboard: false});   // initialized with no keyboard
     $('#aboutApp').modal('show');
     ga('send', 'event', 'About', 'click', 'View');
+
+    //Menu hide
+    $('div#menu-slider').removeClass('navigate');
+    $('#menu-tag').removeClass('selected');
+    isMenushowned = false;
 }
 
 function checkDeviceType() {
@@ -593,7 +600,7 @@ function checkDeviceType() {
         document.getElementById('whatsapp').style.display = 'none';
     } else {
         var element = document.getElementById('copyurl');
-        if(element && element!==null)
+        if (element && element !== null)
             document.getElementById('copyurl').style.display = 'none';
     }
 }
