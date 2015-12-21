@@ -7,7 +7,7 @@ var isMenushowned = false;
 var isListsviewshowned = false;
 
 function showMenus(){
-   
+    ga('send', 'event', 'Menu', 'click', 'Show menu');
     if(isListsviewshowned){isListsviewshowned=true; showListview();}
     
     if(!isMenushowned){

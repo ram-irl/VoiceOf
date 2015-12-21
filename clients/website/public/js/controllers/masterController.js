@@ -6,28 +6,29 @@ angular.module("voiceOf.controllers")
                 //Check it is a valid location
                 $scope.validLocation = null;
                 //Show command for specific post
-                
+
                 $scope.nickname = "User";
 
                 $scope.post = {};
 
                 $scope.refreshPins = function (location) {
-                    $scope.setUserName();                   
+                    $scope.setUserName();
                     var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius);
                     console.log(url);
                     api.getAllpost(url, function (err, data) {
                         if (err) {
                             console.log(err);
-                            if($window.mresults)$window.mresults.length=0;
+                            if ($window.mresults)
+                                $window.mresults.length = 0;
                             $window.rearrangeMarkers(location);
                         } else {
                             $window.mresults = data;
-                            $window.rearrangeMarkers(location);                                                        
+                            $window.rearrangeMarkers(location);
                         }
                     });
                 };
 
-                $scope.showDetailPost = function (index) {                    
+                $scope.showDetailPost = function (index) {
                     showDetailPopup($window.mresults[index]._id);
                     $('#postDetails').modal();                      // initialized with defaults
                     $('#postDetails').modal({keyboard: false});   // initialized with no keyboard
@@ -39,6 +40,7 @@ angular.module("voiceOf.controllers")
                         return;
                     }
                     api.checkLocationAvailable(function (err, data) {
+                        ga('send', 'event', 'Post message', 'click', 'Location search');
                         if (data.results.length == 0) {
                             $scope.validLocation = false;
                         } else {
@@ -53,6 +55,7 @@ angular.module("voiceOf.controllers")
                     });
                 };
                 $scope.setCurrentLoc = function () {
+                    ga('send', 'event', 'Post message', 'click', 'Current location');
                     //clear marker and pin marker
                     $scope.setMapOnAll(null, currentLocation);
                     $scope.validLocation = null;
@@ -77,13 +80,15 @@ angular.module("voiceOf.controllers")
                 };
                 //Keep selected file
                 $scope.fileSelected = function ($files) {
+                    ga('send', 'event', 'Post message', 'click', 'Upload post with media');
                     $scope.selFile = $files[0];
                 };
 
                 //Submit post
                 $scope.postSubmit = function () {
+                    ga('send', 'event', 'Post message', 'click', 'Send post');
                     $("#apploader").show();
-                    if(!getCookie('userSessionToken')){
+                    if (!getCookie('userSessionToken')) {
                         alert("Please refresh the page and do login to post your query....");
                         $("#apploader").hide();
                         return;
@@ -93,7 +98,7 @@ angular.module("voiceOf.controllers")
                         $("#apploader").hide();
                         return;
                     }
-                    
+
 
                     if ($scope.validLocation) {
                         var jsonData = {content: {msg: $scope.txtMessage, stayAnonmous: $('#stayAnoVal').is(':checked')}, position: [$scope.resultLan, $scope.resultLat]};
@@ -102,6 +107,7 @@ angular.module("voiceOf.controllers")
                     }
 
                     api.submitPost(jsonData, $scope.selFile, function (err, data) {
+                        ga('send', 'event', 'Post message', 'click', 'Post message');
                         if (data != null) {
                             $scope.locationTxt = "";
                             $scope.txtMessage = "";
@@ -127,69 +133,70 @@ angular.module("voiceOf.controllers")
                 };
 
                 $scope.openfbContent = function () {
-                    try{
-                    var variable = "sharedurl";
-                    var sharedID = "";
-                    var query = "";
-                    query = "" + window.location;//hosted check
-                    //query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";//local check
-                    
-                    var vars = query.split("?");
-                    for (var i = 0; i < vars.length; i++) {
-                        var pair = vars[i].split("=");
-                        if (pair[0] == variable) {
-                            sharedID = pair[1];
+                    try {
+                        var variable = "sharedurl";
+                        var sharedID = "";
+                        var query = "";
+                        query = "" + window.location;//hosted check
+                        //query = "https://chillana.in/?sharedurl=5675109d37a24203000dc1b7";//local check
+
+                        var vars = query.split("?");
+                        for (var i = 0; i < vars.length; i++) {
+                            var pair = vars[i].split("=");
+                            if (pair[0] == variable) {
+                                sharedID = pair[1];
+                            }
                         }
+                        sharedID = sharedID.replace('#', '');
+                        console.log("Slug url: " + sharedID);
+                        if (sharedID) {
+                            showDetailPopup(sharedID);
+                        }
+                    } catch (e) {
+                        console.log("openfbContent Error: " + e);
                     }
-                    sharedID = sharedID.replace('#','');
-                    console.log("Slug url: "+sharedID);
-                    if(sharedID){
-                        showDetailPopup(sharedID);
-                    }
-                 }catch(e){
-                     console.log("openfbContent Error: "+e);
-                 } 
                 };
-                
-                var showDetailPopup = function(postID){                    
-                    if(!postID)return;                    
+
+                var showDetailPopup = function (postID) {
+                    if (!postID)
+                        return;
                     $("#apploader").show();
-                    $scope.post._id=""; // reset to get new comments 
+                    $scope.post._id = ""; // reset to get new comments 
                     $scope.post.comments = [];
-                    api.getPostByID(postID, function (err, data) {                        
+                    api.getPostByID(postID, function (err, data) {
                         $("#apploader").hide();
                         if (err) {
-                            console.log("showDetailPopup error: "+JSON.stringify(err));
-                        } else {                            
-                            $scope.showSingleDetailPost(data);                            
+                            console.log("showDetailPopup error: " + JSON.stringify(err));
+                        } else {
+                            $scope.showSingleDetailPost(data);
                         }
                     });
                 };
-                
+
                 $scope.showSingleDetailPost = function (postObj) {
                     //$scope.$apply(function () {                        
-                        $scope.post = postObj;
-                        $scope.post.jsonContent = $scope.post.content;
+                    $scope.post = postObj;
+                    $scope.post.jsonContent = $scope.post.content;
                     //});
                     $('#postDetails').modal();                      // initialized with defaults
                     $('#postDetails').modal({keyboard: false});   // initialized with no keyboard
                     $('#postDetails').modal('show');
-                };                
+                };
 
                 angular.element(document).ready(function () {
                     $scope.openfbContent();
                 });
-                
-                $scope.setUserName = function(){
-                    var username = getCookie('nickname');                    
-                    try{
-                    if(username){
-                        $scope.nickname = username;
-                    }else{
-                        $scope.nickname = "User";
-                    }   
-                    }catch(e){
-                        console.log("setUserName error: "+e);
+
+                $scope.setUserName = function () {
+                    var username = getCookie('nickname');
+                    try {
+                        if (username) {
+                            $scope.nickname = username;
+                        } else {
+                            $scope.nickname = "User";
+                        }
+                    } catch (e) {
+                        console.log("setUserName error: " + e);
                     }
                 };
 

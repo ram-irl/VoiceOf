@@ -2,8 +2,8 @@
 <div class="media">    
     <div class="media-body" style="padding-bottom:5px;">
         <div class="media-left media-middle"> 
-            <a href="{{comment.content.image}}" target="_blank" ng-show="comment.content.image !== null && comment.content.image.length > 0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{comment.content.image}}" style="width: 64px; height: auto;"> </a>
-            <a href="{{comment.content.video}}" target="_blank" ng-show="comment.content.video !== null && comment.content.video.length > 0"> 
+            <a onclick="ga('send', 'event', 'Comment', 'click', 'View comment image');" href="{{comment.content.image}}" target="_blank" ng-show="comment.content.image !== null && comment.content.image.length > 0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{comment.content.image}}" style="width: 64px; height: auto;"> </a>
+            <a onclick="ga('send', 'event', 'Comment', 'click', 'View comment video');" href="{{comment.content.video}}" target="_blank" ng-show="comment.content.video !== null && comment.content.video.length > 0"> 
                 <video class="media-object" style="width: 64px; height: auto;" dynamic-url url="comment.content.video">
 <!--                    <source dynamic-url src="" url="comment.content.video" type=""/>-->
                 </video>

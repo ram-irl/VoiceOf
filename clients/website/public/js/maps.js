@@ -453,7 +453,7 @@ function rearrangeMarkers(location) {
         //Attach click event to the marker.
         (function (marker, result) {
             google.maps.event.addListener(marker, "click", function (e) {                
-                ga('send', 'event', 'Map Pin', 'click', 'Show Detail');
+                ga('send', 'event', 'Map Pin', 'click', 'View post detail');
 
                 //ram:reuse the below few lines.. it's repeated one more time before.
 //                var concatmessage = "" + result.message;
@@ -585,7 +585,7 @@ function showAboutInfo() {
     $('#aboutApp').modal();                      // initialized with defaults
     $('#aboutApp').modal({keyboard: false});   // initialized with no keyboard
     $('#aboutApp').modal('show');
-    ga('send', 'event', 'Info', 'click', 'View');
+    ga('send', 'event', 'About', 'click', 'View');
 }
 
 function checkDeviceType() {
