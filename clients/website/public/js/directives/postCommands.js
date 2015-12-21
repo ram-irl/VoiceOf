@@ -10,6 +10,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                 $scope.cmdSelFile = null;
                 //On file select, save file in scope varible
                 $scope.cmdfileSelected = function ($files) {
+                    ga('send', 'event', 'Comment', 'click', 'Upload media with comment');
                     $scope.cmdSelFile = $files[0];
                 };
 
@@ -30,6 +31,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
 
                 //Post commands
                 $scope.postCommand = function () {
+                    ga('send', 'event', 'Comment', 'click', 'Post comment');
                     if ($scope.cmdLoad == true)
                         return;
                     if ($('#cmdTxt').val() == "") {
@@ -56,6 +58,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                     $scope.cmdSelFile = null;
                 };
                 $scope.openFbPopUp = function () {
+                    ga('send', 'event', 'Post detail', 'click', 'Share to FB');
                     var postObj = $scope.post;
                     //alert((postObj === 'undefined')?"true":"false");
                     //alert(JSON.stringify(postObj));
@@ -89,7 +92,8 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                 $scope.voteInit = function () {
                     $scope.votePosted = ($scope.post.votes && $scope.post.votes.indexOf(getCookie('userID'))>=0);                    
                 };
-                $scope.votePost = function () {                    
+                $scope.votePost = function () {    
+                    ga('send', 'event', 'Post detail', 'click', 'Vote for post');
                     $("#apploader").show();
                     var postObj = $scope.post;
                     var postid = postObj._id;
@@ -118,6 +122,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
 
                 //Change post status to complete
                 $scope.postComplete = function () {
+                    ga('send', 'event', 'Post detail', 'click', 'Post complete');
                     api.postComplete($scope.post._id, function (err, data) {
                         if (data != null) {
                             var mylocation = map.getCenter();

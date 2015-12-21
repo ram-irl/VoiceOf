@@ -31,8 +31,8 @@
                     </div>
 
                     <div class="media-right media-middle"> 
-                        <a href="{{post.jsonContent.image}}" target="_blank" ng-show="post.jsonContent.image!==null && post.jsonContent.image.length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.jsonContent.image}}" style="width: 64px; height: auto;"> </a>
-                        <a href="{{post.jsonContent.video}}" target="_blank" ng-show="post.jsonContent.video!==null && post.jsonContent.video.length>0"> 
+                        <a onclick="ga('send', 'event', 'Post detail', 'click', 'View post image');" href="{{post.jsonContent.image}}" target="_blank" ng-show="post.jsonContent.image!==null && post.jsonContent.image.length>0"> <img class="media-object" src="" data-holder-rendered="true" ng-src="{{post.jsonContent.image}}" style="width: 64px; height: auto;"> </a>
+                        <a onclick="ga('send', 'event', 'Post detail', 'click', 'View post video');" href="{{post.jsonContent.video}}" target="_blank" ng-show="post.jsonContent.video!==null && post.jsonContent.video.length>0"> 
                             <video class="media-object" style="width: 175px; height: auto;" dynamic-url url="post.jsonContent.video">
 <!--                                <source dynamic-url src="" url="post.jsonContent.video" type=""/>                                -->
                             </video>                            
