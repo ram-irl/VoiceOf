@@ -592,7 +592,9 @@ function checkDeviceType() {
     if (!isMobile) {
         document.getElementById('whatsapp').style.display = 'none';
     } else {
-        document.getElementById('copyurl').style.display = 'none';
+        var element = document.getElementById('copyurl');
+        if(element && element!==null)
+            document.getElementById('copyurl').style.display = 'none';
     }
 }
 function showDetectOSInfo() {

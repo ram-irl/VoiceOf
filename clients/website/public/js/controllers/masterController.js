@@ -13,8 +13,11 @@ angular.module("voiceOf.controllers")
 
                 $scope.refreshPins = function (location) {
                     $scope.setUserName();                   
-                    var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius);
-                    console.log(url);
+                    
+                    // ignore if location was null
+                    if(!location || location===null)return;
+                    
+                    var url = "?lat=" + location.lat + "&lng=" + location.lng + "&rad=" + ($window.distanceRadius);                    
                     api.getAllpost(url, function (err, data) {
                         if (err) {
                             console.log(err);
@@ -142,7 +145,6 @@ angular.module("voiceOf.controllers")
                         }
                     }
                     sharedID = sharedID.replace('#','');
-                    console.log("Slug url: "+sharedID);
                     if(sharedID){
                         showDetailPopup(sharedID);
                     }
