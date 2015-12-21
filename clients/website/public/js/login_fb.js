@@ -90,7 +90,7 @@ function doProceedFbAuthAPI(paramString){
     var params = JSON.stringify(paramObject.authResponse);
     
     $.ajax({ 
-    url: "http://voiceof-api.herokuapp.com/auth/facebook",
+    url: "https://voiceof-api.herokuapp.com/auth/facebook",
     type: 'put',
     
     headers: {'Content-Type': 'application/json',              
