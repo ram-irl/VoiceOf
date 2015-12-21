@@ -66,13 +66,13 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                     //console.log(JSON.stringify(content1));
                     //console.log("openFbPopUp called...");
                     var imageURL = "https://voiceof.in/img/logo.png";
-                    var videoURL = "";
+                    //var videoURL = "";
                     if(postObj.jsonContent.image && postObj.jsonContent.image!==null){
                        imageURL = ""+postObj.jsonContent.image;
                     }
-                    if(postObj.jsonContent.video && postObj.jsonContent.video!==null){
+                    /*if(postObj.jsonContent.video && postObj.jsonContent.video!==null){
                        videoURL = ""+postObj.jsonContent.video;
-                    }
+                    }*/
                     
                     try {
                         FB.ui(
@@ -83,7 +83,7 @@ voiceOf.directive("voCommands", ['api', '$window', function (api, $window)
                                     link: 'https://voiceof.in?sharedurl=' + postObj.slug,
 
                                     picture: imageURL,
-                                    source:videoURL,
+                                    //source:videoURL,
                                     //picture: 'https://voiceof.in/img/logo.png',
                                     caption: 'http://blogs.calicom.com',
                                     description:''+postObj.jsonContent.msg
