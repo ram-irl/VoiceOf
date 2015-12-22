@@ -1,0 +1,1 @@
+web: DEBUG=* node api/app.js

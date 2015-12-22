@@ -1,0 +1,23 @@
+{
+  "name": "voiceof",
+  "version": "0.1.0",
+  "description": "VoiceOf",
+  "engines": {
+    "node": "5.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/calicom/voiceof.git"
+  },
+  "scripts": {
+    "postinstall": "npm install ./api"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calicom/voiceof/issues"
+  },
+  "homepage": "https://github.com/calicom/voiceof#readme",
+  "dependencies": {
+  }
+}
