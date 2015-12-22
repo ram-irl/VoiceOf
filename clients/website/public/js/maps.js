@@ -7,15 +7,15 @@ var MobileServiceClient = WindowsAzure.MobileServiceClient;
 var client = new MobileServiceClient('https://chillana-app.azure-mobile.net/', 'CHRFiNaoLZUdUYfCIFIHUVpoiIGOkC10');
 var messageTable = client.getTable('message?lng=1&lat=1');
 var userTable = client.getTable('user');
-var currentLocation = null;
+
 var userLocation = null;
 var isMobile = (/Mobile/i.test(navigator.userAgent));
 var infobox;
 var infoboxCharsizelimit = 20;
 var showMapinMobile = false;
-
-
-
+var markers = [];
+var distanceRadius = 1000; // default is 1000 in meters
+var sharedID = "";
 
 //Submits the user information(nickname and phone number) information to the message table 
 $(function () {
@@ -50,7 +50,7 @@ function submitUserInfo() {
             console.log(err);
         });
     } else {
-        alert("Please fill the form ");
+        alert("Please fill the form");
     }
     ga('send', 'event', 'Sign In', 'click', 'Start Now');
 }
@@ -196,6 +196,7 @@ function initMap() {
         zoom: defaultZoom,
         disableDefaultUI: true
     });
+    map.setOptions({maxZoom: 20, minZoom: 4});
 
     userMarkerImage = {url: "img/markers/user_marker_icon.png",
         scaledSize: new google.maps.Size(32, 32)
@@ -224,30 +225,87 @@ function initMap() {
         infoBoxClearance: new google.maps.Size(1, 1)
     });
 
-    //Center Changed: {"lat":12.905130058903858,"lng":80.20777717680016}
-    map.addListener('center_changed', function () {
-
-        setTimeout(function () {
-            try {
-                var mylocation = map.getCenter();
-                obj = JSON.parse(JSON.stringify(mylocation));
-                //alert(obj.lat);
-                var mylocationValues = {
-                    lat: obj.lat,
-                    lng: obj.lng
-                };
-
-                callRefreshAPi(mylocationValues);
-
-            } catch (e) {
-                console.log(e);
-            }
-        }, 100);
-    });
+//    //Center Changed: {"lat":12.905130058903858,"lng":80.20777717680016}
+//    map.addListener('center_changed', function () {
+//
+//        setTimeout(function () {
+//            try {
+//                var mylocation = map.getCenter();
+//                obj = JSON.parse(JSON.stringify(mylocation));
+//                //alert(obj.lat);
+//                var mylocationValues = {
+//                    lat: obj.lat,
+//                    lng: obj.lng
+//                };
+//
+//                callRefreshAPi(mylocationValues);
+//
+//            } catch (e) {
+//                console.log(e);
+//            }
+//        }, 100);
+//    });
 
     //ram: need to see if initGPS is required
     initGPS();
+    addMapPositionChangeListener();
 }
+
+// add map position change listener - to get distance from center location to map corner
+function addMapPositionChangeListener() {
+    google.maps.event.addListener(map, 'idle', function (ev) {
+        try {
+            var bounds = map.getBounds();
+            var ne = bounds.getNorthEast(); // LatLng of the north-east corner
+            var sw = bounds.getSouthWest(); // LatLng of the south-west corder
+            var nw = new google.maps.LatLng(ne.lat(), sw.lng());
+            var se = new google.maps.LatLng(sw.lat(), ne.lng());
+
+            var northeast = new google.maps.LatLng(ne.lat(), ne.lng(), false);
+            var southwest = new google.maps.LatLng(sw.lat(), sw.lng(), false);
+            var northwest = new google.maps.LatLng(nw.lat(), nw.lng(), false);
+            var southeast = new google.maps.LatLng(se.lat(), se.lng(), false);
+
+            var mapcenter = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng(), false);
+
+            var ned = google.maps.geometry.spherical.computeDistanceBetween(mapcenter, northeast);
+            var swd = google.maps.geometry.spherical.computeDistanceBetween(mapcenter, southwest);
+            var ned = google.maps.geometry.spherical.computeDistanceBetween(mapcenter, northwest);
+            var sed = google.maps.geometry.spherical.computeDistanceBetween(mapcenter, southeast);
+
+            distanceRadius = Math.max(ned, swd, ned, sed);
+
+//            console.log("distance: " + distanceRadius);
+//            console.log("North East: "+northeast);
+//            console.log("zoom :"+map.zoom);            
+
+//            clearCircle();
+            //drawCircle(northeast);
+//            drawCircle(mapcenter);
+
+            try {
+                callRefreshAPi(getMapCenterLocation());
+            } catch (e) {
+                console.log(e);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    });
+}
+
+
+// get map center position - lat and lng
+function getMapCenterLocation() {
+//    var mylocation = map.getCenter();
+    var mylocation = new google.maps.LatLng(map.getCenter().lat(), map.getCenter().lng(), false);
+    var mylocationValues = {
+        lat: mylocation.lat(),
+        lng: mylocation.lng()
+    };
+    return mylocationValues;
+}
+
 
 //
 function initGPS() {
@@ -286,7 +344,6 @@ function initGPS() {
             };
             userLocation = currentLocation;
 
-
             map.setCenter(currentLocation);
             callRefreshAPi(currentLocation);
 
@@ -296,16 +353,17 @@ function initGPS() {
                 title: 'Your Current Location'
                         //icon: userMarkerImage
             });
+            markers.push(userMarker);
 
-            userMarker.addListener('click', function () {
-                try {
-                    infobox.setContent('<div><br><p style="top:25%; font-size:14px; text-align:center;">Your current location</p></div>');
-                    infobox.open(map, userMarker);
-                    ga('send', 'event', 'Map Pin', 'click', 'User Pin');
-                } catch (e) {
-                    //console.log(e);
-                }
-            });
+//            userMarker.addListener('click', function () {
+//                try {
+//                    infobox.setContent('<div><br><p style="top:25%; font-size:14px; text-align:center;">Your current location</p></div>');
+//                    infobox.open(map, userMarker);
+//                    ga('send', 'event', 'Map Pin', 'click', 'User Pin');
+//                } catch (e) {
+//                    //console.log(e);
+//                }
+//            });
         }, function (error) {
             if (error.code === error.PERMISSION_DENIED)
             {
@@ -322,29 +380,35 @@ function initGPS() {
         alert('error in finding your location');
     }
 }
+function getCurrentLocation() {
+    return currentLocation;
+}
 function callRefreshAPi(location) {
-    //alert(JSON.stringify(location));
-    client.invokeApi("message?lat=" + location.lat + "&lng=" + location.lng, {
-        body: null,
-        method: "get"
-    }).done(function (results) {
-
-        //alert(JSON.stringify(results));
-        mresults = null;
-        mresults = results.result;
-
-        rearrangeMarkers(location);
-
-    }, function (error) {
-        console.log(error.message);
-    });
+    angular.element(document.getElementById('MasterTag')).scope().refreshPins(location);
+//    var api = "message?lat=" + location.lat + "&lng=" + location.lng + "&dis=" + distanceRadius/1000;
+//    client.invokeApi(api, {
+//        body: null,
+//        method: "get"
+//    }).done(function (results) {
+//
+//        //alert(JSON.stringify(results));
+//        mresults = null;
+//        mresults = results.result;
+//
+//        rearrangeMarkers(location);
+//
+//    }, function (error) {
+//        console.log(error.message);
+//    });
 }
 function rearrangeMarkers(location) {
-    if (mresults != null && mresults.length >= 0) {
+    removeMarkers();
+    removeMarkerInfoWindow();
+    if (!mresults)
+        return;
+    if (mresults !== null && mresults.length >= 0) {
         //clearCircle();
         //drawCircle(location);
-        removeMarkers();
-        removeMarkerInfoWindow();
 
         //ram:efficient reuse possible.
         markerArray = new Array();
@@ -352,24 +416,24 @@ function rearrangeMarkers(location) {
     }
 
     for (var i = 0; i < mresults.length; i++) {
-        var infobox = new InfoBox({
-            content: "",
-            disableAutoPan: true,
-            maxWidth: 150,
-            pixelOffset: new google.maps.Size(-92, -100),
-            zIndex: null,
-            closeBoxMargin: "-10px 2px 2px 2px",
-            closeBoxURL: "../img/close-icon.png",
-            infoBoxClearance: new google.maps.Size(1, 1)
-        });
+//        var infobox = new InfoBox({
+//            content: "",
+//            disableAutoPan: true,
+//            maxWidth: 150,
+//            pixelOffset: new google.maps.Size(-92, -100),
+//            zIndex: null,
+//            closeBoxMargin: "-10px 2px 2px 2px",
+//            closeBoxURL: "../img/close-icon.png",
+//            infoBoxClearance: new google.maps.Size(1, 1)
+//        });
 
         //ram:for needs to be changed as foreach.
         var result = mresults[i];
 
         var marker = new google.maps.Marker({
             position: {
-                lat: result.lat,
-                lng: result.lng
+                lat: result.position.coordinates[1],
+                lng: result.position.coordinates[0]
             },
             map: map,
             title: '',
@@ -377,25 +441,10 @@ function rearrangeMarkers(location) {
         });
 
 
-        var concatmessage = "" + result.message;
-        concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
-
-        var contentString = "<div onclick='showContentDetail(\"" + i + "\")' class=\"info-map-container\">" + "<strong> # " + result.name + "</strong><p class=\"info-map-content\">" + concatmessage + "</p></div>";
-
-        infobox.setContent(contentString);
-
-//        try 
-//        {
-//            if( (Math.random()*10) < 2)
-//            {
-//                infobox.open(map, marker);
-//            }
-//        } 
-//        catch (e) 
-//        {
-//            //alert(e);
-//        }
-
+//        var concatmessage = "" + result.message;
+//        concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
+//        var contentString = "<div onclick='showContentDetail(\"" + i + "\")' class=\"info-map-container\">" + "<strong> # " + result.name + "</strong><p class=\"info-map-content\">" + concatmessage + "</p></div>";
+//        infobox.setContent(contentString);
 
         //ram:could be better.. not a deal breaker.
         // Push your newly created marker into the array:
@@ -405,21 +454,24 @@ function rearrangeMarkers(location) {
         //Attach click event to the marker.
         (function (marker, result) {
             google.maps.event.addListener(marker, "click", function (e) {
-//                angular.element(document.getElementById('MasterTag')).scope().showDetailPost();
-                ga('send', 'event', 'Map Pin', 'click', 'Show Detail');
+                ga('send', 'event', 'Map Pin', 'click', 'View post detail');
 
                 //ram:reuse the below few lines.. it's repeated one more time before.
-                var concatmessage = "" + result.message;
+//                var concatmessage = "" + result.message;
                 var index = mresults.indexOf(result);
-                concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
-                var contentString = "<div onclick='showContentDetail(\"" + index + "\")' class=\"info-map-container\">" + "<strong> # " + result.name + "</strong><p class=\"info-map-content\">" + result.message + "</p></div>";
 
-                try {
-                    infobox.setContent(contentString);
-                    infobox.open(map, marker);
-                } catch (e) {
-                    alert(e);
-                }
+                if (index < 0)
+                    return;
+                angular.element(document.getElementById('MasterTag')).scope().showDetailPost(index);
+//                concatmessage = (concatmessage.length > infoboxCharsizelimit) ? concatmessage.substring(0, infoboxCharsizelimit) : concatmessage;
+//                var contentString = "<div onclick='showContentDetail(\"" + index + "\")' class=\"info-map-container\">" + "<strong> # " + result.author + "</strong><p class=\"info-map-content\">" + result.content + "</p></div>";
+//
+//                try {
+//                    infobox.setContent(contentString);
+//                    infobox.open(map, marker);
+//                } catch (e) {
+//                    alert(e);
+//                }
 
                 showContentDetailWithObj(result);
                 // $("#clientName").text("" + result.name);//phone
@@ -429,6 +481,7 @@ function rearrangeMarkers(location) {
             });
         })(marker, result);
     }
+
 }
 
 function drawCircle(location) {
@@ -450,12 +503,13 @@ function clearCircle() {
 }
 function removeMarkers() {
     try {
-        //ram:not sure why the below commented code is
-        // if (markerArray != null) {
-        //     for (i = 0; i < markerArray.length; i++) {
-        //         markerArray[i].setMap(null);
-        //     }
-        // }
+//        ram:not sure why the below commented code is
+        if (markerArray != null) {
+            for (i = 0; i < markerArray.length; i++) {
+                markerArray[i].setMap(null);
+            }
+        }
+        markerArray.length = 0;
         markerArray = null;
     } catch (e) {
     }
@@ -464,11 +518,12 @@ function removeMarkers() {
 function removeMarkerInfoWindow() {
     try {
         //ram:not sure why the below commented code is
-        // if (markerInfoWindowArray != null) {
-        //     for (i = 0; i < markerInfoWindowArray.length; i++) {
-        //         markerInfoWindowArray[i].setMap(null);
-        //     }
-        // }
+        if (markerInfoWindowArray != null) {
+            for (i = 0; i < markerInfoWindowArray.length; i++) {
+                markerInfoWindowArray[i].setMap(null);
+            }
+        }
+        markerInfoWindowArray.length = 0;
         markerInfoWindowArray = null;
     } catch (e) {
     }
@@ -476,10 +531,9 @@ function removeMarkerInfoWindow() {
 
 //Focus to current location 
 function focusCurrentLocation() {
-
     if (currentLocation != null) {
         map.setCenter(currentLocation);
-
+        console.log(currentLocation);
     } else {
         // Waiting for the location
         console.log("current location clicked and returned null");
@@ -491,7 +545,7 @@ function focusCurrentLocation() {
 $(window).load(function () {
 
     $("#apploader").hide();
-    //checkDeviceType();
+    checkDeviceType();
 //    var osName = getMobileOperatingSystem();
     showMapinMobile = true;
 //    if (osName === "ios") {
@@ -509,23 +563,23 @@ $(window).load(function () {
 ////        $('#welcomContent').text("Chillana - Shout your tweet");
 ////        return;
 //    }
-    if (getCookie("nickname") && getCookie("nickname").length > 0) {
-        $('#welcomContent').text("Hello, " + getCookie("nickname"));
-        //user already login
-        $('#customerInfo').modal('hide');               // initializes and invokes show immediately
-        //console.log("User already exist");
-    } else {
-        //user not already login
-        //console.log("New user");
-        $('#customerInfo').modal();                      // initialized with defaults
-        $('#customerInfo').modal({keyboard: false});   // initialized with no keyboard
-        $('#customerInfo').modal('show');                // initializes and invokes show immediately
-    }
+    if (getCookie("userSessionToken") && getCookie("userSessionToken").length > 0) {
+     //$('#welcomContent').text("Hello, " + getCookie("nickname"));
+     //user already login
+     $('#customerInfo').modal('hide');               // initializes and invokes show immediately
+     //console.log("User already exist");
+     } else {
+     //user not already login
+     //console.log("New user");
+     $('#customerInfo').modal();                      // initialized with defaults
+     $('#customerInfo').modal({keyboard: false});   // initialized with no keyboard
+     $('#customerInfo').modal('show');                // initializes and invokes show immediately
+     }
 
     //copy link is not working in safari .. hence disabled it.
     var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
     if (isSafari) {
-        document.getElementById('copyurl').style.display = 'none';
+        //document.getElementById('copyurl').style.display = 'none';
     }
 });
 
@@ -533,14 +587,21 @@ function showAboutInfo() {
     $('#aboutApp').modal();                      // initialized with defaults
     $('#aboutApp').modal({keyboard: false});   // initialized with no keyboard
     $('#aboutApp').modal('show');
-    ga('send', 'event', 'Info', 'click', 'View');
+    ga('send', 'event', 'About', 'click', 'View');
+
+    //Menu hide
+    $('div#menu-slider').removeClass('navigate');
+    $('#menu-tag').removeClass('selected');
+    isMenushowned = false;
 }
 
 function checkDeviceType() {
     if (!isMobile) {
         document.getElementById('whatsapp').style.display = 'none';
     } else {
-        document.getElementById('copyurl').style.display = 'none';
+        var element = document.getElementById('copyurl');
+        if (element && element !== null)
+            document.getElementById('copyurl').style.display = 'none';
     }
 }
 function showDetectOSInfo() {
@@ -612,6 +673,7 @@ function doDownloadApp(linkURL) {
 // show user posted message when click on the marker
 function showContentDetailWithObj(post) {
     try {
+        //alert(JSON.stringify(post));
         if (!post)
             return;
         var contentString = "<strong class=\"nick-name\">" + post.name + "</strong> <br><p class=\"typ-message\">" + post.message + "</p>";
